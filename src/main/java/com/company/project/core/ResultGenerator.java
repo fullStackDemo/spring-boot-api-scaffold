@@ -1,4 +1,4 @@
-package com.core;
+package com.company.project.core;
 
 /**
  * 响应结果生成工具

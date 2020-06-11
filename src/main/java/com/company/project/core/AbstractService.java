@@ -1,4 +1,4 @@
-package com.core;
+package com.company.project.core;
 
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
