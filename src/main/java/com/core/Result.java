@@ -1,4 +1,4 @@
-package com.company.project.core;
+package com.core;
 
 import com.alibaba.fastjson.JSON;
 
