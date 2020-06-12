@@ -1,4 +1,4 @@
-package com.company.project.core;
+package com.scaffold.test.core;
 
 /**
  * 响应结果生成工具

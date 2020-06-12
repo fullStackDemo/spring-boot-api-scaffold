@@ -1,4 +1,4 @@
-package com.company.project.core;
+package com.scaffold.test.core;
 
 
 import org.apache.ibatis.exceptions.TooManyResultsException;

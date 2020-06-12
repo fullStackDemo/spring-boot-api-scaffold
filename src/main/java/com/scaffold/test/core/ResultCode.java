@@ -1,4 +1,4 @@
-package com.company.project.core;
+package com.scaffold.test.core;
 
 /**
  * 响应码枚举，参考HTTP状态码的语义
