@@ -4,3 +4,8 @@ spring:
 
 server:
   port: 9001
+
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+  not-empty: false,
+  identity: MYSQL

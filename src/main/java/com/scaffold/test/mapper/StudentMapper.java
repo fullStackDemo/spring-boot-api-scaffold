@@ -1,12 +1,10 @@
-package com.alex.dao;
+package com.scaffold.test.mapper;
 
-import com.alex.entity.Student;
-import org.apache.ibatis.annotations.Mapper;
-
+import com.scaffold.test.entity.Student;
 import java.util.List;
 
-@Mapper
 public interface StudentMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Student record);

@@ -45,7 +45,7 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.alex.entity" targetProject="${mybatis.project}" >
+        <javaModelGenerator targetPackage="com.scaffold.test.entity" targetProject="${mybatis.project}" >
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -55,8 +55,8 @@
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
 
-        <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.alex.dao" targetProject="${mybatis.project}" type="XMLMAPPER" >
+        <!-- 生成mapxml对应client，也就是接口 dao -->
+        <javaClientGenerator targetPackage="com.scaffold.test.mapper" targetProject="${mybatis.project}" type="XMLMAPPER" >
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 

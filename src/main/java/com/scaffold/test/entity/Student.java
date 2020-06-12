@@ -1,4 +1,4 @@
-package com.alex.entity;
+package com.scaffold.test.entity;
 
 import java.io.Serializable;
 
