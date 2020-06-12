@@ -4,7 +4,6 @@ import com.scaffold.test.entity.Student;
 import java.util.List;
 
 public interface StudentMapper {
-
     int deleteByPrimaryKey(Integer id);
 
     int insert(Student record);
