@@ -1,6 +1,6 @@
-package com.mp.test.service;
+package com.scaffold.test.service;
 
-import com.mp.test.entity.Websites;
+import com.scaffold.test.entity.Websites;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

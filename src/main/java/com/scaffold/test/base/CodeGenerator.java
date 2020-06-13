@@ -1,4 +1,4 @@
-package com.mp.test.base;
+package com.scaffold.test.base;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -76,7 +76,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //  pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.mp.test");
+        pc.setParent("com.scaffold.test");
         mpg.setPackageInfo(pc);
 
         // 如果模板引擎是 velocity

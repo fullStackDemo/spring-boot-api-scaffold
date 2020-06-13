@@ -1,4 +1,4 @@
-package com.mp.test.entity;
+package com.scaffold.test.entity;
 
 import java.io.Serializable;
 import lombok.Data;
@@ -10,19 +10,17 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author alex wong
- * @since 2020-06-13
+ * @since 2020-06-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Websites implements Serializable {
+public class Student implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     private String name;
 
-    private String url;
-
-    private String country;
+    private Integer age;
 
 
 }

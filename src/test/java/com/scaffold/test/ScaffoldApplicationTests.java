@@ -1,7 +1,7 @@
-package com.mp.test;
+package com.scaffold.test;
 
-import com.mp.test.entity.User;
-import com.mp.test.mapper.UserMapper;
+import com.scaffold.test.entity.User;
+import com.scaffold.test.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

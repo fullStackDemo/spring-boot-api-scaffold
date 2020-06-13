@@ -1,4 +1,4 @@
-package com.mp.test.controller;
+package com.scaffold.test.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.mp.test.entity;
+package com.scaffold.test.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

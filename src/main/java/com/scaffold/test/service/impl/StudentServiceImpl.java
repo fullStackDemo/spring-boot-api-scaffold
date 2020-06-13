@@ -1,8 +1,8 @@
-package com.mp.test.service.impl;
+package com.scaffold.test.service.impl;
 
-import com.mp.test.entity.Student;
-import com.mp.test.mapper.StudentMapper;
-import com.mp.test.service.StudentService;
+import com.scaffold.test.entity.Student;
+import com.scaffold.test.mapper.StudentMapper;
+import com.scaffold.test.service.StudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

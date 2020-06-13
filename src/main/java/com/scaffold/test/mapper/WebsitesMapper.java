@@ -1,6 +1,6 @@
-package com.mp.test.mapper;
+package com.scaffold.test.mapper;
 
-import com.mp.test.entity.Websites;
+import com.scaffold.test.entity.Websites;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

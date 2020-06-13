@@ -1,8 +1,8 @@
-package com.mp.test.controller;
+package com.scaffold.test.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.mp.test.entity.User;
-import com.mp.test.mapper.UserMapper;
+import com.scaffold.test.entity.User;
+import com.scaffold.test.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

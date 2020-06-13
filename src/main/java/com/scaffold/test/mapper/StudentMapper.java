@@ -1,6 +1,6 @@
-package com.mp.test.mapper;
+package com.scaffold.test.mapper;
 
-import com.mp.test.entity.Student;
+import com.scaffold.test.entity.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
