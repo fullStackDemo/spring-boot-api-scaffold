@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mp.test.mapper.StudentMapper">
+<mapper namespace="com.mp.test.mapper.WebsitesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mp.test.entity.Student">
+    <resultMap id="BaseResultMap" type="com.mp.test.entity.Websites">
         <result column="id" property="id" />
         <result column="name" property="name" />
-        <result column="age" property="age" />
+        <result column="url" property="url" />
+        <result column="country" property="country" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        name, age
+        name, url, country
     </sql>
+
 
 </mapper>
