@@ -4,7 +4,10 @@ import com.scaffold.test.entity.Student;
 import com.scaffold.test.mapper.StudentMapper;
 import com.scaffold.test.service.StudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
 
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Override
+    public List<Student> findAll(){
+        return studentMapper.selectAll();
+    }
 }

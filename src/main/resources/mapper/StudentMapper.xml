@@ -4,9 +4,9 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.scaffold.test.entity.Student">
-        <result column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="age" property="age" />
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -14,5 +14,9 @@
         id,
         name, age
     </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from student
+    </select>
 
 </mapper>
