@@ -1,7 +1,7 @@
 package com.scaffold.test.service;
 
+import com.scaffold.test.entity.Test;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.scaffold.test.entity.Websites;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.scaffold.test.entity.Websites;
  * </p>
  *
  * @author alex wong
- * @since 2020-06-13
+ * @since 2020-06-14
  */
-public interface WebsitesService extends IService<Websites> {
+public interface TestService extends IService<Test> {
 
 }
