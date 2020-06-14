@@ -40,13 +40,15 @@ public class JobController {
     @GetMapping("/list")
     public Result getList() {
         Result result;
-        try {
             List<Job> jobList = jobService.findAll();
             result = ResultGenerator.getSuccessResult(jobList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = ResultGenerator.getFailResult(e.getMessage());
-        }
+//        try {
+//            List<Job> jobList = jobService.findAll();
+//            result = ResultGenerator.getSuccessResult(jobList);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result = ResultGenerator.getFailResult(e.getMessage());
+//        }
         return result;
     }
 
