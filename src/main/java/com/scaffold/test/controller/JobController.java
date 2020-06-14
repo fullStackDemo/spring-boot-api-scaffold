@@ -1,6 +1,9 @@
 package com.scaffold.test.controller;
 
 
+import com.scaffold.test.base.Result;
+import com.scaffold.test.base.ResultCode;
+import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.Job;
 import com.scaffold.test.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +38,16 @@ public class JobController {
 
     // 查询所有
     @GetMapping("/list")
-    public List<Job> getList() {
-        return jobService.findAll();
+    public Result getList() {
+        Result result;
+        try {
+            List<Job> jobList = jobService.findAll();
+            result = ResultGenerator.getSuccessResult(jobList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ResultGenerator.getFailResult(e.getMessage());
+        }
+        return result;
     }
 
     // 更新
