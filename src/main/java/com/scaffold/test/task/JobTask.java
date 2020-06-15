@@ -24,15 +24,15 @@ public class JobTask {
     // 时间格式化
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    // 每三秒执行一次
+    // 每天 15：22 15:26  15:30 执行一次
     @Async
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(cron = "0 22,26,30 15 * * ?")
     public void jobTask() {
         Job job = new Job();
         job.setName("test2");
         job.setAge(36);
         job.setPosition("助理");
-//        jobService.addJob(job);
+        jobService.addJob(job);
         log.info("任务执行时间: " + dateFormat.format(new Date()));
     }
 }
