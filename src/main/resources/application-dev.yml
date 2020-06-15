@@ -12,6 +12,8 @@ spring:
     host: smtp.qq.com
     username: 1498097245@qq.com
     password: sputxexvxrgoihef
+  resources:
+    static-locations: classpath:/resources/, classpath:/static/ ,classpath:/templates/
 
 mail:
   fromMail:
@@ -23,5 +25,3 @@ logging:
     root: warn
     com.scaffold.test.mapper: trace
     com.scaffold.test.task: trace
-
-

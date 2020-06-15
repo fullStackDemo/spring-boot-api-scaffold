@@ -90,6 +90,17 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
+        <!-- thymeleaf 模板 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <version>3.2.14</version>
+        </dependency>
+
     </dependencies>
 
     <build>
