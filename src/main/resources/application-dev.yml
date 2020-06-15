@@ -8,9 +8,19 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC&useSSL=false
     username: admin
     password: master2011
+  mail:
+    host: smtp.qq.com
+    username: 1498097245@qq.com
+    password: sputxexvxrgoihef
+
+mail:
+  fromMail:
+    addr: 1498097245@qq.com
 
 logging:
   level:
     root: warn
     com.scaffold.test.mapper: trace
     com.scaffold.test.task: trace
+
+
