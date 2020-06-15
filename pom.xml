@@ -95,6 +95,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <dependency>
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
