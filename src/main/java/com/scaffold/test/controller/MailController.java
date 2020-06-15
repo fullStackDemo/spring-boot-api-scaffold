@@ -34,15 +34,26 @@ public class MailController {
     public Result postHtmlMail() throws MessagingException {
         String content = "<html>\n" +
                 "<body>\n" +
-                "<h3>hello world ! 这是一封Html邮件!</h3>\n" +
+                "<h3>hello! test Html test!</h3>\n" +
                 "</body>\n" +
                 "</html>";
         Mail mail = new Mail();
         mail.setTo("1498097245@qq.com");
-        mail.setSubject("automatic");
+        mail.setSubject("Html格式邮件");
         mail.setContent(content);
         mailService.sendHtmlMail(mail);
         return ResultGenerator.getSuccessResult().setMessage("发送成功");
     }
 
+    // 发送带附件的邮件
+    @GetMapping("postAttachment")
+    public Result postAttachmentsMail() throws MessagingException {
+        Mail mail = new Mail();
+        mail.setTo("1498097245@qq.com");
+        mail.setSubject("附件");
+        mail.setContent("有附件，赶紧看下");
+        mail.setFilePath("E:\\test.png");
+        mailService.sendAttachmentsMail(mail);
+        return ResultGenerator.getSuccessResult().setMessage("发送成功");
+    }
 }

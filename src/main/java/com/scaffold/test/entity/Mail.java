@@ -13,4 +13,7 @@ public class Mail {
 
     // 发送内容
     private String content;
+
+    // 附件地址
+    private String filePath;
 }

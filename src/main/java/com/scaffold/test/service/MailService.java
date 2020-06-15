@@ -10,4 +10,7 @@ public interface MailService {
 
     // 发送Html邮件
     public void sendHtmlMail(Mail mail) throws MessagingException;
+
+    // 发送带附件的邮件
+    public void sendAttachmentsMail(Mail mail) throws MessagingException;
 }
