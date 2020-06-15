@@ -13,3 +13,4 @@ logging:
   level:
     root: warn
     com.scaffold.test.mapper: trace
+    com.scaffold.test.task: trace
