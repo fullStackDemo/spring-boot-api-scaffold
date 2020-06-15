@@ -1,6 +1,5 @@
 package com.scaffold.test.controller;
 
-import ch.qos.logback.classic.pattern.EnsureExceptionHandling;
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.Mail;
