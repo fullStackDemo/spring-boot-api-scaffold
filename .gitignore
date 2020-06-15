@@ -2,3 +2,5 @@
 .idea/*
 target
 target/*
+.DS_Store
+test.iml
