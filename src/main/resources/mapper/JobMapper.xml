@@ -8,11 +8,13 @@
         <result column="name" property="name"/>
         <result column="age" property="age"/>
         <result column="position" property="position"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, age, position
+        id, name, age, position,
+        DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as create_time
     </sql>
 
     <insert id="insertJob">
@@ -23,7 +25,9 @@
     </insert>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from job
+        select
+        <include refid="Base_Column_List"></include>
+        from job
     </select>
 
     <update id="updateJob">

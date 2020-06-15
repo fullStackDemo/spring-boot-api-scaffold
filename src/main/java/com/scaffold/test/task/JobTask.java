@@ -6,6 +6,7 @@ import com.scaffold.test.service.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +25,14 @@ public class JobTask {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     // 每三秒执行一次
+    @Async
     @Scheduled(fixedRate = 3000)
     public void jobTask() {
         Job job = new Job();
-        job.setName("test1");
-        job.setAge(33);
+        job.setName("test2");
+        job.setAge(36);
         job.setPosition("助理");
-        jobService.addJob(job);
+//        jobService.addJob(job);
         log.info("任务执行时间: " + dateFormat.format(new Date()));
-        log.info(JSON.toJSONString(job));
     }
 }
