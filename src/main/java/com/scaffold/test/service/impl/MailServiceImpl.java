@@ -1,5 +1,6 @@
 package com.scaffold.test.service.impl;
 
+import com.scaffold.test.entity.Mail;
 import com.scaffold.test.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,12 @@ public class MailServiceImpl implements MailService {
     private String mailFrom;
 
     @Override
-    public void sendMail(String to, String subject, String content) {
-
+    public void sendMail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailFrom);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(content);
+        message.setTo(mail.getTo());
+        message.setSubject(mail.getSubject());
+        message.setText(mail.getContent());
         mailSender.send(message);
         logger.info("发送完毕");
     }

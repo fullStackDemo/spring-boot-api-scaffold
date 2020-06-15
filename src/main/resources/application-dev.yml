@@ -15,8 +15,9 @@ spring:
 
 mail:
   fromMail:
-    addr: 1498097245@qq.com
+    addr: alex9012@qq.com
 
+# 日志级别
 logging:
   level:
     root: warn
