@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author alex wong
@@ -15,12 +15,12 @@ import java.util.List;
  */
 public interface JobMapper extends BaseMapper<Job> {
 
-    public void insertJob(Job job);
+    void insertJob(Job job);
 
-    public List<Job> selectAll();
+    List<Job> selectAll();
 
-    public void updateJob(Job job);
+    void updateJob(Job job);
 
-    public void deleteJobById(int id);
+    void deleteJobById(int id);
 
 }

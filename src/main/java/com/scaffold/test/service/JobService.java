@@ -15,12 +15,12 @@ import java.util.List;
  */
 public interface JobService extends IService<Job> {
 
-    public String addJob(Job job);
+    String addJob(Job job);
 
-    public List<Job> findAll();
+    List<Job> findAll();
 
-    public String updateJob(Job job);
+    String updateJob(Job job);
 
-    public String deleteJobById(int id);
+    String deleteJobById(int id);
 
 }

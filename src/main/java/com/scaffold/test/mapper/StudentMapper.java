@@ -16,7 +16,6 @@ import java.util.List;
  */
 public interface StudentMapper extends BaseMapper<Student> {
 
-    @Autowired
-    public List<Student> selectAll();
+    List<Student> selectAll();
 
 }

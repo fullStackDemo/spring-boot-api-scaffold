@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author alex wong
@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface StudentService extends IService<Student> {
 
-    public List<Student> findAll();
+    List<Student> findAll();
 
 }
