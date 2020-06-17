@@ -2,8 +2,8 @@ package com.scaffold.test.controller;
 
 
 import com.scaffold.test.base.Result;
-import com.scaffold.test.base.ResultCode;
 import com.scaffold.test.base.ResultGenerator;
+import com.scaffold.test.base.ServiceException;
 import com.scaffold.test.entity.Job;
 import com.scaffold.test.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,8 @@ public class JobController {
     @GetMapping("/list")
     public Result getList() {
         Result result;
-            List<Job> jobList = jobService.findAll();
-            result = ResultGenerator.getSuccessResult(jobList);
+        List<Job> jobList = jobService.findAll();
+        result = ResultGenerator.getSuccessResult(jobList);
 //        try {
 //            List<Job> jobList = jobService.findAll();
 //            result = ResultGenerator.getSuccessResult(jobList);
@@ -60,6 +60,9 @@ public class JobController {
         // 汪汪被降职
         job.setPosition("总经理助理");
         job.setName("汪汪");
+        if (job.getAge() != 50) {
+            throw new ServiceException("test ServiceException 50");
+        }
         return jobService.updateJob(job);
     }
 
