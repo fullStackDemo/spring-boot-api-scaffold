@@ -15,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, status, max, min, create_time
+        id, name, status, max, min, date
     </sql>
 
     <insert id="insertWeather">

@@ -47,8 +47,18 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
             String status = column.getElementsByClass("wea").text();
             // 温度
             String tem = column.getElementsByClass("tem").text();
-            String maxTem = tem.split("\\D{1,2}")[0];
-            String minTem = tem.split("\\D{1,2}")[1];
+            String[] temArr = tem.split("\\D{1,2}");
+            // 最高气温
+            String maxTem;
+            // 最低气温
+            String minTem;
+            if (temArr.length == 2) {
+                maxTem = tem.split("\\D{1,2}")[0];
+                minTem = tem.split("\\D{1,2}")[1];
+            } else {
+                maxTem = tem.split("\\D{1,2}")[0];
+                minTem = tem.split("\\D{1,2}")[0];
+            }
             weather.setName(name);
             weather.setStatus(status);
             weather.setDate(date);
@@ -67,7 +77,7 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
 
     @Override
     public List<Weather> selectAll() {
-        return null;
+        return weatherMapper.selectAll();
     }
 
     // 获取对应日期

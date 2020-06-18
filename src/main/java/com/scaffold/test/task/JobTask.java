@@ -1,13 +1,11 @@
 package com.scaffold.test.task;
 
-import com.alibaba.fastjson.JSON;
 import com.scaffold.test.entity.Job;
 import com.scaffold.test.service.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -26,7 +24,7 @@ public class JobTask {
 
     // 每天 15：22 15:26  15:30 执行一次
     @Async
-    @Scheduled(cron = "0 22,26,30 15 * * ?")
+//    @Scheduled(cron = "0 22,26,30 15 * * ?")
     public void jobTask() {
         Job job = new Job();
         job.setName("test2");
