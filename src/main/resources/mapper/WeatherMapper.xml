@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.WeatherMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.Weather">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <result column="date" property="date" />
+        <result column="max" property="max" />
+        <result column="min" property="min" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, status, max, min, create_time
+    </sql>
+
+    <insert id="insertWeather">
+        insert ignore into weather
+        (name, status, date, max, min)
+        values
+        (#{name}, #{status}, #{date}, #{max}, #{min})
+
+    </insert>
+    <select id="selectAll" resultType="com.scaffold.test.entity.Weather">
+        select
+        <include refid="Base_Column_List"></include>
+        from weather
+    </select>
+
+</mapper>
