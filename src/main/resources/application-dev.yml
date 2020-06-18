@@ -21,7 +21,6 @@ spring:
     prefix: classpath:/templates/
 
 
-
 mail:
   fromMail:
     addr: alex9012@qq.com

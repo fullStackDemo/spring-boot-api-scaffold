@@ -42,13 +42,6 @@ public class JobController {
         Result result;
         List<Job> jobList = jobService.findAll();
         result = ResultGenerator.getSuccessResult(jobList);
-//        try {
-//            List<Job> jobList = jobService.findAll();
-//            result = ResultGenerator.getSuccessResult(jobList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result = ResultGenerator.getFailResult(e.getMessage());
-//        }
         return result;
     }
 
@@ -72,6 +65,21 @@ public class JobController {
         // 汪汪被删除
         return jobService.deleteJobById(id);
     }
+
+    // 错误
+    @GetMapping("/err")
+    public Result err() {
+        // 模拟错误
+        return ResultGenerator.getFailResult("模拟错误");
+    }
+
+    // 无需data
+    @GetMapping("/status")
+    public Result status() {
+        // 模拟无需data
+        return ResultGenerator.getSuccessResult();
+    }
+
 
 
 }

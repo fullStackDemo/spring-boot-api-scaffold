@@ -1,5 +1,6 @@
 package com.scaffold.test.base;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 /**
@@ -7,6 +8,8 @@ import lombok.Data;
  */
 
 @Data
+// 非空返回
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Result {
 
     private int code;
