@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CodeGenerator {
+
     /**
      * <p>
      * 读取控制台内容
@@ -58,7 +59,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("admin");
         dsc.setPassword("master2011");
