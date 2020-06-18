@@ -18,4 +18,7 @@ public interface WeatherService extends IService<Weather> {
 
     // 获取七日天气预报数据
     List<Weather> getWeekList(Document document);
+
+    // 获取数据
+    List<Weather> selectAll();
 }

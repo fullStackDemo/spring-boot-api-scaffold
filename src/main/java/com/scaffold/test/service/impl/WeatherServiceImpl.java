@@ -10,7 +10,9 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,19 +39,43 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
         Elements liColumns = sevenBox.get(0).getElementsByTag("li");
         for (Element column : liColumns) {
             Weather weather = new Weather();
-            // 获取 name 温度
-            String name = column.getElementsByTag("h1").text();
+            // 获取 name
+            String name = column.getElementsByTag("h1").text().split("（")[1].split("）")[0];
+            String day = column.getElementsByTag("h1").text().split("\\D{1,2}")[0];
+            String date = getDate(day);
+            // 今日天气状态
             String status = column.getElementsByClass("wea").text();
+            // 温度
+            String tem = column.getElementsByClass("tem").text();
+            String maxTem = tem.split("\\D{1,2}")[0];
+            String minTem = tem.split("\\D{1,2}")[1];
             weather.setName(name);
             weather.setStatus(status);
+            weather.setDate(date);
+            weather.setMax(maxTem);
+            weather.setMin(minTem);
             weathers.add(weather);
         }
 
         // 插入数据库
-        for(Weather weather : weathers){
+        for (Weather weather : weathers) {
             weatherMapper.insertWeather(weather);
         }
 
         return null;
+    }
+
+    @Override
+    public List<Weather> selectAll() {
+        return null;
+    }
+
+    // 获取对应日期
+    public String getDate(String day) {
+        Date date = new Date();
+        //格式日期
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        date.setDate(Integer.parseInt(day));
+        return dateFormat.format(date);
     }
 }

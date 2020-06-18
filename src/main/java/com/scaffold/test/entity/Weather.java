@@ -31,7 +31,11 @@ public class Weather implements Serializable {
 
     private String date;
 
-    private String temperature;
+    // 最高气温
+    private String max;
+
+    // 最低气温
+    private String min;
 
     private LocalDateTime createTime;
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>mail</title>
+</head>
+<body>
+
+
+<table align="center" cellpadding="0" cellspacing="0" width="600px">
+    <tr>
+        <td>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="600"
+                   style="border-collapse: collapse;">
+                <tr>
+                    <td align="center" style="padding: 40px 0 30px 0;">
+                        <img src='https://mail.qq.com/cgi-bin/viewfile?f=B3FFF26623C12BC7167EF58D901855A7226B37EAB0D1B74F574C2FB8CD2867DB89F2C3147AAE87CEDF6713AED64DE96EC1CBB14878B146A7A666D509D396284190BC3519440BB3AD27105BA1E51F2A64B437A9CE3185DABFEA9EAB722096CF8D&mailid=ZL1016-eSTDAiRw76RMWAFfNJYHda6&sid=5rup0Pa4fzTcXAVb&net=889192575' style='width:183px height:47.50px'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td bgcolor="#ffffff" style="padding: 0px 30px 20px 30px">
+                        <h1 style="text-align: center">上海最近七天天气预报</h1>
+                        <br>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td colspan="2" style="padding: 0 0 3px 0">
+                                    日期：<span th:text="${emailParam.date}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 0 3px 0">
+                                    天气情况：<span th:text="${emailParam.status}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 0 3px">
+                                    最高气温：<span th:text="${emailParam.max}"></span>
+                                </td>
+                            </tr><tr>
+                                <td style="padding: 12px 0 3px">
+                                    最低气温：<span th:text="${emailParam.min}"></span>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>
