@@ -29,6 +29,7 @@
         select
         <include refid="Base_Column_List"></include>
         from weather
+        WHERE STR_TO_DATE(date, '%Y-%m-%d') >= CURRENT_DATE
     </select>
 
 </mapper>

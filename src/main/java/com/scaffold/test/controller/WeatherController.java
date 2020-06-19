@@ -56,6 +56,7 @@ public class WeatherController {
     // 定时发送邮件
     @Async
     @GetMapping("post")
+//    @Scheduled(fixedRate = 60000)
     public void sendMail() throws MessagingException {
         Context context = new Context();
         // 获取七日天气
