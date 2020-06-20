@@ -72,7 +72,7 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
             weatherMapper.insertWeather(weather);
         }
 
-        return null;
+        return weathers;
     }
 
     @Override

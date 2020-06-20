@@ -40,11 +40,12 @@ public class WeatherController {
     private SpringTemplateEngine templateEngine;
 
     // 定时获取七日天气数据
-    // @GetMapping("/")
     @Async
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 60*1000)
+//    @GetMapping("/get")
     public void getDataFromHtml() {
         String url = "http://www.weather.com.cn/weather/101020100.shtml";
+        log.info("-------定时获取七日天气数据--------");
         try {
             Document document = Jsoup.connect(url).get();
             weatherService.getWeekList(document);

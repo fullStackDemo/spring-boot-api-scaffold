@@ -19,7 +19,8 @@
     </sql>
 
     <insert id="insertWeather">
-        insert ignore into weather
+--         insert ignore into weather
+        replace into weather
         (name, status, date, max, min)
         values
         (#{name}, #{status}, #{date}, #{max}, #{min})
