@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,8 +40,8 @@ public class WeatherController {
 
     // 定时获取七日天气数据
     @Async
-    @Scheduled(fixedRate = 60*1000)
-//    @GetMapping("/get")
+//    @Scheduled(fixedRate = 60*60*1000)
+    @GetMapping("/get")
     public void getDataFromHtml() {
         String url = "http://www.weather.com.cn/weather/101020100.shtml";
         log.info("-------定时获取七日天气数据--------");
@@ -57,7 +56,7 @@ public class WeatherController {
     // 定时发送邮件
     @Async
     @GetMapping("post")
-//    @Scheduled(fixedRate = 60000)
+//    @Scheduled(fixedRate = 60*1000)
     public void sendMail() throws MessagingException {
         Context context = new Context();
         // 获取七日天气
