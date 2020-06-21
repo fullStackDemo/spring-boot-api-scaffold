@@ -5,17 +5,75 @@
     <title>Test</title>
 </head>
 <body>
-<h1>test 传参方式1</h1>
+<h1>test GET传参: 单个参数</h1>
 <code>
     GET
     {
-        name: 'test',
+        name: 'get',
         age: 22
     }
 </code>
 <br/>
 <br/>
 <button onclick="test1()">点击测试</button>
+<h2>test1 结果</h2>
+<code class="test1Result"></code>
+<br>
+
+<hr><h1>test POST传参：单个参数，FromData格式</h1>
+<code>
+    POST
+    {
+        name: 'post',
+        age: 22
+    }
+</code>
+<br/>
+<br/>
+<button onclick="test2()">点击测试</button>
+<h2>test2 结果</h2>
+<code class="test2Result"></code>
+<br>
+<hr>
+
+<h1>test POST传参: 数组（纯数组）</h1>
+<code>
+    POST
+    [
+        {
+            name: 'post2',
+            age: 22
+        },
+        {
+            name: 'post3',
+            age: 23
+        }
+    ]
+</code>
+<br/>
+<br/>
+<button onclick="test3()">点击测试</button>
+<h2>test3 结果</h2>
+<code class="test3Result"></code>
+<br>
+<hr>
+
+<h1>test GET传参: 数组</h1>
+<code>
+    GET
+    {
+        productId: 1,2,3
+    }
+</code>
+<br/>
+<br/>
+<button onclick="test4()">点击测试</button>
+<h2>test4 结果</h2>
+<code class="test4Result"></code>
+<br>
+<hr>
+
+
 <script src="./js/test.js"></script>
 </body>
 </html>
