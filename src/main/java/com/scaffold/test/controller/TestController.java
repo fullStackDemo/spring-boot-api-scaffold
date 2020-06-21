@@ -75,5 +75,12 @@ public class TestController {
         return list;
     }
 
+    // 数组接收
+    @GetMapping("/get5")
+    public Object testGet5(@RequestParam Object list) {
+        System.out.println(list);
+        return list;
+    }
+
 }
 

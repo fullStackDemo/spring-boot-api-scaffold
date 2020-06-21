@@ -45,6 +45,7 @@ const http = {
             _r.push(`${m}=${JSON.stringify(data[m])}`);
         });
         _r = _r.join('&');
+        debugger
         return _r;
     },
     // GET 请求，参数合并到URL上
@@ -131,6 +132,29 @@ const test4 = () => {
         },
         callback0: data => {
             document.querySelector('.test4Result').innerHTML = data;
+        }
+    })
+};
+
+// 测试方法5
+const test5 = () => {
+    http.request({
+        url: '/test/get5',
+        type: 'get',
+        data: {
+            list: [
+                {
+                    name: 'post2',
+                    age: 22
+                },
+                {
+                    name: 'post3',
+                    age: 23
+                }
+            ]
+        },
+        callback0: data => {
+            document.querySelector('.test5Result').innerHTML = data;
         }
     })
 };
