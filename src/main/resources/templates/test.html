@@ -81,18 +81,28 @@
 <h1>test POST传参: 数组中有map, map中还包括数组</h1>
 <code>
     POST
-    {
-        list: [
+    [
         {
             name: 'post2',
-            age: 22
+            age: 22,
+            list: [
+                {
+                name: 'post22',
+                age: 2233,
+                }
+            ]
         },
         {
             name: 'post3',
-            age: 23
+            age: 23,
+            list: [
+                {
+                name: 'post33',
+                age: 2233,
+                }
+            ]
         }
     ]
-    }
 </code>
 <br/>
 <br/>
