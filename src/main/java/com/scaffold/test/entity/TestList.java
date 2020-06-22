@@ -9,4 +9,8 @@ public class TestList {
 
     private List<Test> list;
 
+    private String name;
+
+    private int age;
+
 }

@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 
 import com.scaffold.test.entity.Test;
+import com.scaffold.test.entity.TestList;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,17 @@ public class TestController {
         result.put("name", name);
         result.put("age", age);
         return result;
+    }
+
+    // 数组接收
+    @GetMapping("/get4")
+    public Object testGet4(@RequestParam String[] productId) {
+        ArrayList<Object> list = new ArrayList<>();
+        for (String id : productId) {
+            // 数据处理
+            list.add(id);
+        }
+        return list;
     }
 
     // 单个参数接收
@@ -64,22 +76,10 @@ public class TestController {
         return result;
     }
 
-    // 数组接收
-    @GetMapping("/get4")
-    public Object testGet4(@RequestParam String[] productId) {
-        ArrayList<Object> list = new ArrayList<>();
-        for (String id : productId) {
-            // 数据处理
-            list.add(id);
-        }
-        return list;
-    }
-
-    // 数组接收
-    @GetMapping("/get5")
-    public Object testGet5(@RequestParam Object list) {
-        System.out.println(list);
-        return list;
+    // 数组接收, map里面还有数组类型
+    @PostMapping("/post5")
+    public Object testPost5(@RequestBody List<TestList> testList) {
+        return testList;
     }
 
 }
