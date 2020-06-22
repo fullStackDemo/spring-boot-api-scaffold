@@ -25,7 +25,7 @@ const http = {
         const dataType = Object.prototype.toString.apply(data);
 
         xhr.open(type, requestUrl);
-        if (dataType === '[object Array]' ) {
+        if (dataType === '[object Array]') {
             xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
         }
         xhr.addEventListener("load", e => {
@@ -139,17 +139,29 @@ const test4 = () => {
 // 测试方法5
 const test5 = () => {
     http.request({
-        url: '/test/get5',
-        type: 'get',
+        url: '/test/post5',
+        type: 'post',
         data: {
             list: [
                 {
                     name: 'post2',
-                    age: 22
+                    age: 22,
+                    list: [
+                        {
+                            name: 'post22',
+                            age: 2233,
+                        }
+                    ]
                 },
                 {
                     name: 'post3',
-                    age: 23
+                    age: 23,
+                    list: [
+                        {
+                            name: 'post33',
+                            age: 2233,
+                        }
+                    ]
                 }
             ]
         },
