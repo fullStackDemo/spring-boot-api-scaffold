@@ -7,15 +7,20 @@ const http = {
             type: 'GET',
             url: '',
             dateType: 'json',//请求返回结果类型
-            data: '', // 请求参数
+            data: {
+                // 请求参数
+            },
+            headers: {
+                // 请求头
+            },
             callback0: () => {
-                // 成功后回调
+                // 报文成功返回后回调
             }
         }, params);
         // 请求
         const xhr = new XMLHttpRequest();
         // 请求方法
-        const {type, data, url} = requestParams;
+        const {type, data, url, headers} = requestParams;
         const requestMethod = ('' + type).toLocaleLowerCase();
         // url 是否携带参数
         const urlHasParams = requestMethod === 'get';
@@ -28,6 +33,12 @@ const http = {
         if (dataType === '[object Array]') {
             xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
         }
+
+        // 自定义表头
+        Object.keys(headers).forEach(m => {
+            xhr.setRequestHeader(m, headers[m]);
+        });
+
         xhr.addEventListener("load", e => {
             const status = xhr.status;
             if (status === 200) {
@@ -45,7 +56,6 @@ const http = {
             _r.push(`${m}=${JSON.stringify(data[m])}`);
         });
         _r = _r.join('&');
-        debugger
         return _r;
     },
     // GET 请求，参数合并到URL上
@@ -71,7 +81,7 @@ const http = {
 };
 
 
-// 测试方法1
+// GET 参数类型为 Object
 const test1 = () => {
     http.request({
         url: '/test/get',
@@ -86,7 +96,21 @@ const test1 = () => {
     })
 };
 
-// 测试方法2
+// Get 参数存在于路径中
+const testPath = () => {
+    http.request({
+        url: '/test/path/6666',
+        type: 'get',
+        data: {
+            name: '111',
+        },
+        callback0: data => {
+            document.querySelector('.testPathResult').innerHTML = data;
+        }
+    })
+};
+
+// post 参数类型为 Object
 const test2 = () => {
     http.request({
         url: '/test/post2',
@@ -101,7 +125,7 @@ const test2 = () => {
     })
 };
 
-// 测试方法3
+// POST 参数类型为 list
 const test3 = () => {
     http.request({
         url: '/test/post3',
@@ -122,10 +146,10 @@ const test3 = () => {
     })
 };
 
-// 测试方法4
+// GET 获取数组ID
 const test4 = () => {
     http.request({
-        url: '/test/get4',
+        url: '/test/getList',
         type: 'get',
         data: {
             productId: '1,2,3'
@@ -136,12 +160,43 @@ const test4 = () => {
     })
 };
 
+// 获取请求头数据
+const testHeader = () => {
+    http.request({
+        url: '/test/header',
+        type: 'post',
+        headers: {
+            privateHeader: "test88888",
+            privateHeader2: "test888882",
+        },
+        callback0: data => {
+            document.querySelector('.testHeaderResult').innerHTML = data;
+        }
+    })
+};
+
+// 获取所有请求头数据
+const testHeaders = () => {
+    http.request({
+        url: '/test/headers',
+        type: 'get',
+        headers: {
+            privateHeader: "test888881",
+            privateHeader2: "test888882",
+            privateHeader3: "test888883",
+        },
+        callback0: data => {
+            document.querySelector('.testHeadersResult').innerHTML = data;
+        }
+    })
+};
+
 // 测试方法5
 const test5 = () => {
     http.request({
         url: '/test/post5',
         type: 'post',
-        data:  [
+        data: [
             {
                 name: 'post2',
                 age: 22,

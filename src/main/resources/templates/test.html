@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
+    <style>
+        code {
+            color: dodgerblue;
+        }
+    </style>
 </head>
 <body>
+<!--GET: 单个参数-->
 <h1>test GET传参: 单个参数</h1>
+<code>http://localhost:9002/test/get?name=11&age=22</code>
+<br>
 <code>
     GET
     {
@@ -22,7 +30,88 @@
 
 <hr>
 
-<h1>test POST传参：单个参数，FromData格式</h1>
+<!--GET: 路径中携带参数-->
+<h1>test GET: 路径中携带参数</h1>
+<code>http://localhost:9002/test/path/6666?name=11</code>
+<br>
+<code>
+    GET
+    {
+        name: 'get'
+    }
+</code>
+<br/>
+<br/>
+<button onclick="testPath()">点击测试</button>
+<h2>testPath 结果</h2>
+<code class="testPathResult"></code>
+<br>
+
+<hr>
+
+<!--GET: 参数数组-->
+<h1>test GET传参: 数组</h1>
+<code>http://localhost:9002/test/getList?productId=1,2,3</code>
+<br>
+<code>
+    GET
+    {
+        productId: 1,2,3
+    }
+</code>
+<br/>
+<br/>
+<button onclick="test4()">点击测试</button>
+<h2>test4 结果</h2>
+<code class="test4Result"></code>
+<br>
+
+<hr>
+
+<!--GET || POST : 获取请求头中数据-->
+<h1>test GET || POST : 获取请求头中数据</h1>
+<code>http://localhost:9002/test/header</code>
+<br>
+<code>
+    GET || POST
+
+    headers: {
+        privateHeader: "test88888",
+        privateHeader2: "test888882",
+    }
+</code>
+<br/>
+<br/>
+<button onclick="testHeader()">点击测试</button>
+<h2>testHeader 结果</h2>
+<code class="testHeaderResult"></code>
+<br>
+
+<hr>
+<!--GET || POST: 获取请求头中所有的数据-->
+<h1>test GET || POST : 获取请求头中所有的数据</h1>
+<code>http://localhost:9002/test/headers</code>
+<br>
+<code>
+    GET || POST
+
+    headers: {
+        privateHeader: "test888881",
+        privateHeader2: "test888882",
+        privateHeader3: "test888883",
+    }
+</code>
+<br/>
+<br/>
+<button onclick="testHeaders()">点击测试</button>
+<h2>testHeaders 结果</h2>
+<code class="testHeadersResult"></code>
+<br>
+
+<hr>
+
+<!--POST：单个参数，FromData格式-->
+<h1>test POST：单个参数，FromData格式</h1>
 <code>
     POST
     {
@@ -39,7 +128,8 @@
 
 <hr>
 
-<h1>test POST传参: 数组（纯数组）</h1>
+<!--POST: 数组（纯数组）-->
+<h1>test POST: 数组（纯数组）</h1>
 <code>
     POST
     [
@@ -62,22 +152,7 @@
 
 <hr>
 
-<h1>test GET传参: 数组</h1>
-<code>
-    GET
-    {
-        productId: 1,2,3
-    }
-</code>
-<br/>
-<br/>
-<button onclick="test4()">点击测试</button>
-<h2>test4 结果</h2>
-<code class="test4Result"></code>
-<br>
-
-<hr>
-
+<!--POST传参: 数组中有map, map中还包括数组-->
 <h1>test POST传参: 数组中有map, map中还包括数组</h1>
 <code>
     POST
