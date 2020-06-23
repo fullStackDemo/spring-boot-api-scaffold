@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>Test</title>
     <style>
+        body {
+            background: #333;
+            color: #999;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: #999;
+        }
+
         code {
             color: dodgerblue;
         }
@@ -37,7 +48,7 @@
 <code>
     GET
     {
-        name: 'get'
+    name: '11'
     }
 </code>
 <br/>
@@ -56,7 +67,7 @@
 <code>
     GET
     {
-        productId: 1,2,3
+    productId: 1,2,3
     }
 </code>
 <br/>
@@ -76,8 +87,8 @@
     GET || POST
 
     headers: {
-        privateHeader: "test88888",
-        privateHeader2: "test888882",
+    privateHeader: "test88888",
+    privateHeader2: "test888882",
     }
 </code>
 <br/>
@@ -96,9 +107,9 @@
     GET || POST
 
     headers: {
-        privateHeader: "test888881",
-        privateHeader2: "test888882",
-        privateHeader3: "test888883",
+    privateHeader: "test888881",
+    privateHeader2: "test888882",
+    privateHeader3: "test888883",
     }
 </code>
 <br/>
@@ -115,8 +126,8 @@
 <code>
     POST
     {
-        name: 'post',
-        age: 22
+    name: 'post',
+    age: 22
     }
 </code>
 <br/>
@@ -124,6 +135,22 @@
 <button onclick="test2()">点击测试</button>
 <h2>test2 结果</h2>
 <code class="test2Result"></code>
+<br>
+
+<hr><!--POST：单个参数，以JSON格式发送-->
+<h1>test POST：单个参数，以JSON格式发送</h1>
+<code>
+    POST
+    {
+        name: 'post',
+        age: 23
+    }
+</code>
+<br/>
+<br/>
+<button onclick="test23()">点击测试</button>
+<h2>test23 结果</h2>
+<code class="test23Result"></code>
 <br>
 
 <hr>
@@ -157,26 +184,26 @@
 <code>
     POST
     [
-        {
-            name: 'post2',
-            age: 22,
-            list: [
-                {
-                name: 'post22',
-                age: 2233,
-                }
-            ]
-        },
-        {
-            name: 'post3',
-            age: 23,
-            list: [
-                {
-                name: 'post33',
-                age: 2233,
-                }
-            ]
-        }
+    {
+    name: 'post2',
+    age: 22,
+    list: [
+    {
+    name: 'post22',
+    age: 2233,
+    }
+    ]
+    },
+    {
+    name: 'post3',
+    age: 23,
+    list: [
+    {
+    name: 'post33',
+    age: 2233,
+    }
+    ]
+    }
     ]
 </code>
 <br/>
@@ -187,7 +214,6 @@
 <br>
 
 <hr>
-
 
 
 <script src="./js/test.js"></script>

@@ -30,5 +30,4 @@ public class Test implements Serializable {
 
     private String age;
 
-
 }

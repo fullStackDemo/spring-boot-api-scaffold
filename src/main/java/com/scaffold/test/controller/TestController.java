@@ -56,7 +56,7 @@ public class TestController {
         return map;
     }
 
-    // 单个参数接收
+    // @RequestParam 单个参数接收------前端使用FromData
     @PostMapping("/post")
     public Object testPost(@RequestParam String name, @RequestParam int age) {
         Map<String, Object> result = new HashMap<>();
@@ -66,9 +66,19 @@ public class TestController {
         return result;
     }
 
-    // 实体类接收
-    @PostMapping("/post2")
-    public Object testPost2(Test data) {
+    // 实体类接收：不加注解------前端使用FromData
+    @PostMapping("/post22")
+    public Object testPost22(Test data) {
+        Map<String, Object> result = new HashMap<>();
+        // 数据处理
+        result.put("name", data.getName());
+        result.put("age", data.getAge());
+        return result;
+    }
+
+    // @RequestBody 实体类接收
+    @PostMapping("/post23")
+    public Object testPost23(@RequestBody Test data) {
         Map<String, Object> result = new HashMap<>();
         // 数据处理
         result.put("name", data.getName());

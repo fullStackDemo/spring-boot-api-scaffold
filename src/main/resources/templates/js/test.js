@@ -30,7 +30,10 @@ const http = {
         const dataType = Object.prototype.toString.apply(data);
 
         xhr.open(type, requestUrl);
-        if (dataType === '[object Array]') {
+
+        // @ResponseBody注解，接收参数时，必须是application/json
+        // POST请求不以FromData格式时
+        if (dataType === '[object Array]' || (requestMethod == 'post' && !data.isFromData)) {
             xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
         }
 
@@ -66,14 +69,15 @@ const http = {
     getFormData: data => {
         const dataType = Object.prototype.toString.apply(data);
         // Object
-        if (dataType === '[object Object]') {
+        // isFromData标注是否使用FromData方式发送参数
+        if (dataType === '[object Object]' && data.isFromData) {
             const formData = new FormData();
             Object.keys(data).forEach(m => {
                 formData.append(m, data[m]);
             });
             return formData;
         } else {
-            // Array
+            // Array || Object(JSON格式传参)
             return JSON.stringify(data);
         }
     }
@@ -110,17 +114,50 @@ const testPath = () => {
     })
 };
 
-// post 参数类型为 Object
+// post 参数类型为 Object, FromData格式发送
 const test2 = () => {
     http.request({
-        url: '/test/post2',
+        url: '/test/post',
         type: 'post',
         data: {
             name: 'post',
-            age: 22
+            age: 22,
+            isFromData: true
         },
         callback0: data => {
             document.querySelector('.test2Result').innerHTML = data;
+        }
+    })
+};
+
+// post 参数类型为 Object, FromData格式发送
+const test22 = () => {
+    http.request({
+        url: '/test/post22',
+        type: 'post',
+        data: {
+            name: 'post',
+            age: 22,
+            isFromData: true
+        },
+        callback0: data => {
+            document.querySelector('.test2Result').innerHTML = data;
+        }
+    })
+};
+
+// post 参数类型为 Object, 以JSON格式发送
+const test23 = () => {
+    http.request({
+        url: '/test/post23',
+        type: 'post',
+        data: {
+            name: 'post',
+            age: 23,
+            isFromData: false
+        },
+        callback0: data => {
+            document.querySelector('.test23Result').innerHTML = data;
         }
     })
 };
