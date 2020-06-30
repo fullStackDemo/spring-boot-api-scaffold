@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ExcelService {
 
-    void excelExport(List<Student> list, HttpServletResponse response);
+    void excelExport(List<Student> list, HttpServletResponse response) throws Exception;
 
 }

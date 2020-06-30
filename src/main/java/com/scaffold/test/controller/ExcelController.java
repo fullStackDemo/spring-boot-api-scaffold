@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class ExcelController {
 
 
     @GetMapping("export")
-    public void export(Map<String, Object> params, HttpServletResponse response) throws IOException {
+    public void export(Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<Student> list = studentService.findAll();
 //        ExcelUtils.createExcel(list, response);
         excelService.excelExport(list, response);
