@@ -34,4 +34,4 @@ logging:
 
 
 user:
-  download: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
+  export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"

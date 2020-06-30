@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 public class ExcelUtils {
-    
+
     // 生成 excel
     public static void createExcel(List<Student> list, HttpServletResponse response) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -34,6 +34,12 @@ public class ExcelUtils {
         generateExcelFile(fileName, workbook);
         //浏览器下载
         browserDocument(fileName, workbook, response);
+    }
+
+    // 创建
+    public static XSSFWorkbook createWorkBook(String sheetName) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        return workbook;
     }
 
     // 生成表头
