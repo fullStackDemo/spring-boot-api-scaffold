@@ -36,6 +36,15 @@ public class TestController {
         return result;
     }
 
+    @GetMapping("/get2")
+    public Object testGet2(@RequestParam Map<String,Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        // 数据处理
+        result.put("name", params.get("name"));
+        result.put("age", params.get("age"));
+        return result;
+    }
+
     // 数组接收
     @GetMapping("/getList")
     public Object testGet4(@RequestParam String[] productId) {
