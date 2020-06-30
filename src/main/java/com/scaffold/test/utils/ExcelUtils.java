@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 public class ExcelUtils {
-
+    
     // 生成 excel
     public static void createExcel(List<Student> list, HttpServletResponse response) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -29,7 +29,7 @@ public class ExcelUtils {
             rowNum++;
         }
 
-        String fileName = "test.xlsx";
+        String fileName = "test1.xlsx";
         // 生成文件
         generateExcelFile(fileName, workbook);
         //浏览器下载

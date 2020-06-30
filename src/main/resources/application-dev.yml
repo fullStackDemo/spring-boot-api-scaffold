@@ -13,7 +13,7 @@ spring:
     username: 1498097245@qq.com
     password: sputxexvxrgoihef
   resources:
-    static-locations: classpath:/resources/, classpath:/static/ ,classpath:/templates/
+    static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/,classpath:/files/
   thymeleaf:
     enabled: true
     check-template: true
@@ -31,3 +31,7 @@ logging:
     root: warn
     com.scaffold.test.mapper: trace
     com.scaffold.test.task: trace
+
+
+user:
+  download: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
