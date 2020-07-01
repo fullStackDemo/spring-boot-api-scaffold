@@ -34,5 +34,5 @@ logging:
 
 
 user:
-#  export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
-  export: "/Users/wangzhao/work/projects/spring-boot-api-scaffold/src/main/resources/files/"
+  export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
+  mac-export: "/Users/wangzhao/work/projects/spring-boot-api-scaffold/src/main/resources/files/"

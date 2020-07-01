@@ -4,6 +4,7 @@ import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Student;
 import com.scaffold.test.service.ExcelService;
 import com.scaffold.test.utils.ExcelUtils;
+import com.scaffold.test.utils.UUIDUtils;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ExcelServiceImpl implements ExcelService {
+
+    private static final String excelSuffix = ".xlsx";
 
     @Autowired
     private BaseApplication baseApplication;
@@ -29,7 +32,7 @@ public class ExcelServiceImpl implements ExcelService {
         // 表头thead
         XSSFRow row = sheet.createRow(0);
         //设置列宽，setDefaultColumnWidth的参数要乘以256，这个参数的单位是1/256个字符宽度
-        sheet.setDefaultColumnWidth(20 * 256);
+        sheet.setDefaultColumnWidth(120 * 256);
 
         //设置为居中加粗
         XSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -55,9 +58,12 @@ public class ExcelServiceImpl implements ExcelService {
             rowNum++;
         }
 
-        String fileName = "test2.xlsx";
+        String fileName = UUIDUtils.getUUID() + excelSuffix;
         String folderPath = baseApplication.getExportPath();
-
+        // mac
+        if (!System.getProperty("os.name").contains("Window")) {
+            folderPath = baseApplication.getMacExportPath();
+        }
         ExcelUtils.createExcel(fileName, folderPath, workbook, response);
 
     }

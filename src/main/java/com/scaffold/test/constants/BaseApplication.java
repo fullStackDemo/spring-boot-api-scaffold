@@ -17,4 +17,7 @@ public class BaseApplication {
     @Value("${user.export}")
     private String exportPath;
 
+    @Value("${user.mac-export}")
+    private String macExportPath;
+
 }
