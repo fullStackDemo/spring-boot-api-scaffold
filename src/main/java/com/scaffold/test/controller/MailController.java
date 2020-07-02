@@ -50,7 +50,7 @@ public class MailController {
         mail.setSubject("Html格式邮件");
         mail.setContent(content);
         mailService.sendHtmlMail(mail);
-//        return ResultGenerator.getSuccessResult().setMessage("发送成功");
+//        return ResultGenerator.setSuccessResult().setMessage("发送成功");
     }
 
     // 发送带附件的邮件
@@ -63,7 +63,7 @@ public class MailController {
         mail.setContent("有附件，赶紧看下");
         mail.setFilePath("E:\\test.png");
         mailService.sendAttachmentsMail(mail);
-//        return ResultGenerator.getSuccessResult().setMessage("发送成功");
+//        return ResultGenerator.setSuccessResult().setMessage("发送成功");
     }
 
     // 发送 Html 模板邮件
@@ -83,7 +83,7 @@ public class MailController {
         mail.setSubject("模板邮件");
         mail.setContent(emailTemplate);
         mailService.sendHtmlMail(mail);
-//        return ResultGenerator.getSuccessResult().setMessage("发送成功");
+//        return ResultGenerator.setSuccessResult().setMessage("发送成功");
     }
 
 }

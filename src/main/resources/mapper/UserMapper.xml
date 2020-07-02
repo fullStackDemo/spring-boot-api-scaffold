@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.User">
+        <id column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, user_name, password, createTime, updateTime
+    </sql>
+
+    <insert id="insertUser">
+        insert into user
+        (user_id, user_name, password)
+        values
+        (#{userId}, #{userName}, #{password})
+
+    </insert>
+
+    <select id="findUser" resultType="com.scaffold.test.entity.User">
+        select
+        <include refid="Base_Column_List"></include>
+        from user
+        where del_flag != 1 and user_name=#{userName}
+    </select>
+
+</mapper>

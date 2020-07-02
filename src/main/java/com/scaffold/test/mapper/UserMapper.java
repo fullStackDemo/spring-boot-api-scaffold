@@ -5,5 +5,7 @@ import com.scaffold.test.entity.User;
 
 public interface UserMapper extends BaseMapper<User> {
 
+    int insertUser(User user);
 
+    User findUser(User user);
 }

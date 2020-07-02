@@ -40,7 +40,7 @@ public class JobController {
     public Result getList() {
         Result result;
         List<Job> jobList = jobService.findAll();
-        result = ResultGenerator.getSuccessResult(jobList);
+        result = ResultGenerator.setSuccessResult(jobList);
         return result;
     }
 
@@ -69,14 +69,14 @@ public class JobController {
     @GetMapping("/err")
     public Result err() {
         // 模拟错误
-        return ResultGenerator.getFailResult("模拟错误");
+        return ResultGenerator.setFailResult("模拟错误");
     }
 
     // 无需data
     @GetMapping("/status")
     public Result status() {
         // 模拟无需data
-        return ResultGenerator.getSuccessResult();
+        return ResultGenerator.setSuccessResult();
     }
 
 
