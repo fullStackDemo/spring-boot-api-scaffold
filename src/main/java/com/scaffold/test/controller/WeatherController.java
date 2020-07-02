@@ -58,7 +58,7 @@ public class WeatherController {
 
     // 定时发送邮件
     @Async
-    @Scheduled(fixedRate = times)
+//    @Scheduled(fixedRate = times)
     @GetMapping("post")
     public void sendMail() throws MessagingException {
         Context context = new Context();
