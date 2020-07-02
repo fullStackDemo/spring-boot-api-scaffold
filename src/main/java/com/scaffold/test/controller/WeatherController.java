@@ -30,7 +30,7 @@ public class WeatherController {
 
     private static final Logger log = LoggerFactory.getLogger(JobTask.class);
 
-    private static final int times = 60 * 1000 * 1000;
+    private static final int times = 60 * 60 * 1000;
 
     @Autowired
     private WeatherService weatherService;
