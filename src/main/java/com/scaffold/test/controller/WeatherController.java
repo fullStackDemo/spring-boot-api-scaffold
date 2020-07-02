@@ -65,15 +65,16 @@ public class WeatherController {
         // 获取七日天气
         List<Weather> weathers = weatherService.selectAll();
         context.setVariable("resultList", weathers);
-        String emailTemplate = templateEngine.process("weatherTemplate", context);
+//        String emailTemplate = templateEngine.process("weatherTemplate", context);
+        String emailTemplate = templateEngine.process("weather", context);
 
         //获取当前时间
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = simpleDateFormat.format(new Date());
 
         // 邮件发送, 多人接收
-        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
-//        String[] addressList = {"1498097245@qq.com"};
+//        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
+        String[] addressList = {"1498097245@qq.com"};
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);
