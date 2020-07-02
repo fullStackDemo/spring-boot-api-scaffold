@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,8 @@ public class WeatherController {
 
     private static final Logger log = LoggerFactory.getLogger(JobTask.class);
 
+    private static final int times = 60 * 1000 * 1000;
+
     @Autowired
     private WeatherService weatherService;
 
@@ -40,7 +43,7 @@ public class WeatherController {
 
     // 定时获取七日天气数据
     @Async
-//    @Scheduled(fixedRate = 60*60*1000)
+    @Scheduled(fixedRate = times)
     @GetMapping("/get")
     public void getDataFromHtml() {
         String url = "http://www.weather.com.cn/weather/101020100.shtml";
@@ -55,8 +58,8 @@ public class WeatherController {
 
     // 定时发送邮件
     @Async
+    @Scheduled(fixedRate = times)
     @GetMapping("post")
-//    @Scheduled(fixedRate = 60*1000)
     public void sendMail() throws MessagingException {
         Context context = new Context();
         // 获取七日天气
@@ -69,8 +72,8 @@ public class WeatherController {
         String currentTime = simpleDateFormat.format(new Date());
 
         // 邮件发送, 多人接收
-//        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
-        String[] addressList = {"1498097245@qq.com"};
+        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
+//        String[] addressList = {"1498097245@qq.com"};
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);
