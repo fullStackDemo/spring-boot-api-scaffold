@@ -7,53 +7,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>天气预报</title>
     <style>
-        .title {
-            text-align: center;
-        }
+        /*.title {*/
+        /*    text-align: center;*/
+        /*}*/
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #eee;
-            margin: 0 auto;
-        }
-        
-        .table thead {
-            background: #40B8FA;
-            color: #fff;
-        }
+        /*.table {*/
+        /*    width: 100%;*/
+        /*    border-collapse: collapse;*/
+        /*    border: 1px solid #eee;*/
+        /*    margin: 0 auto;*/
+        /*}*/
 
-        .table td, .table th {
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            white-space: nowrap;
-        }
+        /*.table thead {*/
+        /*    background: #40B8FA;*/
+        /*    color: #fff;*/
+        /*}*/
+
+        /*.table td, .table th {*/
+        /*    height: 40px;*/
+        /*    line-height: 40px;*/
+        /*    text-align: center;*/
+        /*    white-space: nowrap;*/
+        /*}*/
 
 
     </style>
 </head>
 <body>
-<div class="title">
+<div style="text-align: center">
     <h1>
         上海最近7日天气预报
     </h1>
 </div>
-<table class="table">
-    <thead>
+<table style="width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #eee;
+            margin: 0 auto;">
+    <thead style="background: #40B8FA;color: #fff;">
     <tr>
-        <th>日期</th>
-        <th>天气状态</th>
-        <th>最高气温</th>
-        <th>最低气温</th>
+        <th style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;">日期</th>
+        <th style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;">天气状态</th>
+        <th style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;">最高气温</th>
+        <th style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;">最低气温</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="entries,stat:${resultList}">
-        <td th:text="${entries['date']}"></td>
-        <td th:text="${entries['status']}"></td>
-        <td th:text="${entries['max']}"></td>
-        <td th:text="${entries['min']}"></td>
+        <td style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;" th:text="${entries['date']}"></td>
+        <td style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;" th:text="${entries['status']}"></td>
+        <td style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;" th:text="${entries['max']}"></td>
+        <td style="height: 40px;
+            line-height: 40px;
+            text-align: center;
+            white-space: nowrap;" th:text="${entries['min']}"></td>
     </tr>
     </tbody>
 
