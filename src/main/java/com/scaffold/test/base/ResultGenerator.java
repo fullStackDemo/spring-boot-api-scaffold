@@ -14,6 +14,12 @@ public class ResultGenerator {
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
     }
 
+    public static Result setSuccessResult(String message) {
+        return new Result()
+                .setCode(ResultCode.SUCCESS)
+                .setMessage(message);
+    }
+
     // 成功返回数据
     public static Result setSuccessResult(Object data) {
         return new Result()

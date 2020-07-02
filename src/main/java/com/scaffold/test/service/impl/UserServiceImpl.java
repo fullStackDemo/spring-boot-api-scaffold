@@ -39,6 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User findUser(User user) {
-        return null;
+        return userMapper.findUser(user);
     }
+
 }

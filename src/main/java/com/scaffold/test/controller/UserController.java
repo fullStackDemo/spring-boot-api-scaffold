@@ -17,6 +17,7 @@ public class UserController {
     private UserService UserService;
 
 
+    // 注册
     @PostMapping("/add")
     public Result addUser(User user) {
         int flag = UserService.insertUser(user);
@@ -24,6 +25,17 @@ public class UserController {
             return ResultGenerator.setSuccessResult();
         } else {
             return ResultGenerator.setFailResult("注册失败, 用户已存在");
+        }
+    }
+
+    // 登录
+    @PostMapping("/login")
+    public Result userLogin(User user) {
+        User userInfo = UserService.findUser(user);
+        if (userInfo != null) {
+            return ResultGenerator.setSuccessResult("登录成功");
+        } else {
+            return ResultGenerator.setFailResult("登录失败, 请检查用户名和密码");
         }
     }
 

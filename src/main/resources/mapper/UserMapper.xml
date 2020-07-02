@@ -4,11 +4,11 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.scaffold.test.entity.User">
-        <id column="user_id" property="userId" />
-        <result column="user_name" property="userName" />
-        <result column="password" property="password" />
-        <result column="createTime" property="createTime" />
-        <result column="updateTime" property="updateTime" />
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -16,11 +16,25 @@
         user_id, user_name, password, createTime, updateTime
     </sql>
 
+    <sql id="Base_Condition">
+        <where>
+            del_flag != 1
+            <if test="userName != null and userName != ''">
+                and user_name=#{userName}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id=#{userId}
+            </if>
+            <if test="password != null and password != ''">
+                and password=#{password}
+            </if>
+        </where>
+    </sql>
+
     <insert id="insertUser">
         insert into user
-        (user_id, user_name, password)
-        values
-        (#{userId}, #{userName}, #{password})
+            (user_id, user_name, password)
+        values (#{userId}, #{userName}, #{password})
 
     </insert>
 
@@ -28,7 +42,8 @@
         select
         <include refid="Base_Column_List"></include>
         from user
-        where del_flag != 1 and user_name=#{userName}
+        <include refid="Base_Condition"></include>
     </select>
+
 
 </mapper>
