@@ -5,7 +5,6 @@ import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
 import com.scaffold.test.service.MailService;
 import com.scaffold.test.service.WeatherService;
-import com.scaffold.test.task.JobTask;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ import java.util.List;
 @RequestMapping("/weather")
 public class WeatherController {
 
-    private static final Logger log = LoggerFactory.getLogger(JobTask.class);
+    private static final Logger log = LoggerFactory.getLogger(WeatherController.class);
 
     private static final int times = 60 * 60 * 1000;
 
@@ -59,7 +58,7 @@ public class WeatherController {
     // 定时发送邮件
     @Async
 //    @Scheduled(fixedRate = times)
-    @Scheduled(cron = "* * 7/2 * * 1/7")
+    @Scheduled(cron = "0 30 6,8,10,12,14,16,18,20 * * ?")
     @GetMapping("post")
     public void sendMail() throws MessagingException {
         log.info("-------定时获取发送邮件--------");
