@@ -42,23 +42,26 @@ public class ValidateCodeController {
     @ResponseBody
     public Object getCaptchaBase64(HttpServletRequest request, HttpServletResponse response) {
 
-        Map<String, Object> result = new HashMap();
-        Result data = new Result();
+        Map<String, Object> data = new HashMap();
+        Result result = new Result();
 
         try {
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Expire", "0");
+            response.setHeader("Pragma", "no-cache");
+
             ValidateCode validateCode = new ValidateCode();
 
             // 返回base64
             String base64String = validateCode.getRandomCodeBase64(request, response);
-            result.put("url", "data:image/png;base64," + base64String);
-            result.put("message", "created successfull");
-            data.setData(result);
+            data.put("url", "data:image/png;base64," + base64String);
+            result.setData(data);
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return data;
+        return result;
     }
 
 }
