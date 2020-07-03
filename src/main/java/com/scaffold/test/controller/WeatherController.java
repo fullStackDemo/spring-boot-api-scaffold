@@ -61,7 +61,7 @@ public class WeatherController {
     @Scheduled(cron = "0 30 6,8,10,12,14,16,18,20 * * ?")
     @GetMapping("post")
     public void sendMail() throws MessagingException {
-        log.info("-------定时获取发送邮件--------");
+        log.info("-------定时发送邮件--------");
         Context context = new Context();
         // 获取七日天气
         List<Weather> weathers = weatherService.selectAll();
