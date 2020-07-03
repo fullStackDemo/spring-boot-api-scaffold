@@ -1,0 +1,38 @@
+
+server:
+  port: 9001
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: master2011
+  mail:
+    host: smtp.qq.com
+    username: 1498097245@qq.com
+    password: sputxexvxrgoihef
+  resources:
+    static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/,classpath:/files/
+  thymeleaf:
+    enabled: true
+    check-template: true
+    suffix: .html
+    prefix: classpath:/templates/
+
+
+mail:
+  fromMail:
+    addr: alex9012@qq.com
+
+# 日志级别
+logging:
+  level:
+    root: warn
+    com.scaffold.test.mapper: trace
+    com.scaffold.test.task: trace
+
+
+user:
+  export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
+  mac-export: "/Users/wangzhao/work/projects/spring-boot-api-scaffold/src/main/resources/files/"
