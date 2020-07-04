@@ -22,6 +22,6 @@ public class User {
     private Date updateTime;
 
     @TableField(exist = false)
-    private String remark;
+    private String code;
 
 }

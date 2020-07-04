@@ -17,5 +17,7 @@ public interface UserService extends IService<User> {
 
     User findUser(User user);
 
+    // 验证码
+    boolean checkCode(String code);
 
 }

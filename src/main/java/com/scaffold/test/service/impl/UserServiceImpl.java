@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.entity.User;
 import com.scaffold.test.mapper.UserMapper;
 import com.scaffold.test.service.UserService;
+import com.scaffold.test.utils.HttpUtils;
 import com.scaffold.test.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -40,6 +43,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findUser(User user) {
         return userMapper.findUser(user);
+    }
+
+    @Override
+    public boolean checkCode(String code) {
+        HttpSession session = HttpUtils.getSession();
+        String sessionKey =(String) session.getAttribute("RANDOMKEY");
+        return sessionKey.equalsIgnoreCase(code);
     }
 
 }

@@ -1,4 +1,4 @@
-const APIURL = '/';
+const APIURL = './';
 
 window.dataService = {
 
