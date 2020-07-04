@@ -34,8 +34,8 @@
             <div class="weui-cell">
               <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
               <div class="weui-cell__bd">
-                <input id="js_input——code" type="password" class="weui-input" placeholder="请输入验证码">
-                <img class="captchaCode" src="/api/v1/user/getCaptchaImage" />
+                <input id="js_input——code" type="text" class="weui-input" placeholder="请输入验证码">
+                <img onclick="refreshCode()" class="captchaCode" src="/api/v1/user/getCaptchaImage" />
               </div>
             </div>
 

@@ -39,7 +39,15 @@ submitBtn.onclick = () => {
 		} else {
 			weui.topTips(`登录成功，欢迎`);
 			utils.setCookie('token', data.token);
-			// location.href = location.origin + '/home.html';
+			location.href = location.origin + '/home.html';
 		}
 	})
+};
+
+// 刷新code
+const refreshCode = ()=>{
+	let codeNode = document.querySelector(".captchaCode");
+	codeInput.value = '';
+	codeNode.src = '';
+	codeNode.src = '/api/v1/user/getCaptchaImage';
 };
