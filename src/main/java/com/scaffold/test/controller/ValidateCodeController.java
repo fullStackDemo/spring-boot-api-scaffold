@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ValidateCode;
+import com.scaffold.test.config.annotation.PassToken;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class ValidateCodeController {
 
 
     // 生成验证码图片
+    @PassToken
     @RequestMapping("/getCaptchaImage")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) {
 

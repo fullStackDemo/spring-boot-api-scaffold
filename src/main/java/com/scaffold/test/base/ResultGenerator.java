@@ -34,4 +34,11 @@ public class ResultGenerator {
                 .setCode(ResultCode.FAIL)
                 .setMessage(message);
     }
+
+    // 失败
+    public static Result setFailResult(ResultCode code, String message) {
+        return new Result()
+                .setCode(code)
+                .setMessage(message);
+    }
 }

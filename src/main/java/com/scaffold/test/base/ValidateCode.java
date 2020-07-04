@@ -1,5 +1,8 @@
 package com.scaffold.test.base;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,8 @@ import java.util.Base64;
 import java.util.Random;
 
 public class ValidateCode {
+
+    private static final Logger log = LoggerFactory.getLogger(ValidateCode.class);
 
     private static Random random = new Random();
     private int width = 160;// 宽
@@ -70,7 +75,6 @@ public class ValidateCode {
     private String drawString(Graphics g, String randomStr, int i) {
         g.setFont(getFont());
         g.setColor(getRandomColor(108, 190));
-        System.out.println(random.nextInt(randomString.length()));
         String rand = getRandomString(random.nextInt(randomString.length()));
         randomStr += rand;
         g.translate(random.nextInt(3), random.nextInt(6));
@@ -101,7 +105,7 @@ public class ValidateCode {
             random_string = drawString(g, random_string, i);
         }
 
-        System.out.println(random_string);
+        log.info("验证码：" + random_string);
 
         g.dispose();
 
@@ -140,7 +144,7 @@ public class ValidateCode {
             random_string = drawString(g, random_string, i);
         }
 
-        System.out.println(random_string);
+        log.info("验证码：" + random_string);
 
         g.dispose();
 

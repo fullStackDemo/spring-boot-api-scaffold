@@ -48,15 +48,21 @@ public class BaseUtils {
         User user = new User();
         String token = getToken();
         if (!token.equals("null")) {
-            DecodedJWT claims = JWT.decode(token);
-            user.setUserName(claims.getClaim("userName").asString());
-            user.setUserId(claims.getClaim("userId").asString());
+            try {
+                DecodedJWT claims = JWT.decode(token);
+                user.setUserName(claims.getClaim("userName").asString());
+                user.setUserId(claims.getClaim("userId").asString());
+            } catch (Exception e) {
+                return null;
+            }
         }
         return user;
     }
 
     //获取当前用户的id
     public static String getCurrentUserId() {
+        User user = getCurrentUser();
+        if (user == null) return null;
         return getCurrentUser().getUserId();
     }
 

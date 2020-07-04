@@ -98,11 +98,17 @@ public class JWTUtils {
         SecretKey key = generalKey(SECRETKEY + user.getPassword());
 
         // 获取私有声明
-        Claims claims = Jwts.parser()
-                // 设置签名的秘钥
-                .setSigningKey(key)
-                // 设置需要解析的token
-                .parseClaimsJws(token).getBody();
+        Claims claims;
+
+        try {
+            claims = Jwts.parser()
+                    // 设置签名的秘钥
+                    .setSigningKey(key)
+                    // 设置需要解析的token
+                    .parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            return null;
+        }
 
         return claims;
     }
@@ -120,7 +126,18 @@ public class JWTUtils {
         // 获取私有声明的实体
         Claims claims = parseToken(token, user);
 
-        return claims.get("password").equals(user.getPassword());
+        try {
+            // 数据库用户密码
+            String userPassword = user.getPassword();
+
+            // token中获取的用户密码
+            String tokenPassword = (String) claims.get("password");
+
+            return tokenPassword.equals(userPassword);
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
+import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.User;
 import com.scaffold.test.service.UserService;
 import com.scaffold.test.utils.BaseUtils;
@@ -20,6 +21,7 @@ public class UserController {
 
 
     // 注册
+    @PassToken
     @PostMapping("/add")
     public Result addUser(User user) {
         int flag = userService.insertUser(user);
@@ -31,6 +33,7 @@ public class UserController {
     }
 
     // 登录
+    @PassToken
     @PostMapping("/login")
     public Result userLogin(User user) {
         //验证码校验

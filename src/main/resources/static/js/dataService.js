@@ -1,4 +1,4 @@
-const APIURL = './';
+const APIURL = '/';
 
 window.dataService = {
 
@@ -44,17 +44,17 @@ window.dataService = {
 
 	// 注册
 	addUser(params) {
-		return this.post('/api/user/add', params);
+		return this.post('api/user/add', params);
 	},
 
 	// 登录
 	login(params) {
-		return this.post('/api/user/login', params);
+		return this.post('api/user/login', params);
 	},
 
 	// 用户信息
 	getUserInfo(params) {
-		return this.get('/api/user/info', params);
+		return this.get('api/user/info', params);
 	},
 
 };

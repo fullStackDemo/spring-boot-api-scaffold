@@ -4,12 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultCode;
 import com.scaffold.test.base.ServiceException;
+import com.scaffold.test.config.interceptor.AuthenticationInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletException;
@@ -69,7 +72,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
     }
 
+    // 增加拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**");
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
 
+    @Bean
+    public AuthenticationInterceptor authenticationInterceptor() {
+        return new AuthenticationInterceptor();
+    }
 
 
 }
