@@ -58,7 +58,7 @@ public class WeatherController {
     // 定时发送邮件
     @Async
 //    @Scheduled(fixedRate = times)
-    @Scheduled(cron = "0 30 6,8,10,12,14,16,18,20 * * ?")
+    @Scheduled(cron = "0 30 6,12,18 * * ?")
     @GetMapping("post")
     public void sendMail() throws MessagingException {
         log.info("-------定时发送邮件--------");
