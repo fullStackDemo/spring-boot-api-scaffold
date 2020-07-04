@@ -32,6 +32,9 @@ logging:
     com.scaffold.test.mapper: trace
     com.scaffold.test.task: trace
 
+## 开启定时任务
+scheduling:
+  enabled: true
 
 user:
   export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"

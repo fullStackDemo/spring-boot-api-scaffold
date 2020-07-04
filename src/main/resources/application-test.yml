@@ -20,6 +20,9 @@ spring:
     suffix: .html
     prefix: classpath:/templates/
 
+## 开启定时任务
+scheduling:
+  enabled: true
 
 mail:
   fromMail:
