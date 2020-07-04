@@ -4,8 +4,11 @@ import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.User;
 import com.scaffold.test.service.UserService;
+import com.scaffold.test.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/user")
@@ -35,7 +38,9 @@ public class UserController {
         }
         User userInfo = userService.findUser(user);
         if (userInfo != null) {
-            return ResultGenerator.setSuccessResult("登录成功");
+            HashMap<Object, Object> result = new HashMap<>();
+            result.put("token", JWTUtils.createToken(user));
+            return ResultGenerator.setSuccessResult(result);
         } else {
             return ResultGenerator.setFailResult("登录失败, 请检查用户名和密码");
         }

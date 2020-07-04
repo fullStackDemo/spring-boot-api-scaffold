@@ -40,9 +40,9 @@ submitBtn.onclick = () => {
 		userName,
 		password: newPassword,
 	}).then(res => {
-		const {code, data, msg} = res;
-		if (!data) {
-			weui.topTips(msg);
+		const {code, data, message} = res;
+		if (code != 200) {
+			weui.topTips(message);
 		} else {
 			weui.topTips(`注册成功，欢迎 ${data.userName}`);
 			window.location.href = location.origin + '/login.html';

@@ -33,12 +33,13 @@ submitBtn.onclick = () => {
 		code,
 	}).then(res => {
 		const { code, data, message} = res;
+
 		if (code != 200) {
 			weui.topTips(message);
 		} else {
-			weui.topTips(`登录成功，欢迎 ${data.userName}`);
+			weui.topTips(`登录成功，欢迎`);
 			utils.setCookie('token', data.token);
-			location.href = location.origin + '/home.html';
+			// location.href = location.origin + '/home.html';
 		}
 	})
 };

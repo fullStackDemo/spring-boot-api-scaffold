@@ -49,6 +49,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean checkCode(String code) {
         HttpSession session = HttpUtils.getSession();
         String sessionKey =(String) session.getAttribute("RANDOMKEY");
+        if(sessionKey == null){
+            return false;
+        }
         return sessionKey.equalsIgnoreCase(code);
     }
 

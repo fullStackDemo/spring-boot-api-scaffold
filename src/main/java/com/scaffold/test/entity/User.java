@@ -24,4 +24,7 @@ public class User {
     @TableField(exist = false)
     private String code;
 
+    @TableField(exist = false)
+    private String token;
+
 }
