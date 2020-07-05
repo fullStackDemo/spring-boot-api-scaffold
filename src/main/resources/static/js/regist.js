@@ -41,10 +41,11 @@ submitBtn.onclick = () => {
 		password: newPassword,
 	}).then(res => {
 		const {code, data, message} = res;
+		debugger
 		if (code != 200) {
 			weui.topTips(message);
 		} else {
-			weui.topTips(`注册成功，欢迎 ${data.userName}`);
+			weui.topTips(`注册成功，欢迎`);
 			window.location.href = location.origin + '/login.html';
 		}
 	})

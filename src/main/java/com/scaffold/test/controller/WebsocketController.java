@@ -15,6 +15,6 @@ public class WebsocketController {
     @GetMapping("/push/{userId}")
     public Result sendToWeb(@RequestParam String message, @PathVariable String userId) throws IOException {
         WebSocketServer.sendInfo(message, userId);
-        return ResultGenerator.setSuccessResult("发送成");
+        return ResultGenerator.setSuccessResult("发送成功");
     }
 }

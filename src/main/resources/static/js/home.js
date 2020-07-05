@@ -1,6 +1,7 @@
 // 获取相关用户信息
 
 const titleDom = document.querySelector(".weui-form__title");
+const result = document.getElementById("result");
 
 // getUserInfo
 function getUserInfo() {
@@ -27,20 +28,25 @@ const createSocket = (userId) => {
     } else {
         let socketUrl = location.origin + "/websocket/" + userId;
         socketUrl = socketUrl.replace(/http|https/g, 'ws');
-		console.log(socketUrl)
+		console.log(socketUrl);
         if (socket != null) {
             socket.close();
             socket = null;
         }
         socket = new WebSocket(socketUrl);
-        debugger
         // 建立连接
         socket.onopen = () => {
             console.log("建立连接");
+
+            socket.send(JSON.stringify({
+                userId,
+                query: 'onLineNumber'
+            }))
         };
         // 获取消息
         socket.onmessage = message => {
             console.log(message);
+            result.innerText = message.data;
         };
 
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@Component
 @ServerEndpoint("/websocket/{userId}")
 public class WebSocketServer {
 
@@ -20,7 +22,7 @@ public class WebSocketServer {
     // 与客户端的连接会话，通过它来给客户端发送数据
     private Session session;
     // 当前用户id
-    private String userId;
+    private static String userId;
     // 在线人数
     private static int onlineNumber = 0;
 
@@ -39,12 +41,14 @@ public class WebSocketServer {
         if (webSocketMap.containsKey(userId)) {
             // 已存在，先移除再添加
             webSocketMap.remove(userId);
+            webSocketMap.put(userId, this);
         } else {
             // 不存在，直接添加
             webSocketMap.put(userId, this);
             // 增加在线人数
             addOnlineNumber();
-
+            // 通知所有人
+            sendMessageAll("当前连接人数为：" + getOnlineNumber());
         }
 
         log.info("连接用户：" + userId + ",当前连接人数为：" + getOnlineNumber());
@@ -59,6 +63,8 @@ public class WebSocketServer {
         if (webSocketMap.containsKey(userId)) {
             webSocketMap.remove(userId);
             subOnlineNumber();
+            // 通知所有人
+            sendMessageAll("当前连接人数为：" + getOnlineNumber());
         }
         log.info("用户退出：" + userId + ",当前连接人数为：" + getOnlineNumber());
     }
@@ -78,10 +84,15 @@ public class WebSocketServer {
             //解析消息
             JSONObject messageInfo = JSON.parseObject(message);
             String userId = messageInfo.getString("userId");
+            // 用户查询内容
+            String query = messageInfo.getString("query");
             // 验证UserId, 如果存在，发送消息
             if (StringUtils.isNoneBlank(userId) && webSocketMap.containsKey(userId)) {
-                webSocketMap.get(userId).sendMessage(messageInfo.toJSONString());
-
+                String msg = messageInfo.toJSONString();
+                if (query.equals("onLineNumber")) {
+                    msg = "当前在线人数：" + getOnlineNumber();
+                }
+                webSocketMap.get(userId).sendMessage(msg);
             } else {
                 log.error("用户不存在");
             }
@@ -101,6 +112,7 @@ public class WebSocketServer {
     }
 
     /**
+     * 单发消息
      * 服务端向客户端发送消息
      *
      * @param message
@@ -111,6 +123,7 @@ public class WebSocketServer {
     }
 
     /**
+     * 单发消息
      * 发送自定义消息给客户端
      *
      * @param message
@@ -123,6 +136,25 @@ public class WebSocketServer {
             webSocketMap.get(userId).sendMessage(message);
         } else {
             log.error("用户" + userId + "不在线");
+        }
+    }
+
+    /**
+     * 群发消息
+     *
+     * @param message
+     */
+    public static void sendMessageAll(String message) {
+        // 遍历 HashMap
+        for (String key : webSocketMap.keySet()) {
+            // 排除当前连接用户
+            try {
+                if (!key.equals(userId)) {
+                    webSocketMap.get(key).sendMessage(message);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
     }
 
