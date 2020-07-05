@@ -22,7 +22,7 @@ public class WebSocketServer {
     // 与客户端的连接会话，通过它来给客户端发送数据
     private Session session;
     // 当前用户id
-    private static String userId;
+    private String userId;
     // 在线人数
     private static int onlineNumber = 0;
 
@@ -144,12 +144,12 @@ public class WebSocketServer {
      *
      * @param message
      */
-    public static void sendMessageAll(String message) {
+    public void sendMessageAll(String message) {
         // 遍历 HashMap
         for (String key : webSocketMap.keySet()) {
             // 排除当前连接用户
             try {
-                if (!key.equals(userId)) {
+                if (!key.equals(this.userId)) {
                     webSocketMap.get(key).sendMessage(message);
                 }
             } catch (Exception e) {
