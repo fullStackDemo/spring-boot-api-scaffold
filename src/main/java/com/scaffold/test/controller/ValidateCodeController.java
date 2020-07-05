@@ -3,6 +3,7 @@ package com.scaffold.test.controller;
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ValidateCode;
 import com.scaffold.test.config.annotation.PassToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/user")
 public class ValidateCodeController {
@@ -29,6 +31,8 @@ public class ValidateCodeController {
             response.setHeader("Pragma", "no-cache");
 
             ValidateCode validateCode = new ValidateCode();
+
+            log.info("获取验证码图片");
 
             // 直接返回图片
             validateCode.getRandomCodeImage(request, response);

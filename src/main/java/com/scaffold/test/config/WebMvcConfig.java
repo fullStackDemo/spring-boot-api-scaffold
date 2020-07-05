@@ -14,6 +14,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
@@ -75,14 +76,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 增加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/api/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
+    // 开启拦截器
     @Bean
     public AuthenticationInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();
     }
 
+    // 开启WebSocket支持
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter(){
+        return new ServerEndpointExporter();
+    }
 
 }
