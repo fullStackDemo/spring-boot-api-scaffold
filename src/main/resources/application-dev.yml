@@ -1,13 +1,15 @@
-
 server:
   port: 9002
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: admin
-    password: master2011
+    url: ENC(zi7f8wPOxsreXUXM8eC9c01rrmoObqPrSyJVsPXrmBfRDT37vzumClc7rASJ9AP7zZiI6/NJy+DGwkkVRpgj81ritwqs9lW60H8n3uZxc+B5M5OWjy73Gj0qiceco9a4mcpN6ToIibI=)
+    username: ENC(XvZG9opo+YPiXK1bz4mgLw==)
+    password: ENC(iT+geuj4qh+tvJEs91afp2oxqm/s+7O6)
+#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: admin
+#    password: master2011
   mail:
     host: smtp.qq.com
     username: 1498097245@qq.com
@@ -19,6 +21,14 @@ spring:
     check-template: true
     suffix: .html
     prefix: classpath:/templates/
+  # 返回的api接口的配置，全局有效
+  #jackson:
+  #default-property-inclusion: non_null #如果某一个字段为null，就不再返回这个字段
+
+#jasypt加密的密匙
+#jasypt:
+#  encryptor:
+#    password: EbfYkitulv73I2p0mXI50JMXoaxZTKJ7
 
 
 mail:
