@@ -41,7 +41,7 @@ public class ScaffoldApplicationTests {
     }
 
     /**
-     * 强化加密
+     * 强加密
      */
     @Test
     public void getStrongPass() {
