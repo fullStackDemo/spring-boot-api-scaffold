@@ -12,7 +12,7 @@ spring:
     password: ENC(FajQAPAV5Gp7XBHtTXRWkzFD7Ph62aXh)
   mail:
     host: smtp.qq.com
-    username: 1498097245@qq.com
+    username: ENC(bAR1KFvoKJJ8gJgATwSxG245FZ3f0wRX)
     password: sputxexvxrgoihef
   resources:
     static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/,classpath:/files/
@@ -45,7 +45,8 @@ jasypt:
 
 mail:
   fromMail:
-    addr: alex9012@qq.com
+#    addr: alex9012@qq.com
+    addr: ENC(bAR1KFvoKJJ8gJgATwSxG245FZ3f0wRX)
 
 # 日志级别
 logging:
