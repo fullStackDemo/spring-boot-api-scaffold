@@ -5,9 +5,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: admin
-    password: master2011
+#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: admin
+#    password: master2011
+    url: ENC(JZvm5oKaeSDxwJoR0jWimv2oNmIyIXwWmC9Lm9zIWJYfkAVl6jybpozzJfKNK7zWQeA3rXrCf/E5L5h1TMAr/S31/E8bT3I0CseXeNRQBK214upkLYak1VMWZN1Go4iX+1uJ1m7qejY=)
+    username: ENC(1FzsGLpOQVTYXoGi/DE+bQ==)
+    password: ENC(FajQAPAV5Gp7XBHtTXRWkzFD7Ph62aXh)
   mail:
     host: smtp.qq.com
     username: 1498097245@qq.com
@@ -31,7 +34,7 @@ mail:
 # 日志级别
 logging:
   level:
-    root: warn
+    root: info
     com.scaffold.test.mapper: trace
     com.scaffold.test.task: trace
 
