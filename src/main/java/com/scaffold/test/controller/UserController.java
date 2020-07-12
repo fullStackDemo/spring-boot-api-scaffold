@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
+/**
+ * @author wangzhao
+ */
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -20,7 +24,11 @@ public class UserController {
     private UserService userService;
 
 
-    // 注册
+    /**
+     * 注册
+     * @param user 用户信息
+     * @return Result
+     */
     @PassToken
     @PostMapping("/add")
     public Result addUser(User user) {
@@ -32,7 +40,11 @@ public class UserController {
         }
     }
 
-    // 登录
+    /**
+     * 登录
+     * @param user 用户信息
+     * @return Result
+     */
     @PassToken
     @PostMapping("/login")
     public Result userLogin(User user) {
@@ -50,14 +62,21 @@ public class UserController {
         }
     }
 
-    // 获取用户信息
+    /**
+     * 获取用户信息
+     * @return Result
+     */
     @GetMapping("/info")
     public Result getUserInfo(){
         User currentUser = BaseUtils.getCurrentUser();
         return ResultGenerator.setSuccessResult(currentUser);
     }
 
-    // 验证码校验
+    /**
+     * 验证码校验
+     * @param code 验证码
+     * @return Result
+     */
     @GetMapping("/checkCaptcha")
     public Result checkCode(@RequestParam String code) {
         if (userService.checkCode(code)) {
@@ -66,8 +85,6 @@ public class UserController {
             return ResultGenerator.setFailResult("fail");
         }
     }
-
-
 
 
 }
