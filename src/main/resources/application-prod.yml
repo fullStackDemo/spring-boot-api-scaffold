@@ -6,8 +6,10 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(39sDJT+Mg/wraf/IeTmzQA==)
-    password: ENC(IR7ZkosatBtnJWQrKYhe2H5B/gH9lICv)
+#    username: ENC(EsnPDR1GnC0evH0fG5PdhQ==)
+#    password: ENC(ZkwfSs83k4QORSv8W0n7Q7OU5qH8TlkI)
+    username: root
+    password: Master@2011
   mail:
     host: smtp.qq.com
     username: 1498097245@qq.com
@@ -19,6 +21,23 @@ spring:
     check-template: true
     suffix: .html
     prefix: classpath:/templates/
+
+#jasypt加密的密匙
+jasypt:
+  encryptor:
+    # 加密所需的salt(盐)
+    # 加密方式和算法一定要对应一致
+    # BasicTextEncryptor 对应加密方式：PBEWithMD5AndDES，StrongTextEncryptor 对应加密方式： PBEWithMD5AndTripleDES
+    # 部署时配置salt(盐)值 java -jar -Djasypt.encryptor.password=1qaz2wsx3edc -Djasypt.encryptor.algorithm=PBEWithMD5AndDES xxx.jar
+    # 或者在服务器的环境变量里配置,进一步提高安全性
+    # 打开/etc/profile文件 vim /etc/profile
+    # 文件末尾插入 export JASYPT_PASSWORD = SALT
+    # 文件末尾插入 export JASYPT_ALGORITHM = ALGORITHM
+    # 编译 source /etc/profile
+    # 运行 java -jar -Djasypt.encryptor.password=${JASYPT_PASSWORD} -Djasypt.encryptor.algorithm=${JASYPT_ALGORITHM} xxx.jar
+    password: 1qaz2wsx3edc
+    # 默认加密方式PBEWithMD5AndDES,可以更改为PBEWithMD5AndTripleDES
+    algorithm: PBEWithMD5AndTripleDES
 
 
 mail:
