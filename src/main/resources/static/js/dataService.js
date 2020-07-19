@@ -19,7 +19,9 @@ window.dataService = {
 			headers: {
 				token
 			}
-		}).then(res => res.json());
+		}).then(res => {
+			return res.json();
+		});
 	},
 
 	//POST
@@ -39,7 +41,10 @@ window.dataService = {
 				token
 			},
 			body: formData
-		}).then(res => res.json());
+		}).then(res => {
+			console.log(res)
+			return res.json();
+		});
 	},
 
 	// 注册

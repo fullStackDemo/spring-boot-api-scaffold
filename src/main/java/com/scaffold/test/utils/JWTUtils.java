@@ -16,11 +16,15 @@ import java.util.UUID;
 
 public class JWTUtils {
 
-    // 生成签名的时候使用的秘钥secret
+    /**
+     * 生成签名的时候使用的秘钥secret
+     */
     private static final String SECRETKEY = "KJHUhjjJYgYUllVbXhKDHXhkSyHjlNiVkYzWTBac1Yxkjhuad";
 
-    // expirationDate 生成jwt的有效期，单位秒
-    private static final long expirationDate = 2 * 60 * 60;
+    /**
+     * expirationDate 生成jwt的有效期，单位秒
+     */
+    private static final long EXPIRATION_DATE = 2 * 60 * 60;
 
 
     /**
@@ -79,8 +83,8 @@ public class JWTUtils {
                 // 设置签名使用的签名算法和签名使用的秘钥
                 .signWith(signatureAlgorithm, key);
 
-        if (expirationDate >= 0) {
-            long expMillis = nowMillis + expirationDate * 1000;
+        if (EXPIRATION_DATE >= 0) {
+            long expMillis = nowMillis + EXPIRATION_DATE * 1000;
             Date exp = new Date(expMillis);
             builder.setExpiration(exp);
         }

@@ -5,10 +5,12 @@ const result = document.getElementById("result");
 
 // getUserInfo
 function getUserInfo() {
-    dataService.getUserInfo({
-        // token: utils.getCookie('token')
-    }).then(res => {
-        const {data} = res;
+    dataService.getUserInfo().then(res => {
+        const {code, data} = res;
+        if (code === 401) {
+            location.href = location.origin + "/login.html";
+            return;
+        }
         if (data) {
             titleDom.innerHTML = 'Hello ' + data.userName + ', 欢迎登录追梦空间';
             createSocket(data.userId)
@@ -28,7 +30,7 @@ const createSocket = (userId) => {
     } else {
         let socketUrl = location.origin + "/websocket/" + userId;
         socketUrl = socketUrl.replace(/http|https/g, 'ws');
-		console.log(socketUrl);
+        console.log(socketUrl);
         if (socket != null) {
             socket.close();
             socket = null;

@@ -15,7 +15,9 @@ public class BaseUtils {
     public static Map<String, Object> getHeaders() {
         HttpServletRequest request = HttpUtils.getRequest();
 
-        if (request == null) return null;
+        if (request == null) {
+            return null;
+        }
 
         HashMap<String, Object> headerInfo = new HashMap<>();
 
@@ -62,7 +64,9 @@ public class BaseUtils {
     //获取当前用户的id
     public static String getCurrentUserId() {
         User user = getCurrentUser();
-        if (user == null) return null;
+        if (user == null) {
+            return null;
+        }
         return getCurrentUser().getUserId();
     }
 
