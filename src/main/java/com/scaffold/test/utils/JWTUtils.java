@@ -56,7 +56,6 @@ public class JWTUtils {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
         claims.put("userName", user.getUserName());
-        claims.put("password", user.getPassword());
 
         // 生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了
         SecretKey key = generalKey(SECRETKEY + user.getPassword());
@@ -104,6 +103,10 @@ public class JWTUtils {
         // 获取私有声明
         Claims claims;
 
+        /*
+         * token 如果过期了，得不到Claims
+         */
+
         try {
             claims = Jwts.parser()
                     // 设置签名的秘钥
@@ -130,13 +133,13 @@ public class JWTUtils {
         Claims claims = parseToken(token, user);
 
         try {
-            // 数据库用户密码
-            String userPassword = user.getPassword();
+            // 数据库用户
+            String userName = user.getUserName();
 
-            // token中获取的用户密码
-            String tokenPassword = (String) claims.get("password");
+            // token中用户
+            String tokenUserName = (String) claims.get("userName");
 
-            return tokenPassword.equals(userPassword);
+            return tokenUserName.equals(userName);
         } catch (Exception e) {
             return false;
         }

@@ -75,7 +75,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        //jwt再次校验密码
+        //jwt再次校验
         Boolean verify = JWTUtils.verify(token, user);
         if(!verify){
             Result result = ResultGenerator.setFailResult(ResultCode.UNAUTHORIZED, "非法访问,请重新登录");
