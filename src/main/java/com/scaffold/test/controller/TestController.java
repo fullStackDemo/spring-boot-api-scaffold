@@ -1,6 +1,8 @@
 package com.scaffold.test.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.Test;
 import com.scaffold.test.entity.TestList;
 import org.slf4j.Logger;
@@ -8,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,16 +33,27 @@ public class TestController {
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
     @GetMapping("/get")
-    public Object testGet(@RequestParam String name, @RequestParam int age) {
+    @PassToken
+    public void testGet(@RequestParam String name, @RequestParam int age, String callback, HttpServletResponse response) throws IOException {
         Map<String, Object> result = new HashMap<>();
         // 数据处理
         result.put("name", name);
         result.put("age", age);
-        return result;
+
+        if ("jsonp".equals(callback)) {
+            PrintWriter outputStream = response.getWriter();
+            String json = new ObjectMapper().writeValueAsString(result);
+            log.info(json);
+            outputStream.write(json);
+            outputStream.flush();
+            outputStream.close();
+        }
+
+//        return result;
     }
 
     @GetMapping("/get2")
-    public Object testGet2(@RequestParam Map<String,Object> params) {
+    public Object testGet2(@RequestParam Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         // 数据处理
         result.put("name", params.get("name"));
