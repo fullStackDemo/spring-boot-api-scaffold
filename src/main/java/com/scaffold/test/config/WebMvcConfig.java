@@ -21,12 +21,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author alex
+ */
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
 
-    // 统一异常处理
+    /**
+     * 统一异常处理
+     * @param exceptionResolvers
+     */
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
         exceptionResolvers.add((request, response, handler, e) -> {

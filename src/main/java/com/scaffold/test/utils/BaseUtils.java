@@ -35,7 +35,9 @@ public class BaseUtils {
     public static String getHeader(String key) {
         HttpServletRequest request = HttpUtils.getRequest();
 
-        if (request == null) return null;
+        if (request == null) {
+            return null;
+        }
 
         return request.getHeader(key);
     }

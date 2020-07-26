@@ -5,7 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// 是否跳过token验证
+/**
+ * 是否跳过token验证
+ * @author alex
+ */
+
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PassToken {

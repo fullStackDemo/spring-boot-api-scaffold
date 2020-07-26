@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 
 /**
  * 拦截器
+ * @author alex
  */
 
 public class AuthenticationInterceptor implements HandlerInterceptor {
