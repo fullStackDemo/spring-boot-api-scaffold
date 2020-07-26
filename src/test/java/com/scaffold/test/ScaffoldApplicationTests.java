@@ -16,7 +16,7 @@ public class ScaffoldApplicationTests {
 
     String dataSourceUserName = "root";
 
-    String dataSourcePassword = "";
+    String dataSourcePassword = "Master@2011";
 
     /**
      * 基础加密

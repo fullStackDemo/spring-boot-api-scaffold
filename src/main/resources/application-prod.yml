@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-#    username: ENC(EsnPDR1GnC0evH0fG5PdhQ==)
-#    password: ENC(ZkwfSs83k4QORSv8W0n7Q7OU5qH8TlkI)
+#    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
+#    password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
     username: root
     password: Master@2011
   mail:

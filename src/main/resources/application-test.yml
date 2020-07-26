@@ -9,8 +9,8 @@ spring:
 #    username: admin
 #    password: master2011
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(39sDJT+Mg/wraf/IeTmzQA==)
-    password: ENC(IR7ZkosatBtnJWQrKYhe2H5B/gH9lICv)
+    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
+    password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
   mail:
     host: smtp.qq.com
     username: 1498097245@qq.com

@@ -4,12 +4,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
 #    username: admin
 #    password: master2011
-#    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(39sDJT+Mg/wraf/IeTmzQA==)
-    password: ENC(IR7ZkosatBtnJWQrKYhe2H5B/gH9lICv)
+    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
+    password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
   mail:
     host: smtp.qq.com
     username: ENC(bAR1KFvoKJJ8gJgATwSxG245FZ3f0wRX)
