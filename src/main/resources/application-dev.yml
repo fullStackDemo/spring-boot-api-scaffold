@@ -4,10 +4,10 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
 #    username: admin
 #    password: master2011
-    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
     password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
   mail:
@@ -24,6 +24,12 @@ spring:
   # 返回的api接口的配置，全局有效
   #jackson:
   #default-property-inclusion: non_null #如果某一个字段为null，就不再返回这个字段
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 10000
+
 
 #jasypt加密的密匙
 jasypt:

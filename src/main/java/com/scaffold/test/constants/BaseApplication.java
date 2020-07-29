@@ -21,17 +21,14 @@ public class BaseApplication {
     @Value("${user.mac-export}")
     private String macExportPath;
 
-//    @Value("${spring.datasource.url}")
-//    String dataSourceUrl;
-//
-//    @Value("${spring.datasource.username}")
-//    String dataSourceUserName;
-//
-//    @Value("${spring.datasource.password}")
-//    String dataSourcePassword;
-//
-//    @Value("${spring.datasource.driver-class-name}")
-//    String dataSourceDriverClassName;
+    @Value("${spring.redis.host}")
+    String redisHost;
+
+    @Value("${spring.redis.port}")
+    String redisPort;
+
+    @Value("${spring.redis.password}")
+    String redisPassword;
 
     // 邮件发送者地址
     @Value("${mail.fromMail.addr}")

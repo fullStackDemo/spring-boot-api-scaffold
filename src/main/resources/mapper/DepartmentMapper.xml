@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.DepartmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.Department">
+        <id column="id" property="id"/>
+        <result column="dep_id" property="depId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dep_name" property="depName"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="yn" property="yn"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dep_id, parent_id, dep_name, remark, create_time, update_time, yn
+    </sql>
+
+    <insert id="insertDepartment">
+        replace into department
+            (dep_id, parent_id, dep_name, remark, yn)
+        values (#{depId}, #{parentId}, #{depName}, #{remark}, #{yn})
+    </insert>
+
+</mapper>
