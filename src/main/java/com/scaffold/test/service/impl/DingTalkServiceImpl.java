@@ -16,8 +16,8 @@ import java.util.List;
 public class DingTalkServiceImpl implements DingTalkService {
 
 
-    private String appkey = "dinguptggq6lgpjscg3s";
-    private String appsecret = "rVPMi9pJGxThheauuluTacAaynIuXHOJ5kAdZDb5sj1P4FrhB7JQ_R3x74UeAcOe";
+    private String appkey = "dingupt45t4o5lg33pjscg3s";
+    private String appsecret = "rVPMi9pJGxThheauul45uTacAay5ty5kAdZDb5sj1P4FrhB7JQ_R3x74UeAcOe";
 
     @Override
     public String getAccessToken() {

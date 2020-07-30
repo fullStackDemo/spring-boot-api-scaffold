@@ -21,6 +21,11 @@ spring:
     check-template: true
     suffix: .html
     prefix: classpath:/templates/
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: master2011
+    timeout: 10000
 
 #jasypt加密的密匙
 jasypt:
