@@ -183,15 +183,20 @@
         </dependency>
 
         <!-- 钉钉SDK -->
+<!--        <dependency>-->
+<!--            <groupId>com.taobao.sdk</groupId>-->
+<!--            <artifactId>dingtalk</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.taobao.sdk</groupId>-->
+<!--            <artifactId>dingtalk-source</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.taobao.sdk</groupId>
-            <artifactId>dingtalk</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.taobao.sdk</groupId>
-            <artifactId>dingtalk-source</artifactId>
-            <version>1.0.0</version>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
         <!-- redis -->
@@ -207,24 +212,27 @@
             <version>0.1.0</version>
         </dependency>
 
-
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus Staging</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                    <excludes>
-                        <exclude>com.scaffold.test.ScaffoldApplicationTests</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>

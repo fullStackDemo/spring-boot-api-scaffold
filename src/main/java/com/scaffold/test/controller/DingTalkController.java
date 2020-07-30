@@ -24,7 +24,7 @@ public class DingTalkController {
     @PassToken
     @GetMapping("sync")
     public Object syncData() {
-        List<OapiDepartmentListResponse.Department> deptList = dingTalkService.getDeptList("10086");
+        List<OapiDepartmentListResponse.Department> deptList = dingTalkService.getDeptList("1");
         for (OapiDepartmentListResponse.Department dept: deptList) {
             Department department = new Department();
             department.setDepId(dept.getId());

@@ -16,8 +16,8 @@ import java.util.List;
 public class DingTalkServiceImpl implements DingTalkService {
 
 
-    private String appkey = "dingupt45t4o5lg33pjscg3s";
-    private String appsecret = "rVPMi9pJGxThheauul45uTacAay5ty5kAdZDb5sj1P4FrhB7JQ_R3x74UeAcOe";
+    private String appkey = "dinguptg454gq6tcg3s";
+    private String appsecret = "rVPMi9pJGxThhe22IuXHOJ5kAdZDb5sj1P4FrhB7JQ_R3x74UeAcOe";
 
     @Override
     public String getAccessToken() {
@@ -30,7 +30,7 @@ public class DingTalkServiceImpl implements DingTalkService {
         try {
             OapiGettokenResponse response = client.execute(request);
             accessToken = response.getAccessToken();
-            log.info("获取accessToken", accessToken);
+            log.info("获取accessToken=" +  accessToken);
         } catch (Exception e) {
             e.printStackTrace();
         }
