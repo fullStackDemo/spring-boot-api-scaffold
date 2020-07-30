@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.entity.Weather;
 import com.scaffold.test.mapper.WeatherMapper;
 import com.scaffold.test.service.WeatherService;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,6 +24,8 @@ import java.util.List;
  * @author alex wong
  * @since 2020-06-18
  */
+
+@Slf4j
 @Service
 public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> implements WeatherService {
 
@@ -64,6 +67,7 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
             weather.setDate(date);
             weather.setMax(maxTem);
             weather.setMin(minTem);
+            log.info(weather.toString());
             weathers.add(weather);
         }
 
@@ -83,8 +87,14 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
     // 获取对应日期
     public String getDate(String day) {
         Date date = new Date();
+        int today = date.getDate();
+        int currentMonth = date.getMonth();
         //格式日期
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // 进入下一月
+        if (today > Integer.parseInt(day)) {
+            date.setMonth(currentMonth + 1);
+        }
         date.setDate(Integer.parseInt(day));
         return dateFormat.format(date);
     }
