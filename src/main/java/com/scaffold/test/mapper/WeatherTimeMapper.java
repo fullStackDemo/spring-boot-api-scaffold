@@ -1,7 +1,7 @@
 package com.scaffold.test.mapper;
 
-import com.scaffold.test.entity.WeatherTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.scaffold.test.entity.WeatherTime;
 
 /**
  * <p>
@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-07-31
  */
 public interface WeatherTimeMapper extends BaseMapper<WeatherTime> {
+
+    void insertTime(WeatherTime weatherTime);
 
 }

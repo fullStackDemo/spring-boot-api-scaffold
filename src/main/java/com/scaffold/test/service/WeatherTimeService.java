@@ -1,7 +1,10 @@
 package com.scaffold.test.service;
 
-import com.scaffold.test.entity.WeatherTime;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scaffold.test.entity.WeatherTime;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WeatherTimeService extends IService<WeatherTime> {
 
+    List<WeatherTime> getSevenDayTime(JSONObject day7Data);
 }

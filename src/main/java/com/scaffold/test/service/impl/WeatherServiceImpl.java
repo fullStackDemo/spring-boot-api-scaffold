@@ -64,9 +64,6 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
             }
             // 获取今天分时间天气
             int currentDay = new Date().getDate();
-            if (currentDay == Integer.parseInt(day)) {
-                Element curve = document.getElementById("curve");
-            }
 
             weather.setName(name);
             weather.setStatus(status);

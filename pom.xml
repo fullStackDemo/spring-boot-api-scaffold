@@ -137,11 +137,24 @@
             <version>3.2.14</version>
         </dependency>
 
-        <!-- HTML解析器 -->
+        <!-- HTML解析器-静态页面 -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.10.3</version>
+        </dependency>
+
+        <!-- HTML解析器-动态页面 -->
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.33</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
         </dependency>
 
         <!--  excel 导出-->
@@ -182,17 +195,7 @@
             <version>2.1.0</version>
         </dependency>
 
-        <!-- 钉钉SDK -->
-<!--        <dependency>-->
-<!--            <groupId>com.taobao.sdk</groupId>-->
-<!--            <artifactId>dingtalk</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.taobao.sdk</groupId>-->
-<!--            <artifactId>dingtalk-source</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
+        <!-- SDK -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>alibaba-dingtalk-service-sdk</artifactId>

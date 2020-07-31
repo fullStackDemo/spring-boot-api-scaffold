@@ -1,13 +1,16 @@
 package com.scaffold.test.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author alex wong
@@ -17,9 +20,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class WeatherTime implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-      private Integer id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 天气状态
@@ -35,6 +39,15 @@ public class WeatherTime implements Serializable {
      * 时刻
      */
     private String time;
+    /**
+     * 日期
+     */
+    private String date;
+
+    /**
+     * 标记
+     */
+    private String flag;
 
     /**
      * 创建时间
@@ -45,6 +58,5 @@ public class WeatherTime implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
 
 }
