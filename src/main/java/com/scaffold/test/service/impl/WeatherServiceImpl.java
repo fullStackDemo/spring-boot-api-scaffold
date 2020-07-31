@@ -62,13 +62,21 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
                 maxTem = tem.split("\\D{1,2}")[0];
                 minTem = tem.split("\\D{1,2}")[0];
             }
+            // 获取今天分时间天气
+            int currentDay = new Date().getDate();
+            if (currentDay == Integer.parseInt(day)) {
+                Element curve = document.getElementById("curve");
+            }
+
             weather.setName(name);
             weather.setStatus(status);
             weather.setDate(date);
             weather.setMax(maxTem);
             weather.setMin(minTem);
-            log.info(weather.toString());
-            weathers.add(weather);
+            // 不查询历史数据
+            if (currentDay >= Integer.parseInt(day)) {
+                weathers.add(weather);
+            }
         }
 
         // 插入数据库

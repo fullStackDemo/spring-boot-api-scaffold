@@ -6,7 +6,6 @@ import com.scaffold.test.entity.Department;
 import com.scaffold.test.service.DepartmentService;
 import com.scaffold.test.service.DingTalkService;
 import lombok.extern.slf4j.Slf4j;
-import main.java.com.scaffold.test.service.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +28,8 @@ public class DingTalkController {
     public Object syncData() {
         List<OapiDepartmentListResponse.Department> deptList = dingTalkService.getDeptList("1");
 
-        RedisUtils redisUtils = new RedisUtils();
-        log.warn(redisUtils.get("test"));
+//        RedisUtils redisUtils = new RedisUtils();
+//        log.warn(redisUtils.get("test"));
 
         if (deptList == null) {
             return null;
