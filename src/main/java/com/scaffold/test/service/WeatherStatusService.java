@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WeatherStatusService extends IService<WeatherStatus> {
 
+    void insertStatus();
+
 }

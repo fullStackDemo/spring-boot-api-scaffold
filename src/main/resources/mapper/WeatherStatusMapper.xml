@@ -16,5 +16,10 @@
     <sql id="Base_Column_List">
         id, name, value, icon, create_time, update_time
     </sql>
+    <insert id="insertStatus">
+        replace into weather_status
+            (name, value, icon)
+        values (#{name}, #{value}, #{icon})
+    </insert>
 
 </mapper>
