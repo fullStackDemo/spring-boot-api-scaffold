@@ -3,6 +3,8 @@ package com.scaffold.test.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.scaffold.test.entity.WeatherTime;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -14,5 +16,7 @@ import com.scaffold.test.entity.WeatherTime;
 public interface WeatherTimeMapper extends BaseMapper<WeatherTime> {
 
     void insertTime(WeatherTime weatherTime);
+
+    List<WeatherTime> findTimeByDate(String date);
 
 }

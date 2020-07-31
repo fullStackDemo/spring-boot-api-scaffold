@@ -25,4 +25,11 @@
         values (#{date}, #{time}, #{status}, #{temp}, #{flag})
     </insert>
 
+    <select id="findTimeByDate" resultType="com.scaffold.test.entity.WeatherTime">
+        select
+        <include refid="Base_Column_List"></include>
+        from weather_time
+        where date = #{date}
+    </select>
+
 </mapper>

@@ -35,6 +35,7 @@ public class WeatherTimeServiceImpl extends ServiceImpl<WeatherTimeMapper, Weath
     @Override
     public List<WeatherTime> getSevenDayTime(JSONObject day7Data) {
         // 获取分时数据
+        log.info("-------------获取分时数据---------------");
         JSONArray hourData = (JSONArray) day7Data.get("7d");
         List<WeatherTime> weatherTimeList = new ArrayList<>();
         hourData.forEach(arr -> {
@@ -76,6 +77,10 @@ public class WeatherTimeServiceImpl extends ServiceImpl<WeatherTimeMapper, Weath
         return weatherTimeList;
     }
 
+    @Override
+    public List<WeatherTime> getCurrentDateTime(String date) {
+        return weatherTimeMapper.findTimeByDate(date);
+    }
 
     // 获取对应日期
     public String getDate(String day) {

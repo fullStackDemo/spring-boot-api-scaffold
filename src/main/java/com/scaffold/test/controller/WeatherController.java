@@ -4,6 +4,7 @@ package com.scaffold.test.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
+import com.scaffold.test.entity.WeatherTime;
 import com.scaffold.test.service.MailService;
 import com.scaffold.test.service.WeatherService;
 import com.scaffold.test.service.WeatherTimeService;
@@ -132,8 +133,12 @@ public class WeatherController {
         Context context = new Context();
         // 获取七日天气
         List<Weather> weathers = weatherService.selectAll();
+
+        // 获取当天的分时数据
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        List<WeatherTime> weatherTimeList = weatherTimeService.getCurrentDateTime(currentDate);
+        context.setVariable("weatherTimeList", weatherTimeList);
         context.setVariable("resultList", weathers);
-//        String emailTemplate = templateEngine.process("weatherTemplate", context);
         String emailTemplate = templateEngine.process("weather", context);
 
         //获取当前时间
@@ -141,12 +146,12 @@ public class WeatherController {
         String currentTime = simpleDateFormat.format(new Date());
 
         // 邮件发送, 多人接收
-        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
-//        String[] addressList = {"1498097245@qq.com"};
+//        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
+        String[] addressList = {"1498097245@qq.com"};
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);
-            mail.setSubject("天气预报-贴心管家" + currentTime);
+            mail.setSubject("天气小管家" + currentTime);
             mail.setContent(emailTemplate);
             mailService.sendHtmlMail(mail);
         }

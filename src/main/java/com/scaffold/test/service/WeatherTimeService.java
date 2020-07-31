@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author alex wong
@@ -16,5 +16,19 @@ import java.util.List;
  */
 public interface WeatherTimeService extends IService<WeatherTime> {
 
+    /**
+     * 获取七日分时数据
+     *
+     * @param day7Data
+     * @return
+     */
     List<WeatherTime> getSevenDayTime(JSONObject day7Data);
+
+    /**
+     * 获取当前日期下分时数据
+     *
+     * @param date
+     * @return
+     */
+    List<WeatherTime> getCurrentDateTime(String date);
 }
