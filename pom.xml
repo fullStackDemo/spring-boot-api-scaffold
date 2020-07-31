@@ -200,11 +200,17 @@
             <groupId>com.taobao.sdk</groupId>
             <artifactId>dingtalk</artifactId>
             <version>1.0.0</version>
+            <!--  本地依赖 -->
+            <scope>system</scope>
+            <systemPath>F:/project/spring-boot-api-scaffold/lib/test.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.taobao.sdk</groupId>
             <artifactId>dingtalk-source</artifactId>
             <version>1.0.0</version>
+            <!--  本地依赖 -->
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/test-source.jar</systemPath>
         </dependency>
 
         <!-- redis -->
@@ -223,12 +229,15 @@
     </dependencies>
 
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--  本地依赖 -->
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>
