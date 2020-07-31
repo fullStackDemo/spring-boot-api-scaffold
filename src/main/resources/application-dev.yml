@@ -87,7 +87,8 @@ user:
 
 
 project:
-  basedir: "F:/project/spring-boot-api-scaffold"
+#  basedir: "F:/project/spring-boot-api-scaffold"
+  basedir: "/Users/wangzhao/work/projects/spring-boot-api-scaffold"
 
 
 # 拉易网

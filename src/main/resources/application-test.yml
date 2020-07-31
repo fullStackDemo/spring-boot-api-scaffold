@@ -49,4 +49,5 @@ user:
   mac-export: "/Users/wangzhao/work/projects/spring-boot-api-scaffold/src/main/resources/files/"
 
 project:
-  basedir: "F:/project/spring-boot-api-scaffold"
+  #  basedir: "F:/project/spring-boot-api-scaffold"
+  basedir: "/Users/wangzhao/work/projects/spring-boot-api-scaffold"

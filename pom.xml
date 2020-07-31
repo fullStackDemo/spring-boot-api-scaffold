@@ -202,7 +202,7 @@
             <version>1.0.0</version>
             <!--  本地依赖 -->
             <scope>system</scope>
-            <systemPath>F:/project/spring-boot-api-scaffold/lib/test.jar</systemPath>
+            <systemPath>${project.basedir}/lib/test.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.taobao.sdk</groupId>
