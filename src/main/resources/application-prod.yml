@@ -63,3 +63,6 @@ scheduling:
 user:
   export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"
   mac-export: "/Users/wangzhao/work/projects/spring-boot-api-scaffold/src/main/resources/files/"
+
+project:
+  basedir: "F:/project/spring-boot-api-scaffold"
