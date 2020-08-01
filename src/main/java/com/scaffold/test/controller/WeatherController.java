@@ -8,6 +8,7 @@ import com.scaffold.test.entity.WeatherTime;
 import com.scaffold.test.service.MailService;
 import com.scaffold.test.service.WeatherService;
 import com.scaffold.test.service.WeatherTimeService;
+import com.scaffold.test.utils.SystemUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -134,10 +135,30 @@ public class WeatherController {
         List<Weather> weathers = weatherService.selectAll();
 
         // 获取当天的分时数据
-        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String currentDate = SystemUtils.getDateFromToday(0);
+        String currentDateNext = SystemUtils.getDateFromToday(1);
+        String currentDateNext2 = SystemUtils.getDateFromToday(2);
         List<WeatherTime> weatherTimeList = weatherTimeService.getCurrentDateTime(currentDate);
-        context.setVariable("weatherTimeList", weatherTimeList);
+        // 获取当天天气状况ICON
+        String todayStatusIcon = "";
+        for (Weather weather : weathers) {
+            String date = weather.getDate();
+            if (date.equals(currentDate)) {
+                todayStatusIcon = weather.getIcon();
+                weather.setDate("今天");
+            } else if (date.equals(currentDateNext)) {
+                weather.setDate("明天");
+            } else if (date.equals(currentDateNext2)) {
+                weather.setDate("后天");
+            }
+            weather.setWeek(SystemUtils.getWeek(date));
+        }
+        // 七日天气
         context.setVariable("resultList", weathers);
+        // 今日分时天气
+        context.setVariable("weatherTimeList", weatherTimeList);
+        // 今天天气状况图标
+        context.setVariable("todayStatusIcon", todayStatusIcon);
         String emailTemplate = templateEngine.process("weather", context);
 
         //获取当前时间

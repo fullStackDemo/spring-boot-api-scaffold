@@ -5,3 +5,4 @@ target/*
 .DS_Store
 test.iml
 mp.iml
+src/.DS_Store
