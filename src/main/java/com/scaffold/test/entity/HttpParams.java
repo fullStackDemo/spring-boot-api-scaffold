@@ -2,6 +2,8 @@ package com.scaffold.test.entity;
 
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * HTTP请求参数实体
  * @author alex
@@ -23,12 +25,12 @@ public class HttpParams {
     /**
      * 请求头信息
      */
-    private Object requestHeader;
+    private Map<String, Object> requestHeader;
 
     /**
      * 请求参数
      */
-    private Object requestParams;
+    private Map<String, Object> requestParams;
 
     /**
      * 请求参数类型

@@ -1,11 +1,11 @@
 package com.scaffold.test.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.scaffold.test.entity.HttpParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -15,6 +15,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.Map;
 
 /**
  * @author alex
@@ -64,25 +66,46 @@ public class HttpUtils {
     /**
      * POST
      */
-    public static Object post(HttpParams httpParams) {
+    public static String post(HttpParams httpParams) {
 
         // 创建HTTP客户端
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         // POST
         HttpPost httpPost = new HttpPost(httpParams.getRequestUrl());
         // 请求头
-        JSONObject requestHeader = (JSONObject) httpParams.getRequestHeader();
+        Map<String, Object> requestHeader = httpParams.getRequestHeader();
         httpPost.setHeader("Token", (String) requestHeader.get("token"));
         // 响应
         CloseableHttpResponse response = null;
-
+        String responseData = null;
+        // 请求参数
+        Map<String, Object> requestParams = httpParams.getRequestParams();
+        // 参数类型
+        String requestParamsType = httpParams.getRequestParamsType();
+        // post请求是将参数放在请求体里面传过去的;这里将entity放入post请求体中
+        HttpEntity httpEntity;
+        if (requestParamsType != null) {
+            switch (requestParamsType) {
+                case "formData":
+                    // 创建参数队列
+                    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                    builder.addBinaryBody("file", (File) requestParams.get("file"));
+                    builder.addTextBody("timestamp", String.valueOf(requestParams.get("timestamp")));
+                    builder.addTextBody("upload_token", String.valueOf(requestParams.get("upload_token")));
+                    httpEntity = builder.build();
+                    httpPost.setEntity(httpEntity);
+                    break;
+                default:
+                    break;
+            }
+        }
         try {
             // 客户端执行请求
             response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 // 从响应中获取响应实体
                 HttpEntity entity = response.getEntity();
-                return EntityUtils.toString(entity, "utf-8");
+                responseData = EntityUtils.toString(entity, "utf-8");
             }
 
         } catch (Exception e) {
@@ -98,7 +121,7 @@ public class HttpUtils {
             }
         }
 
-        return response;
+        return responseData;
     }
 
 }

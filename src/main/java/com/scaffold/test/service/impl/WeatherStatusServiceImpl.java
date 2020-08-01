@@ -1,12 +1,16 @@
 package com.scaffold.test.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.WeatherStatus;
 import com.scaffold.test.mapper.WeatherStatusMapper;
 import com.scaffold.test.service.WeatherStatusService;
+import com.scaffold.test.utils.DragEasyUtils;
+import com.scaffold.test.utils.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,9 @@ public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, W
     @Autowired
     WeatherStatusMapper weatherStatusMapper;
 
+    @Autowired
+    private BaseApplication baseApplication;
+
     @Override
     public void insertStatus() {
         // 天气
@@ -31,12 +38,21 @@ public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, W
         String[] statusValues = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"};
 
         List<WeatherStatus> weatherStatusList = new ArrayList<>();
+        // icon 文件路径
+        String iconFolderPath = baseApplication.getIconPath();
+        // 判断环境
+        if (SystemUtils.isMac()) {
+            iconFolderPath = baseApplication.getMacIconPath();
+        }
 
         for (int i = 0; i < statusNames.length; i++) {
             WeatherStatus weatherStatus = new WeatherStatus();
             weatherStatus.setName(statusNames[i]);
             weatherStatus.setValue(statusValues[i]);
-            weatherStatus.setIcon("");
+            // 上传图床
+            String iconPath = iconFolderPath + "/weather/" + statusNames[i] + ".png";
+            String iconUrl = DragEasyUtils.getIconUrl(new File(iconPath));
+            weatherStatus.setIcon(iconUrl);
             weatherStatusList.add(weatherStatus);
         }
 

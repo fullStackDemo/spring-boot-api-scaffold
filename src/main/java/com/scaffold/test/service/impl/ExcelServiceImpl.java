@@ -4,6 +4,7 @@ import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Student;
 import com.scaffold.test.service.ExcelService;
 import com.scaffold.test.utils.ExcelUtils;
+import com.scaffold.test.utils.SystemUtils;
 import com.scaffold.test.utils.UUIDUtils;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
@@ -61,7 +62,7 @@ public class ExcelServiceImpl implements ExcelService {
         String fileName = UUIDUtils.getUUID() + excelSuffix;
         String folderPath = baseApplication.getExportPath();
         // mac
-        if (!System.getProperty("os.name").contains("Window")) {
+        if (SystemUtils.isMac()) {
             folderPath = baseApplication.getMacExportPath();
         }
         ExcelUtils.createExcel(fileName, folderPath, workbook, response);
