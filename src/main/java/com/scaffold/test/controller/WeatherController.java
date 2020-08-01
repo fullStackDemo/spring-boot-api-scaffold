@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
 import com.scaffold.test.entity.WeatherTime;
@@ -47,6 +48,9 @@ public class WeatherController {
 
     @Autowired
     private WeatherTimeService weatherTimeService;
+
+    @Autowired
+    private BaseApplication baseApplication;
 
     // 定时获取七日天气数据
     @Async
@@ -167,7 +171,7 @@ public class WeatherController {
 
         // 邮件发送, 多人接收
 //        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
-        String[] addressList = {"1498097245@qq.com"};
+        String[] addressList = baseApplication.getMailRecipient().split(",");
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);

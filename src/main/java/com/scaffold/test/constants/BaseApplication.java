@@ -64,5 +64,11 @@ public class BaseApplication {
     @Value("${mail.fromMail.addr}")
     String mailSenderAddr;
 
+    /**
+     * 邮件接受者
+     */
+    @Value("${mail.recipient}")
+    String mailRecipient;
+
 
 }

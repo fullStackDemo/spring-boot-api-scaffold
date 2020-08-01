@@ -33,6 +33,7 @@ scheduling:
   enabled: true
 
 mail:
+  recipient: "1498097245@qq.com,749856591@qq.com"
   fromMail:
     addr: alex9012@qq.com
 
