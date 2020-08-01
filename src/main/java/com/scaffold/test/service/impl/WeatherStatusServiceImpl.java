@@ -7,6 +7,7 @@ import com.scaffold.test.mapper.WeatherStatusMapper;
 import com.scaffold.test.service.WeatherStatusService;
 import com.scaffold.test.utils.DragEasyUtils;
 import com.scaffold.test.utils.SystemUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ import java.util.List;
  * @author alex wong
  * @since 2020-07-31
  */
+
+@Slf4j
 @Service
 public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, WeatherStatus> implements WeatherStatusService {
 
@@ -55,6 +58,8 @@ public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, W
             weatherStatus.setIcon(iconUrl);
             weatherStatusList.add(weatherStatus);
         }
+
+        log.info("-----图片上传完成------");
 
         for (WeatherStatus weatherStatus : weatherStatusList) {
             weatherStatusMapper.insertStatus(weatherStatus);

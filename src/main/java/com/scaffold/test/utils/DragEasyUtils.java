@@ -65,7 +65,7 @@ public class DragEasyUtils {
         String iconUrl = null;
         try {
             // 延迟，否则连接容易被拒绝
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             String response = HttpUtils.post(httpParams);
             JSONObject data = JSONObject.parseObject(response);
             iconUrl = data.getString("path");

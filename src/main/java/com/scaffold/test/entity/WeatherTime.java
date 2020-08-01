@@ -1,9 +1,11 @@
 package com.scaffold.test.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -39,10 +41,17 @@ public class WeatherTime implements Serializable {
      * 时刻
      */
     private String time;
+
     /**
      * 日期
      */
     private String date;
+
+    /**
+     * 天气图标
+     */
+    @TableField(exist = false)
+    private String icon;
 
     /**
      * 标记

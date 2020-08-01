@@ -125,7 +125,6 @@ public class WeatherController {
 
     // 定时发送邮件
     @Async
-//    @Scheduled(fixedRate = times)
     @Scheduled(cron = "0 30 6,12,18 * * ?")
     @GetMapping("post")
     public void sendMail() throws MessagingException {
@@ -146,8 +145,8 @@ public class WeatherController {
         String currentTime = simpleDateFormat.format(new Date());
 
         // 邮件发送, 多人接收
-        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
-//        String[] addressList = {"1498097245@qq.com"};
+//        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
+        String[] addressList = {"1498097245@qq.com"};
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);

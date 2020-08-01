@@ -240,7 +240,7 @@
 																																							src="https://www.drageasy.com/51753e06259699921a680486c34ab892.png"
 																																							style="box-sizing: border-box; border: 0px; display: inline-block; outline: none; text-decoration: none; height: auto; max-width: 100%; padding: 0px;">
 																																					</span> -->
-																																					<span style="font-size: 24px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">今日分时段天气</span>
+																																					<span style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">今日分时段天气</span>
 																																				</p>
 																																			</div>
 																																		</div>
@@ -299,12 +299,18 @@
 																																							天气状况
 																																						</td>
 																																						<td style="width: 16.6667%;">
+
+																																						</td>
+																																						<td style="width: 16.6667%;">
 																																							温度
 																																						</td>
 																																					</tr>
 																																					<tr th:each="entries,stat:${weatherTimeList}">
 																																						<td style="width: 16.6667%;text-decoration: none;color: rgb(102, 102, 102)" th:text="${entries['time']}"></td>
 																																						<td style="width: 16.6667%;" th:text="${entries['status']}"></td>
+																																						<td style="width: 16.6667%;">
+																																							<img style="width: 42px;height: 42px;" th:src="${entries['icon']}" />
+																																						</td>
 																																						<td style="width: 16.6667%;" th:text="${entries['temp']}"></td>
 																																					</tr>
 																																				</tbody>

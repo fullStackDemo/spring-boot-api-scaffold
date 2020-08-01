@@ -9,6 +9,7 @@
         <result column="temp" property="temp"/>
         <result column="time" property="time"/>
         <result column="date" property="date"/>
+        <result column="icon" property="icon"/>
         <result column="flag" property="flag"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -27,7 +28,8 @@
 
     <select id="findTimeByDate" resultType="com.scaffold.test.entity.WeatherTime">
         select
-        <include refid="Base_Column_List"></include>
+        id, status, temp, time, create_time, update_time, date,
+        ( select icon from weather_status where name = status) AS icon
         from weather_time
         where date = #{date}
     </select>

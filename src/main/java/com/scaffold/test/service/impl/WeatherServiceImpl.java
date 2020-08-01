@@ -70,10 +70,8 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
             weather.setDate(date);
             weather.setMax(maxTem);
             weather.setMin(minTem);
-            // 不查询历史数据
-            if (currentDay >= Integer.parseInt(day)) {
-                weathers.add(weather);
-            }
+            // 不查询历史
+            weathers.add(weather);
         }
 
         // 插入数据库

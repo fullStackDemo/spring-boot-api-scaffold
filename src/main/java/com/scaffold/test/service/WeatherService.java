@@ -16,9 +16,16 @@ import java.util.List;
  */
 public interface WeatherService extends IService<Weather> {
 
-    // HTML解析获取七日天气预报数据
+    /**
+     * HTML解析获取七日天气预报数据
+     * @param document
+     * @return
+     */
     List<Weather> getWeekList(Document document);
 
-    // 获取数据
+    /**
+     * 获取数据
+     * @return
+     */
     List<Weather> selectAll();
 }
