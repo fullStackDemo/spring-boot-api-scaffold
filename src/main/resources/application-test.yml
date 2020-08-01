@@ -5,9 +5,6 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-#    username: admin
-#    password: master2011
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
     password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
@@ -27,6 +24,11 @@ spring:
     port: 6379
     password: ENC(Q23otvRVfrM8xUyIhMCK02GjYQo812Kt)
     timeout: 10000
+
+#jasypt加密的密匙
+jasypt:
+  encryptor:
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 ## 开启定时任务
 scheduling:
