@@ -29,6 +29,10 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * @author alex
+ */
+
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
@@ -52,7 +56,9 @@ public class WeatherController {
     @Autowired
     private BaseApplication baseApplication;
 
-    // 定时获取七日天气数据
+    /**
+     * 定时获取七日天气数据
+     */
     @Async
     @Scheduled(fixedRate = times)
     @GetMapping("/get")

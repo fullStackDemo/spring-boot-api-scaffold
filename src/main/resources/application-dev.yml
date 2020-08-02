@@ -6,9 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-#    password: Master@2011
-#    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-#    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
+    #    password: Master@2011
+    #    url: jdbc:mysql://104.224.178.5:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    #    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
     password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
   mail:
     host: smtp.qq.com
@@ -50,20 +50,20 @@ spring:
 #jasypt加密的密匙
 jasypt:
   encryptor:
-#    3.0.0 之前版本
-#    # 加密所需的salt(盐)
-#    # 加密方式和算法一定要对应一致
-#    # BasicTextEncryptor 对应加密方式：PBEWithMD5AndDES，StrongTextEncryptor 对应加密方式： PBEWithMD5AndTripleDES
-#    # 部署时配置salt(盐)值 java -jar -Djasypt.encryptor.password=1qaz2wsx3edc -Djasypt.encryptor.algorithm=PBEWithMD5AndDES xxx.jar
-#    # 或者在服务器的环境变量里配置,进一步提高安全性
-#    # 打开/etc/profile文件 vim /etc/profile
-#    # 文件末尾插入 export JASYPT_PASSWORD = SALT
-#    # 文件末尾插入 export JASYPT_ALGORITHM = ALGORITHM
-#    # 编译 source /etc/profile
-#    # 运行 java -jar -Djasypt.encryptor.password=${JASYPT_PASSWORD} -Djasypt.encryptor.algorithm=${JASYPT_ALGORITHM} xxx.jar
-#    password: 1qaz2wsx3edc
-#    # 默认加密方式PBEWithMD5AndDES,可以更改为PBEWithMD5AndTripleDES
-#    algorithm: PBEWithMD5AndTripleDES
+    #    3.0.0 之前版本
+    #    # 加密所需的salt(盐)
+    #    # 加密方式和算法一定要对应一致
+    #    # BasicTextEncryptor 对应加密方式：PBEWithMD5AndDES，StrongTextEncryptor 对应加密方式： PBEWithMD5AndTripleDES
+    #    # 部署时配置salt(盐)值 java -jar -Djasypt.encryptor.password=1qaz2wsx3edc -Djasypt.encryptor.algorithm=PBEWithMD5AndDES xxx.jar
+    #    # 或者在服务器的环境变量里配置,进一步提高安全性
+    #    # 打开/etc/profile文件 vim /etc/profile
+    #    # 文件末尾插入 export JASYPT_PASSWORD = SALT
+    #    # 文件末尾插入 export JASYPT_ALGORITHM = ALGORITHM
+    #    # 编译 source /etc/profile
+    #    # 运行 java -jar -Djasypt.encryptor.password=${JASYPT_PASSWORD} -Djasypt.encryptor.algorithm=${JASYPT_ALGORITHM} xxx.jar
+    #    password: 1qaz2wsx3edc
+    #    # 默认加密方式PBEWithMD5AndDES,可以更改为PBEWithMD5AndTripleDES
+    #    algorithm: PBEWithMD5AndTripleDES
     # 3.0.0 以后
     password: 1qaz2wsx3edc
     # 加密算法设置
@@ -72,7 +72,8 @@ jasypt:
 
 
 mail:
-  recipient: "1498097245@qq.com,749856591@qq.com"
+  # 邮件接收者
+  recipient: "1498097245@qq.com"
   fromMail:
     addr: alex9012@qq.com
 
@@ -95,7 +96,7 @@ user:
 
 
 project:
-#  basedir: "F:/project/spring-boot-api-scaffold"
+  #  basedir: "F:/project/spring-boot-api-scaffold"
   basedir: "/Users/wangzhao/work/projects/spring-boot-api-scaffold"
 
 

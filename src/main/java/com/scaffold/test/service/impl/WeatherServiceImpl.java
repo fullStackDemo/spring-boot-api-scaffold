@@ -40,6 +40,8 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
         // 数据提取
         Elements sevenBox = document.getElementById("7d").getElementsByClass("t");
         Elements liColumns = sevenBox.get(0).getElementsByTag("li");
+        // 计数
+        int currentIndex = 0;
         for (Element column : liColumns) {
             Weather weather = new Weather();
             // 获取 name
@@ -62,15 +64,20 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
                 maxTem = tem.split("\\D{1,2}")[0];
                 minTem = tem.split("\\D{1,2}")[0];
             }
-            // 获取今天分时间天气
+            // 获取今天以后分时间天气
             int currentDay = new Date().getDate();
+            currentIndex += 1;
+            // 不查询历史，有时候第一个数据是昨天的数据
+            if(currentIndex == 1 && currentDay != Integer.parseInt(day)){
+                continue;
+            }
 
             weather.setName(name);
             weather.setStatus(status);
             weather.setDate(date);
             weather.setMax(maxTem);
             weather.setMin(minTem);
-            // 不查询历史
+
             weathers.add(weather);
         }
 
@@ -87,7 +94,11 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
         return weatherMapper.selectAll();
     }
 
-    // 获取对应日期
+    /**
+     * 获取对应日期
+     * @param day 第几天
+     * @return
+     */
     public String getDate(String day) {
         Date date = new Date();
         int today = date.getDate();
