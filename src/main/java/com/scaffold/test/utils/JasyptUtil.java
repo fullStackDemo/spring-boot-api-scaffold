@@ -52,11 +52,10 @@ public class JasyptUtil {
 
 
     public static void main(String[] args) {
-        String encryptPwd = encypt("1qaz2wsx3edc", "Master@2011");
+        String encryptPwd = encypt("test", "serverTimezone");
         System.out.println(encryptPwd);
-        String decryptPwd = decypt("1qaz2wsx3edc", encryptPwd);
+        String decryptPwd = decypt("test", encryptPwd);
         System.out.println(decryptPwd);
-
     }
 
 }

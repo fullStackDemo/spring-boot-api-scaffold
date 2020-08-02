@@ -6,12 +6,12 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(X5PosLRVcpeW/kjV5vIt8g==)
-    password: ENC(Jcdxj2C4H1ZnNIsuSocyGpx+43A7WlkE)
+    username: ENC(n6gjOn8ThLy1v+oZQVTDjQ==)
+    password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
   mail:
     host: smtp.qq.com
-    username: 1498097245@qq.com
-    password: sputxexvxrgoihef
+    username: ENC(RhySMmqywvJZKxWqEEVe9mXsWes2w6Obf+93dCD1zvk=)
+    password: ENC(NnPdEuIuxTEzhKXMSuWXhvNW/yR5xFhPqXnMoRO5cws=)
   resources:
     static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/,classpath:/files/
   thymeleaf:

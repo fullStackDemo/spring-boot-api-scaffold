@@ -82,7 +82,11 @@ public class WeatherTimeServiceImpl extends ServiceImpl<WeatherTimeMapper, Weath
         return weatherTimeMapper.findTimeByDate(date);
     }
 
-    // 获取对应日期
+    /**
+     * 获取对应日期
+     * @param day
+     * @return
+     */
     public String getDate(String day) {
         Date date = new Date();
         int today = date.getDate();
