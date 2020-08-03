@@ -6,3 +6,5 @@ target/*
 test.iml
 mp.iml
 src/.DS_Store
+src/.DS_Store
+src/main/resources/.DS_Store
