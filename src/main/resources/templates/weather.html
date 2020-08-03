@@ -149,7 +149,7 @@
 																																							<td style="width: 22%;" th:text="${entries['week']}"></td>
 																																							<td style="width: 22%;" th:text="${entries['status']}"></td>
 																																							<td style="width: 12%;">
-																																								<img style="width: 42px;height: 42px;line-height: 42px;vertical-align: middle;" th:src="${entries['icon']}" />
+																																								<img style="width: 42px;height: auto;line-height: 42px;vertical-align: middle;"  th:src="${entries['icon']} ? ${entries['icon']} : ''" />
 																																							</td>
 																																							<td style="width: 11%;" th:text="${entries['max']}"></td>
 																																							<td style="width: 11%;" th:text="${entries['min']}"></td>
@@ -243,14 +243,13 @@
 																																			style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; overflow-wrap: break-word; margin: 0px; text-align: center; line-height: 25px; color: rgb(51, 51, 51); font-size: 14px; font-weight: normal;">
 																																			<div>
 																																				<p style="text-size-adjust: none; word-break: break-word; line-height: 25px; font-size: 14px; margin: 0px;">
-																																					<span style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">今日(</span>
-																																					<span>
-																																						<img
+																																					<span style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">今日</span>
+																																					<span th:if="${not #strings.isEmpty(todayStatusIcon)}"  style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">
+																																						(<img
 																																							th:src="${todayStatusIcon}"
-																																							style="width: 42px; height: 42px;vertical-align: text-bottom; display: inline-block; outline: none; text-decoration: none; padding: 0px;">
+																																							style="width: 42px; height: 42px;vertical-align: text-bottom; display: inline-block; outline: none; text-decoration: none; padding: 0px;" />)
 																																					</span>
-																																					<span style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">)分时段天气</span>
-
+																																					<span style="font-size: 32px;height:60px;line-height: 60px;vertical-align: center;display: inline-block;">分时段天气</span>
 																																				</p>
 																																			</div>
 																																		</div>
@@ -319,7 +318,7 @@
 																																						<td style="width: 16.6667%;text-decoration: none;color: rgb(102, 102, 102)" th:text="${entries['time']}"></td>
 																																						<td style="width: 16.6667%;" th:text="${entries['status']}"></td>
 																																						<td style="width: 16.6667%;">
-																																							<img style="width: 42px;height: 42px;line-height: 42px;vertical-align: middle;" th:src="${entries['icon']}" />
+																																							<img style="width: 42px;height: auto;line-height: 42px;vertical-align: middle;" th:src="${entries['icon']} ? ${entries['icon']} : ''" />
 																																						</td>
 																																						<td style="width: 16.6667%;" th:text="${entries['temp']}"></td>
 																																					</tr>

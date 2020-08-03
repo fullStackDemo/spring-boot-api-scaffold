@@ -37,8 +37,8 @@ public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, W
     @Override
     public void insertStatus() {
         // 天气
-        String[] statusNames = {"阴", "阴转多云", "多云转阴", "小雨转阴", "晴", "晴转多云", "多云转晴", "多云", "雾", "小雨", "中雨", "大雨", "雷阵雨", "暴雨", "冰雹", "雨夹雪", "小雪", "中雪", "大雪", "暴雪"};
-        String[] statusValues = {"1", "2", "3", "20", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"};
+        String[] statusNames = {"阴", "阴转多云", "多云转阴","多云转小雨", "小雨转阴", "晴", "晴转多云", "多云转晴", "多云", "雾", "小雨", "中雨", "大雨", "雷阵雨", "暴雨", "冰雹", "雨夹雪", "小雪", "中雪", "大雪", "暴雪"};
+        String[] statusValues = {"1", "2", "3", "20", "21", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"};
 
         List<WeatherStatus> weatherStatusList = new ArrayList<>();
         // icon 文件路径

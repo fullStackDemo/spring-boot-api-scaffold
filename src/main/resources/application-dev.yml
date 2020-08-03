@@ -4,9 +4,10 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    url: ENC(RXHAnaVutkRJnU0erxXMvul98JB6deNac0l/GOA/IHK5fw+M9OIMdenfpLaIrPMvPgOmvm3wzEfV0/4QgZYqYLhHvb4xRzvNFkFT+l00qNWyS9KwYBIt+ERAH/tHi3mgBZ8R+diulX8=)
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: ENC(n6gjOn8ThLy1v+oZQVTDjQ==)
+#    url: ENC(RXHAnaVutkRJnU0erxXMvul98JB6deNac0l/GOA/IHK5fw+M9OIMdenfpLaIrPMvPgOmvm3wzEfV0/4QgZYqYLhHvb4xRzvNFkFT+l00qNWyS9KwYBIt+ERAH/tHi3mgBZ8R+diulX8=)
+#    username: ENC(LYAtPaB+Ylt2yjWP8dtAEw==)
     password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
   mail:
     host: smtp.qq.com
