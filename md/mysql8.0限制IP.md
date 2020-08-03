@@ -76,3 +76,70 @@ GRANT ALL PRIVILEGES ON *.* to 'root'@'%' IDENTIFIED by '密码' WITH GRANT OPTI
 flush privileges;
 ~~~
 
+#### 2.3 允许单个IP登录，赋权全权限
+
+~~~mysql
+drop user 'test'@'183.195.13.117';
+
+CREATE user 'test'@'183.195.13.117' IDENTIFIED by '你的密码';
+
+GRANT ALL on *.* TO 'test'@'183.195.13.117';
+
+flush privileges;
+~~~
+
+2.4 允许单个IP登录，赋权test库权限
+
+~~~mysql
+drop user 'test'@'183.195.13.117';
+
+CREATE user 'test'@'183.195.13.117' IDENTIFIED by '你的密码';
+
+GRANT ALL on test.* TO 'test'@'183.195.13.117';
+
+flush privileges;
+~~~
+
+2.5 允许多个IP登录，赋权test库权限
+
+~~~mysql
+# 第一个IP
+
+CREATE user 'test'@'183.195.13.117' IDENTIFIED by '你的密码';
+
+GRANT ALL on test.* TO 'test'@'183.195.13.117';
+
+flush privileges;
+
+# 第二个IP
+
+CREATE user 'test'@'183.195.13.118' IDENTIFIED by '你的密码';
+
+GRANT ALL on test.* TO 'test'@'183.195.13.118';
+
+flush privileges;
+
+# 有几个IP，就创建多少个用户
+
+~~~
+
+![1596455617531](mysql8.0%E9%99%90%E5%88%B6IP.assets/1596455617531.png)
+
+## 3 **重置密码**
+
+~~~mysql
+1.在 [/etc/my.cnf]最后加上如下语句 并保持退出文件；
+skip-grant-tables
+2.重启mysql
+service mysql restart
+3.输入以下命令，点击enter键可以跳过密码直接进入mysql
+mysql -u root -p
+4.查看root用户的相关信息
+select host, user, authentication_string, plugin from user;可以看到root用户中authentication_string就是你之前的密码的散列值。
+5.当前root用户authentication_string字段下有内容，先将其设置为空
+use mysql;
+update user set authentication_string='' where user='root';
+6.使用ALTER修改root用户密码
+ALTER user 'root'@'localhost' IDENTIFIED BY '你的新密码'
+~~~
+
