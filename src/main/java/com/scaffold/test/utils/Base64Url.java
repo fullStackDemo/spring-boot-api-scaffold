@@ -36,11 +36,10 @@ public class Base64Url {
 
     public static void main(String[] args){
 
-        System.out.println(Base64Url.encode(JSON.parseObject("{\"sub\":\"{userName=test, userId=0b13dd6ce7e54d8d84b748541299a927}\",\"password\":\"2ad0fa85d0e8fc5593bb9cb893750302\",\"userName\":\"test\",\"exp\":1595080348,\"userId\":\"0b13dd6ce7e54d8d84b748541299a927\",\"iat\":1595073148,\"jti\":\"fd5331d3-1897-491d-bf87-1f4a49e2b80b\"}")));
+        System.out.println(Base64Url.encode(JSON.parseObject("{\"sub\":\"{userName=test1, userId=fcfbb2b3d61944f2b31237d2338b54f3}\",\"userName\":\"test1\",\"exp\":1596556187,\"userId\":\"fcfbb2b3d61944f2b31237d2338b54f3\",\"iat\":1596548987,\"jti\":\"67d5f810-7e87-48a3-8bf8-8a09b857887c\"}")));
 
-        System.out.println(Base64Url.decode("eyJzdWIiOiJ7dXNlck5hbWU9dGVzdCwgdXNlcklkPTBiMTNkZDZjZTdlNTRkOGQ4NGI3NDg1NDEyOTlhOTI3fSIsInBhc3N3b3JkIjoiMmFkMGZhODVkMGU4ZmM1NTkzYmI5Y2I4OTM3NTAzMDIiLCJ1c2VyTmFtZSI6InRlc3QiLCJleHAiOjE1OTUwODAzNDgsInVzZXJJZCI6IjBiMTNkZDZjZTdlNTRkOGQ4NGI3NDg1NDEyOTlhOTI3IiwiaWF0IjoxNTk1MDczMTQ4LCJqdGkiOiJmZDUzMzFkMy0xODk3LTQ5MWQtYmY4Ny0xZjRhNDllMmI4MGIifQ"));
+        System.out.println(Base64Url.decode("eyJzdWIiOiJ7dXNlck5hbWU9dGVzdDEsIHVzZXJJZD1mY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmM30iLCJ1c2VyTmFtZSI6InRlc3QxIiwiZXhwIjoxNTk2NTU2MTg3LCJ1c2VySWQiOiJmY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmMyIsImlhdCI6MTU5NjU0ODk4NywianRpIjoiNjdkNWY4MTAtN2U4Ny00OGEzLThiZjgtOGEwOWI4NTc4ODdjIn0"));
 
-        System.out.println(Base64Url.decode("OpVIfLE4IeV4UXdzpocTO6k1f5tnkolBHEkHEL9vPtM"));
 
     }
 

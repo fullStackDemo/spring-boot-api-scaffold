@@ -1,7 +1,6 @@
 package com.scaffold.test.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
@@ -63,8 +62,9 @@ public class WeatherController {
     @Scheduled(fixedRate = times)
     @GetMapping("/get")
     public void getDataFromHtml() {
-        String url = "http://www.weather.com.cn/weather/101020100.shtml";
-//        String url = "http://www.weather.com.cn/weathern/101020100.shtml";
+//        String url = "http://www.weather.com.cn/weather/101020100.shtml";
+        // 新版
+        String url = "http://www.weather.com.cn/weathern/101020100.shtml";
         log.info("-------定时获取七日天气数据--------");
         try {
             // 1 只能获取静态数据
@@ -122,12 +122,12 @@ public class WeatherController {
 //                e.printStackTrace();
 //            }
 
-            //  同步天气
+            // 同步天气
             weatherService.getWeekList(document);
 
             //  获取分时数据
-            JSONObject timeList = JSONObject.parseObject(document.getElementsByTag("script").get(5).toString().split("hour3data=")[1].replace("</script>", ""));
-            weatherTimeService.getSevenDayTime(timeList);
+//            JSONObject timeList = JSONObject.parseObject(document.getElementsByTag("script").get(5).toString().split("hour3data=")[1].replace("</script>", ""));
+//            weatherTimeService.getSevenDayTime(timeList);
 
         } catch (Exception e) {
             log.error(e.getMessage());
