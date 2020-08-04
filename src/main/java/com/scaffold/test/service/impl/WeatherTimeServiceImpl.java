@@ -51,7 +51,7 @@ public class WeatherTimeServiceImpl extends ServiceImpl<WeatherTimeMapper, Weath
                             weatherTime.setDate(getDate(dataArr[i]));
                             break;
                         case 1:
-                            weatherTime.setTime(dataArr[i]);
+                            weatherTime.setTime(dataArr[i].split("时")[0]);
                             break;
                         case 3:
                             weatherTime.setStatus(dataArr[i]);
@@ -78,8 +78,8 @@ public class WeatherTimeServiceImpl extends ServiceImpl<WeatherTimeMapper, Weath
     }
 
     @Override
-    public List<WeatherTime> getCurrentDateTime(String date) {
-        return weatherTimeMapper.findTimeByDate(date);
+    public List<WeatherTime> getCurrentDateTime(String date, String hour) {
+        return weatherTimeMapper.findTimeByDate(date, hour);
     }
 
     /**

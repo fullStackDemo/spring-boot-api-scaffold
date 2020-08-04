@@ -29,8 +29,8 @@ public class WeatherTimeController {
 
     @PassToken
     @GetMapping("time")
-    public Result getTime(@RequestParam String date){
-        return ResultGenerator.setSuccessResult(weatherTimeService.getCurrentDateTime(date));
+    public Result getTime(@RequestParam String date, @RequestParam String hour){
+        return ResultGenerator.setSuccessResult(weatherTimeService.getCurrentDateTime(date, hour));
     }
 
 }

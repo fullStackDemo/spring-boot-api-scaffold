@@ -30,5 +30,5 @@ public interface WeatherTimeService extends IService<WeatherTime> {
      * @param date
      * @return
      */
-    List<WeatherTime> getCurrentDateTime(String date);
+    List<WeatherTime> getCurrentDateTime(String date, String hour);
 }

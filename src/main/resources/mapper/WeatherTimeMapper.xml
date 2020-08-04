@@ -31,7 +31,7 @@
         id, status, temp, time, create_time, update_time, date,
         ( select icon from weather_status where name = status) AS icon
         from weather_time
-        where date = #{date}
+        where date = #{date} and time > #{hour}
     </select>
 
 </mapper>

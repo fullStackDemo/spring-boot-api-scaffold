@@ -83,9 +83,20 @@ public class SystemUtils {
         return "";
     }
 
+    /**
+     * 获取当前时刻
+     * @return hour
+     */
+    public static String getCurrentHour(){
+        Date date = new Date();
+        int hour = date.getHours();
+        return String.valueOf(hour);
+    }
+
 
     public static void main(String[] args) {
         System.out.println(getDateFromToday(60));
         System.out.println(getWeek("2020-08-01"));
+        System.out.println(getCurrentHour());
     }
 }

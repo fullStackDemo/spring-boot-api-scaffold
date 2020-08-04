@@ -148,7 +148,8 @@ public class WeatherController {
         String currentDate = SystemUtils.getDateFromToday(0);
         String currentDateNext = SystemUtils.getDateFromToday(1);
         String currentDateNext2 = SystemUtils.getDateFromToday(2);
-        List<WeatherTime> weatherTimeList = weatherTimeService.getCurrentDateTime(currentDate);
+        String currentHour = SystemUtils.getCurrentHour();
+        List<WeatherTime> weatherTimeList = weatherTimeService.getCurrentDateTime(currentDate, currentHour);
         // 获取当天天气状况ICON
         String todayStatusIcon = "";
         for (Weather weather : weathers) {
