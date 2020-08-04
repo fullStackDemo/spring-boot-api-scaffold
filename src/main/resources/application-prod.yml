@@ -6,7 +6,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(LYAtPaB+Ylt2yjWP8dtAEw==)
+    username: ENC(zL+TaxRb6Vza8qcPxcu5Lw==)
     password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
   mail:
     host: smtp.qq.com
