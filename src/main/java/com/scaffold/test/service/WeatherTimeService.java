@@ -1,7 +1,6 @@
 package com.scaffold.test.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.scaffold.test.entity.WeatherTime;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * @author alex wong
  * @since 2020-07-31
  */
-public interface WeatherTimeService extends IService<WeatherTime> {
+public interface WeatherTimeService {
 
     /**
      * 获取七日分时数据
@@ -23,6 +22,12 @@ public interface WeatherTimeService extends IService<WeatherTime> {
      * @return
      */
     List<WeatherTime> getSevenDayTime(JSONObject day7Data);
+
+    /**
+     * 获取今天逐小时汇报分时数据
+     * @return
+     */
+    void insertCurrentTime();
 
     /**
      * 获取当前日期下分时数据

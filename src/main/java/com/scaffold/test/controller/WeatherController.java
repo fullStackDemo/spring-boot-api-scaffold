@@ -62,72 +62,36 @@ public class WeatherController {
     @Scheduled(fixedRate = times)
     @GetMapping("/get")
     public void getDataFromHtml() {
-//        String url = "http://www.weather.com.cn/weather/101020100.shtml";
+        // String url = "http://www.weather.com.cn/weather/101020100.shtml";
+
         // 新版
-        String url = "http://www.weather.com.cn/weathern/101020100.shtml";
+        // 七日
+        String url_day7 = "http://www.weather.com.cn/weathern/101020100.shtml";
+        // 当天分时数据
+        String url_time = "http://www.weather.com.cn/weather1dn/101020100.shtml";
         log.info("-------定时获取七日天气数据--------");
         try {
             // 1 只能获取静态数据
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(url_day7).get();
+            Document timeDocument = Jsoup.connect(url_time).get();
 
-//            // 2 获取动态生成的数据
-//            // 模拟谷歌Chrome浏览器的浏览器客户端对象
-//            WebClient webClient = new WebClient(BrowserVersion.FIREFOX_52);
-//            // 不启用CSS
-//            webClient.getOptions().setCssEnabled(false);
-//            // 启用JS
-//            webClient.getOptions().setJavaScriptEnabled(false);
-//            // 禁用当JS执行出错的时候是否抛出异常
-//            webClient.getOptions().setThrowExceptionOnScriptError(false);
-//            // 禁用当HTTP的状态非200时是否抛出异常
-//            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-//            // 设置支持AJAX
-//            webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-//            webClient.getOptions().setDoNotTrackEnabled(false);
-//            webClient.getOptions().setUseInsecureSSL(false);
-//            // 获取页面
-//            HtmlPage page = null;
-//            try {
-//                page = webClient.getPage(url);
-//            } catch (Exception e) {
-//                log.error(e.getMessage());
-//            } finally {
-//                webClient.close();
-//            }
-//            // 设置js加载时间
-//            webClient.waitForBackgroundJavaScript(30 * 1000);
-//            // 使用xml的方式解析获取到jsoup的document对象
-////            Document document = Jsoup.parse(page.asXml());
-//
-//
-//            // 3 httpclient
-//            CloseableHttpClient httpClient = HttpClients.createDefault();
-//            CloseableHttpResponse response = null;
-//            HttpGet request = new HttpGet(url);
-//            try {
-//                response = httpClient.execute(request);
-//
-//                // 判断响应状态为200，进行处理
-//                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-//                    //5.获取响应内容
-//                    HttpEntity httpEntity = response.getEntity();
-//                    String html = EntityUtils.toString(httpEntity, "utf-8");
-//                    System.out.println(html);
-//                } else {
-//                    //如果返回状态不是200，比如404（页面不存在）等，根据情况做处理，这里略
-//                    System.out.println("返回状态不是200");
-//                    System.out.println(EntityUtils.toString(response.getEntity(), "utf-8"));
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
-            // 同步天气
+            // 同步7日天气
             weatherService.getWeekList(document);
 
             //  获取分时数据
-//            JSONObject timeList = JSONObject.parseObject(document.getElementsByTag("script").get(5).toString().split("hour3data=")[1].replace("</script>", ""));
-//            weatherTimeService.getSevenDayTime(timeList);
+            // JSONObject timeList = JSONObject.parseObject(document.getElementsByTag("script").get(5).toString().split("hour3data=")[1].replace("</script>", ""));
+            // weatherTimeService.getSevenDayTime(timeList);
+            // 分时数据
+
+//            String hourDataScript = timeDocument.getElementsByTag("script").get(7).toString();
+//            // hourData字符串
+//            String hourDataStr = hourDataScript.replace(" ", "").split("varhour3data=")[1].split(";varhour3week")[0];
+//            JSONArray hourDataArr = JSONObject.parseArray(hourDataStr);
+
+            // 分时数据
+            weatherTimeService.insertCurrentTime();
+
 
         } catch (Exception e) {
             log.error(e.getMessage());

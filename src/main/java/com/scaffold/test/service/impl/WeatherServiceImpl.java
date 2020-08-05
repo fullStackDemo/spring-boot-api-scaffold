@@ -2,7 +2,6 @@ package com.scaffold.test.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.entity.Weather;
 import com.scaffold.test.mapper.WeatherMapper;
 import com.scaffold.test.service.WeatherService;
@@ -14,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -27,7 +28,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> implements WeatherService {
+public class WeatherServiceImpl implements WeatherService {
 
     @Autowired
     private WeatherMapper weatherMapper;
@@ -56,12 +57,6 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
         JSONArray tempDataHighArr = JSONObject.parseArray(tempDataHigh);
         // 最低气温数组数据
         JSONArray tempDataLowArr = JSONObject.parseArray(tempDataLow);
-
-        // 分时数据
-        String hourDataScript = scriptList.get(7).toString();
-        // hourData字符串
-        String hourDataStr = hourDataScript.replace(" ", "").split("varhour3data=")[1].split(";varuptime")[0];
-        JSONArray hourDataArr = JSONObject.parseArray(hourDataStr);
 
         // 计数
         int currentIndex = 0;
@@ -144,7 +139,7 @@ public class WeatherServiceImpl extends ServiceImpl<WeatherMapper, Weather> impl
 
         // 插入数据库
         for (Weather weather : weathers) {
-//            weatherMapper.insertWeather(weather);
+            weatherMapper.insertWeather(weather);
         }
 
         return weathers;

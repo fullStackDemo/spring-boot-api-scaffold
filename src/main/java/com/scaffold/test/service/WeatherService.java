@@ -1,6 +1,5 @@
 package com.scaffold.test.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.scaffold.test.entity.Weather;
 import org.jsoup.nodes.Document;
 
@@ -14,7 +13,7 @@ import java.util.List;
  * @author alex wong
  * @since 2020-06-18
  */
-public interface WeatherService extends IService<Weather> {
+public interface WeatherService {
 
     /**
      * HTML解析获取七日天气预报数据

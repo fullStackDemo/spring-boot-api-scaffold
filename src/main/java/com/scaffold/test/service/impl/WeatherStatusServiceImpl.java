@@ -1,6 +1,5 @@
 package com.scaffold.test.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.WeatherStatus;
 import com.scaffold.test.mapper.WeatherStatusMapper;
@@ -26,7 +25,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class WeatherStatusServiceImpl extends ServiceImpl<WeatherStatusMapper, WeatherStatus> implements WeatherStatusService {
+public class WeatherStatusServiceImpl implements WeatherStatusService {
 
     @Autowired
     WeatherStatusMapper weatherStatusMapper;
