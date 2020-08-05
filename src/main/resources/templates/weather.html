@@ -321,7 +321,9 @@
 																																						</td>
 																																					</tr>
 																																					<tr th:each="entries,stat:${weatherTimeList}">
-																																						<td style="width: 16.6667%;text-decoration: none;color: rgb(102, 102, 102)" th:text="${entries['time']}"></td>
+																																						<td style="width: 16.6667%;text-decoration: none;color: rgb(102, 102, 102)">
+																																							<span th:text="${entries['time']}"></span>时
+																																						</td>
 																																						<td style="width: 16.6667%;" th:text="${entries['status']}"></td>
 																																						<td style="width: 16.6667%;">
 																																							<img style="width: 42px;height: auto;line-height: 42px;vertical-align: middle;" th:src="${entries['icon']} ? ${entries['icon']} : ''" />
