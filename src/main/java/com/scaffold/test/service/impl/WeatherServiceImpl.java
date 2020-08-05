@@ -83,8 +83,8 @@ public class WeatherServiceImpl implements WeatherService {
             weather.setStatus(status);
 
             // 最高最低气温
-            weather.setMax(String.valueOf(tempDataHighArr.get(currentIndex - 1)));
-            weather.setMin(String.valueOf(tempDataLowArr.get(currentIndex - 1)));
+            weather.setMax(Integer.parseInt(tempDataHighArr.getString(currentIndex - 1)));
+            weather.setMin(Integer.parseInt(tempDataLowArr.getString(currentIndex - 1)));
             weathers.add(weather);
         }
         System.out.println(weathers);

@@ -87,10 +87,9 @@ public class SystemUtils {
      * 获取当前时刻
      * @return hour
      */
-    public static String getCurrentHour(){
+    public static int getCurrentHour(){
         Date date = new Date();
-        int hour = date.getHours();
-        return String.valueOf(hour);
+        return date.getHours();
     }
 
 

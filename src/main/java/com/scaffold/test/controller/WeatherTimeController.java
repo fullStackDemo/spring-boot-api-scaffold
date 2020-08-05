@@ -29,7 +29,7 @@ public class WeatherTimeController {
 
     @PassToken
     @GetMapping("time")
-    public Result getTime(@RequestParam String date, @RequestParam String hour){
+    public Result getTime(@RequestParam String date, @RequestParam int hour){
         return ResultGenerator.setSuccessResult(weatherTimeService.getCurrentDateTime(date, hour));
     }
 

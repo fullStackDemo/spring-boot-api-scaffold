@@ -34,12 +34,12 @@ public class WeatherTime implements Serializable {
     /**
      * 温度
      */
-    private String temp;
+    private int temp;
 
     /**
      * 时刻
      */
-    private String time;
+    private int time;
 
     /**
      * 日期

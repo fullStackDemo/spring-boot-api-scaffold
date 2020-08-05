@@ -35,5 +35,5 @@ public interface WeatherTimeService {
      * @param date
      * @return
      */
-    List<WeatherTime> getCurrentDateTime(String date, String hour);
+    List<WeatherTime> getCurrentDateTime(String date, int hour);
 }

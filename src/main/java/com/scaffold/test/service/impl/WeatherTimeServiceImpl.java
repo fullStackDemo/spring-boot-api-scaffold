@@ -59,13 +59,13 @@ public class WeatherTimeServiceImpl implements WeatherTimeService {
                             weatherTime.setDate(getDate(dataArr[i]));
                             break;
                         case 1:
-                            weatherTime.setTime(dataArr[i].split("时")[0]);
+                            weatherTime.setTime(Integer.parseInt(dataArr[i]));
                             break;
                         case 3:
                             weatherTime.setStatus(dataArr[i]);
                             break;
                         case 4:
-                            weatherTime.setTemp(dataArr[i]);
+                            weatherTime.setTemp(Integer.parseInt(dataArr[i]));
                             break;
                         default:
                             break;
@@ -132,11 +132,11 @@ public class WeatherTimeServiceImpl implements WeatherTimeService {
                 // 唯一标识
                 weatherTime.setFlag(dateTime);
                 // 时刻 12
-                weatherTime.setTime(dateTime.substring(8, 10));
+                weatherTime.setTime(Integer.parseInt(dateTime.substring(8, 10)));
                 // 天气状况
                 weatherTime.setStatus(statusData.getString(m.getString("ja")));
                 // 温度
-                weatherTime.setTemp(m.getString("jb"));
+                weatherTime.setTemp(Integer.parseInt(m.getString("jb")));
                 // 日期
                 weatherTime.setDate(date);
                 // 风向
@@ -159,7 +159,7 @@ public class WeatherTimeServiceImpl implements WeatherTimeService {
     }
 
     @Override
-    public List<WeatherTime> getCurrentDateTime(String date, String hour) {
+    public List<WeatherTime> getCurrentDateTime(String date, int hour) {
         return weatherTimeMapper.findTimeByDate(date, hour);
     }
 

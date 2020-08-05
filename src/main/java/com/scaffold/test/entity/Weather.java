@@ -39,10 +39,10 @@ public class Weather implements Serializable {
     private String week;
 
     // 最高气温
-    private String max;
+    private int max;
 
     // 最低气温
-    private String min;
+    private int min;
 
     private LocalDateTime createTime;
 

@@ -17,6 +17,6 @@ public interface WeatherTimeMapper extends BaseMapper<WeatherTime> {
 
     void insertTime(WeatherTime weatherTime);
 
-    List<WeatherTime> findTimeByDate(String date, String hour);
+    List<WeatherTime> findTimeByDate(String date, int hour);
 
 }
