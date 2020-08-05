@@ -17,18 +17,18 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, status, temp, time, create_time, update_time, date
+        id, status, temp, time, create_time, update_time, date, wind, windLevel
     </sql>
 
     <insert id="insertTime">
         replace into weather_time
-            (date, time, status, temp, flag)
-        values (#{date}, #{time}, #{status}, #{temp}, #{flag})
+            (date, time, status, temp, flag, wind, windLevel)
+        values (#{date}, #{time}, #{status}, #{temp}, #{flag}, #{wind}, #{windLevel})
     </insert>
 
     <select id="findTimeByDate" resultType="com.scaffold.test.entity.WeatherTime">
         select
-        id, status, temp, time, create_time, update_time, date,
+        id, status, temp, time, create_time, update_time, date, wind, windLevel,
         ( select icon from weather_status where name = status) AS icon
         from weather_time
         where date = #{date} and time > #{hour}

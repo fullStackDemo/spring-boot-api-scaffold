@@ -313,6 +313,12 @@
 																																						<td style="width: 16.6667%;">
 																																							温度
 																																						</td>
+																																						<td style="width: 16.6667%;">
+																																							风向
+																																						</td>
+																																						<td style="width: 16.6667%;">
+																																							风力
+																																						</td>
 																																					</tr>
 																																					<tr th:each="entries,stat:${weatherTimeList}">
 																																						<td style="width: 16.6667%;text-decoration: none;color: rgb(102, 102, 102)" th:text="${entries['time']}"></td>
@@ -321,6 +327,8 @@
 																																							<img style="width: 42px;height: auto;line-height: 42px;vertical-align: middle;" th:src="${entries['icon']} ? ${entries['icon']} : ''" />
 																																						</td>
 																																						<td style="width: 16.6667%;" th:text="${entries['temp']}"></td>
+																																						<td style="width: 16.6667%;" th:text="${entries['wind']}"></td>
+																																						<td style="width: 16.6667%;" th:text="${entries['windLevel']}"></td>
 																																					</tr>
 																																				</tbody>
 																																			</table>

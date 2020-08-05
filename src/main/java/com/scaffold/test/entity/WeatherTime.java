@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -57,6 +56,17 @@ public class WeatherTime implements Serializable {
      * 标记
      */
     private String flag;
+
+    /**
+     * 风类型
+     */
+    private String wind;
+
+
+    /**
+     * 风速等级
+     */
+    private String windLevel;
 
     /**
      * 创建时间
