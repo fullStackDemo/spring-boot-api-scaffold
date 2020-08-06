@@ -116,8 +116,9 @@ public class WeatherController {
      */
     @GetMapping("post")
     @PassToken
-    public void sendWeatherMail2(String mailAddress) throws MessagingException {
+    public String sendWeatherMail2(String mailAddress) throws MessagingException {
         sendMail(mailAddress);
+        return "手动订阅天气, 邮件已发送，请查收";
     }
 
     /**
