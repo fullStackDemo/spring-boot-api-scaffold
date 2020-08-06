@@ -1,6 +1,7 @@
 package com.scaffold.test.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
@@ -9,6 +10,7 @@ import com.scaffold.test.service.MailService;
 import com.scaffold.test.service.WeatherService;
 import com.scaffold.test.service.WeatherTimeService;
 import com.scaffold.test.utils.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -102,7 +104,7 @@ public class WeatherController {
     @Async
     @Scheduled(cron = "0 30 6,12,18 * * ?")
     @GetMapping("post")
-    public void sendMail() throws MessagingException {
+    public void sendMail(String mailAddress) throws MessagingException {
         log.info("-------定时发送邮件--------");
         Context context = new Context();
         // 获取七日天气
@@ -143,6 +145,12 @@ public class WeatherController {
         // 邮件发送, 多人接收
 //        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
         String[] addressList = baseApplication.getMailRecipient().split(",");
+        // 判断是否外部传入有地址
+        if(StringUtils.isNoneBlank(mailAddress)){
+            addressList = mailAddress.split(",");
+        }
+        System.out.println(JSONArray.toJSONString(addressList));
+
         for (String address : addressList) {
             Mail mail = new Mail();
             mail.setTo(address);
