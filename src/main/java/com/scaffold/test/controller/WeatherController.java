@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.entity.Mail;
 import com.scaffold.test.entity.Weather;
@@ -102,8 +103,27 @@ public class WeatherController {
 
     // 定时发送邮件
     @Async
-    @Scheduled(cron = "0 30 6,12,18 * * ?")
+    @Scheduled(cron = "0 0 6,12,18 * * ?")
+    public void sendWeatherMail() throws MessagingException {
+        sendMail("");
+    }
+
+
+    /**
+     * 自定义邮件发送地址
+     * @param mailAddress 1328@qq.com,6666@qq.com
+     * @throws MessagingException
+     */
     @GetMapping("post")
+    @PassToken
+    public void sendWeatherMail2(String mailAddress) throws MessagingException {
+        sendMail(mailAddress);
+    }
+
+    /**
+     * 发送邮件方法
+     * @throws MessagingException
+     */
     public void sendMail(String mailAddress) throws MessagingException {
         log.info("-------定时发送邮件--------");
         Context context = new Context();
@@ -143,13 +163,15 @@ public class WeatherController {
         String currentTime = simpleDateFormat.format(new Date());
 
         // 邮件发送, 多人接收
-//        String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
+        // String[] addressList = {"1498097245@qq.com", "749856591@qq.com"};
         String[] addressList = baseApplication.getMailRecipient().split(",");
-        // 判断是否外部传入有地址
+
+        // 判断自定义邮箱地址
         if(StringUtils.isNoneBlank(mailAddress)){
             addressList = mailAddress.split(",");
         }
-        System.out.println(JSONArray.toJSONString(addressList));
+
+        log.info("邮件接收：" +JSONArray.toJSONString(addressList));
 
         for (String address : addressList) {
             Mail mail = new Mail();

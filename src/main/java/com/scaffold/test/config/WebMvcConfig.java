@@ -83,7 +83,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 增加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/api/**");
+        registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
