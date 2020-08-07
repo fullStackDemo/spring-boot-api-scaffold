@@ -62,6 +62,7 @@ public class WeatherController {
      * 定时获取七日天气数据
      */
     @Async
+    @PassToken
     @Scheduled(fixedRate = times)
     @GetMapping("/get")
     public void getDataFromHtml() {
@@ -70,13 +71,12 @@ public class WeatherController {
         // 新版
         // 七日
         String url_day7 = "http://www.weather.com.cn/weathern/101020100.shtml";
-        // 当天分时数据
-        String url_time = "http://www.weather.com.cn/weather1dn/101020100.shtml";
+
         log.info("-------定时获取七日天气数据--------");
         try {
             // 1 只能获取静态数据
             Document document = Jsoup.connect(url_day7).get();
-            Document timeDocument = Jsoup.connect(url_time).get();
+            // Document timeDocument = Jsoup.connect(url_time).get();
 
 
             // 同步7日天气
@@ -85,12 +85,6 @@ public class WeatherController {
             //  获取分时数据
             // JSONObject timeList = JSONObject.parseObject(document.getElementsByTag("script").get(5).toString().split("hour3data=")[1].replace("</script>", ""));
             // weatherTimeService.getSevenDayTime(timeList);
-            // 分时数据
-
-//            String hourDataScript = timeDocument.getElementsByTag("script").get(7).toString();
-//            // hourData字符串
-//            String hourDataStr = hourDataScript.replace(" ", "").split("varhour3data=")[1].split(";varhour3week")[0];
-//            JSONArray hourDataArr = JSONObject.parseArray(hourDataStr);
 
             // 分时数据
             weatherTimeService.insertCurrentTime();
