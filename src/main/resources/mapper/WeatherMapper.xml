@@ -32,7 +32,7 @@
         id, name, status, max, min, date,
         (select icon from weather_status where name = status) AS icon
         from weather
-        WHERE STR_TO_DATE(date, '%Y-%m-%d') >= CURRENT_DATE
+        WHERE STR_TO_DATE(date, '%Y-%m-%d') >= CURRENT_DATE ORDER BY date LIMIT 7
     </select>
 
 </mapper>

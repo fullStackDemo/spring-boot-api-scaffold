@@ -69,7 +69,7 @@ public class BaseUtils {
         if (user == null) {
             return null;
         }
-        return getCurrentUser().getUserId();
+        return user.getUserId();
     }
 
 }
