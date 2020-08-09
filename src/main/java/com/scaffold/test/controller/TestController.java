@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.Test;
 import com.scaffold.test.entity.TestList;
-import com.scaffold.test.redis.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,16 +31,6 @@ import java.util.Map;
 public class TestController {
 
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
-
-    @Autowired
-    private RedisUtils redisUtils;
-
-
-    @GetMapping("redis/get")
-    @PassToken
-    public Object getRedis(@RequestParam String key) {
-        return redisUtils.get(key);
-    }
 
     @GetMapping("/get")
     @PassToken
@@ -71,7 +59,6 @@ public class TestController {
         return result;
     }
 
-    // 数组接收
     @GetMapping("/getList")
     public Object testGet4(@RequestParam String[] productId) {
         ArrayList<Object> list = new ArrayList<>();
@@ -82,7 +69,7 @@ public class TestController {
         return list;
     }
 
-    // 路径
+
     @GetMapping("/path/{id}")
     public Object testId(@PathVariable String id, @RequestParam String name) {
         Map<String, Object> map = new HashMap<>();
@@ -91,7 +78,12 @@ public class TestController {
         return map;
     }
 
-    // @RequestParam 单个参数接收------前端使用FromData
+    /**
+     * @RequestParam 单个参数接收------前端使用FromData
+     * @param name
+     * @param age
+     * @return
+     */
     @PostMapping("/post")
     public Object testPost(@RequestParam String name, @RequestParam int age) {
         Map<String, Object> result = new HashMap<>();
