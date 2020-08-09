@@ -8,7 +8,6 @@ import lombok.Data;
  */
 
 @Data
-// 非空返回
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Result {
 

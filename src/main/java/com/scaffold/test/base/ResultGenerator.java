@@ -2,12 +2,12 @@ package com.scaffold.test.base;
 
 /**
  * 响应结果生成工具
+ * @author alex
  */
 
 public class ResultGenerator {
     private static final String DEFAULT_SUCCESS_MESSAGE = "SUCCESS";
 
-    // 只返回状态
     public static Result setSuccessResult() {
         return new Result()
                 .setCode(ResultCode.SUCCESS)

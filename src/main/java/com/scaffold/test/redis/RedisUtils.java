@@ -45,5 +45,16 @@ public class RedisUtils {
         }
     }
 
+    /**
+     * 是否存在key
+     * @param key
+     * @return
+     */
+    public Boolean hasKey(String key){
+        return redisTemplate.hasKey(key);
+    }
+
+
+
 
 }
