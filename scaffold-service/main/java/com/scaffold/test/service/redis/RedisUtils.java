@@ -1,5 +1,6 @@
 package main.java.com.scaffold.test.service.redis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RedisUtils {
 
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
     public StringRedisTemplate getRedisTemplate() {

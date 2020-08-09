@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.Test;
 import com.scaffold.test.entity.TestList;
+import com.scaffold.test.redis.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,16 @@ public class TestController {
 
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+
+    @GetMapping("redis/get")
+    @PassToken
+    public Object getRedis(@RequestParam String key) {
+        return redisUtils.get(key);
+    }
+
     @GetMapping("/get")
     @PassToken
     public void testGet(@RequestParam String name, @RequestParam int age, String callback, HttpServletResponse response) throws IOException {
@@ -48,8 +60,6 @@ public class TestController {
             outputStream.flush();
             outputStream.close();
         }
-
-//        return result;
     }
 
     @GetMapping("/get2")
