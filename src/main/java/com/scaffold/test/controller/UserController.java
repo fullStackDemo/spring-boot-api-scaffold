@@ -4,6 +4,7 @@ import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.User;
+import com.scaffold.test.redis.RedisUtils;
 import com.scaffold.test.service.UserService;
 import com.scaffold.test.utils.BaseUtils;
 import com.scaffold.test.utils.JWTUtils;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wangzhao
@@ -22,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     /**
@@ -56,6 +61,8 @@ public class UserController {
         if (userInfo != null) {
             HashMap<Object, Object> result = new HashMap<>();
             result.put("token", JWTUtils.createToken(userInfo));
+            // 存储到Redis
+            redisUtils.set(userInfo.getUserId(), JWTUtils.createToken(userInfo), 2, TimeUnit.HOURS);
             return ResultGenerator.setSuccessResult(result);
         } else {
             return ResultGenerator.setFailResult("登录失败, 请检查用户名和密码");

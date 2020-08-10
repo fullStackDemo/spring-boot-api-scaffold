@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author alex
@@ -17,6 +18,29 @@ public class RedisUtils {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    /**
+     * 设置key value
+     *
+     * @param key key
+     * @param value value
+     */
+    public void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
+     * 设置key value，并设置过期时间
+     *
+     * @param key key
+     * @param value value
+     * @param timeout 过期时间
+     * @param unit 时间单位, 天:TimeUnit.DAYS 小时:TimeUnit.HOURS 分钟:TimeUnit.MINUTES
+     *            秒:TimeUnit.SECONDS 毫秒:TimeUnit.MILLISECONDS
+     */
+    public void set(String key, String value, long timeout, TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
 
     /**
      * 获取
@@ -47,10 +71,11 @@ public class RedisUtils {
 
     /**
      * 是否存在key
+     *
      * @param key
      * @return
      */
-    public Boolean hasKey(String key){
+    public Boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
     }
 

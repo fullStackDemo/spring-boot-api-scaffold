@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author alex
  */
@@ -20,7 +22,8 @@ public class RedisController {
     private RedisUtils redisUtils;
 
     /**
-     *  获取
+     * 获取
+     *
      * @param key
      * @return
      */
@@ -31,7 +34,20 @@ public class RedisController {
     }
 
     /**
+     * 获取
+     *
+     * @param key
+     * @return
+     */
+    @GetMapping("set")
+    @PassToken
+    public void setRedis(@RequestParam String key, @RequestParam String value) {
+        redisUtils.set(key, value, 60 , TimeUnit.SECONDS);
+    }
+
+    /**
      * 删除
+     *
      * @param key 可以是单个，也可以是多个
      * @return
      */
