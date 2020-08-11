@@ -6,6 +6,8 @@ import com.scaffold.test.mapper.UserMapper;
 import com.scaffold.test.service.UserService;
 import com.scaffold.test.utils.HttpUtils;
 import com.scaffold.test.utils.UUIDUtils;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     @Override
     public int insertUser(User user) {
@@ -53,6 +58,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
         return sessionKey.equalsIgnoreCase(code);
+    }
+
+    @Override
+    public void logout(String token) {
+        RBucket<Object> bucket = redissonClient.getBucket(token);
+        bucket.delete();
     }
 
 }

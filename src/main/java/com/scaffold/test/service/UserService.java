@@ -13,11 +13,31 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 注册用户
+     * @param user 用户
+     * @return
+     */
     int insertUser(User user);
 
+    /**
+     * 查找用户
+     * @param user 用户
+     * @return
+     */
     User findUser(User user);
 
-    // 验证码
+    /**
+     * 验证验证码
+     * @param code 验证码
+     * @return
+     */
     boolean checkCode(String code);
+
+    /**
+     * 退出登录
+     * @param token
+     */
+    void logout(String token);
 
 }

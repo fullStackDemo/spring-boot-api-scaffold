@@ -39,12 +39,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     /**
      * 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
      */
-    private boolean kickoutAfter = false;
+    private static final boolean KICKOUT_AFTER = false;
 
     /**
      * 同一个帐号最大会话数 默认1
      */
-    private int maxSession = 1;
+    private static final int MAX_SESSION = 1;
 
     public static final String PREFIX = "uni_token_";
 
@@ -127,7 +127,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
      * @param token 令牌
      */
     public Boolean kickOut(String token, HttpServletResponse response) {
-        User currentUser = BaseUtils.getCurrentUser();
+        // 从redis中获取用户信息
+        RBucket<User> redisBucket = redissonClient.getBucket(token);
+        User currentUser = redisBucket.get();
         String username = currentUser.getUserName();
         String userKey = PREFIX + "deque_" + username;
         String lockKey = PREFIX_LOCK + username;
@@ -137,21 +139,21 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         try {
             RDeque<String> deque = redissonClient.getDeque(userKey);
             // 如果队列里没有此token，且用户没有被踢出；放入队列
-            if (!deque.contains(token) && !currentUser.getKickout()) {
+            if (!deque.contains(token) && !currentUser.getKickout().equals(Boolean.TRUE)) {
                 deque.push(token);
             }
 
             // 如果队列里的sessionId数超出最大会话数，开始踢人
-            while (deque.size() > maxSession) {
+            while (deque.size() > MAX_SESSION) {
+
                 String kickoutSessionId;
-                if (kickoutAfter) {
+                if (KICKOUT_AFTER) {
                     // 踢出前者
                     kickoutSessionId = deque.removeFirst();
                 } else {
                     // 踢出后者
                     kickoutSessionId = deque.removeLast();
                 }
-
 
                 try {
                     RBucket<User> bucket = redissonClient.getBucket(kickoutSessionId);
@@ -166,17 +168,18 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     e.printStackTrace();
                 }
 
-                // 如果被踢出了，提示退出
-                if (currentUser.getKickout()) {
-                    try {
-                        Result result = ResultGenerator.setFailResult(ResultCode.UNAUTHORIZED, "您的账号已在其他设备登录");
-                        response.getWriter().write(getJSONObject(result));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return false;
+            }
+            // 如果被踢出了，提示退出
+            if (currentUser.getKickout()) {
+                try {
+                    // 注销
+                    userService.logout(token);
+                    Result result = ResultGenerator.setFailResult(ResultCode.ALREDAY_EXIST, "您的账号已在其他设备登录");
+                    response.getWriter().write(getJSONObject(result));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
+                return false;
             }
         } finally {
             if (lock.isHeldByCurrentThread()) {
@@ -193,7 +196,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     }
 
 
-    // 响应结果转化格式
+    /**
+     * 响应结果转化格式
+     * @param result
+     * @return
+     */
     private static String getJSONObject(Result result) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", result.getCode());

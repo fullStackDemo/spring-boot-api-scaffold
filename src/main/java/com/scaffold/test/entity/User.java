@@ -31,6 +31,6 @@ public class User {
      * 是否被踢出
      */
     @TableField(exist = false)
-    private Boolean kickout;
+    private Boolean kickout = false;
 
 }
