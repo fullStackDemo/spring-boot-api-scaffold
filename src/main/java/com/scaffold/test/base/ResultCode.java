@@ -16,8 +16,8 @@ public enum ResultCode {
     UNAUTHORIZED(401),
     //接口不存在
     NOT_FOUND(404),
-    //已经登录
-    ALREDAY_EXIST(4001),
+    // 账户在别的设备登录
+    ALREADY_EXIST(1001),
     //服务器内部错误
     INTERNAL_SERVER_ERROR(500);
 

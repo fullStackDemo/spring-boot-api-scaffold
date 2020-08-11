@@ -174,7 +174,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     // 注销
                     userService.logout(token);
-                    Result result = ResultGenerator.setFailResult(ResultCode.ALREDAY_EXIST, "您的账号已在其他设备登录");
+                    Result result = ResultGenerator.setFailResult(ResultCode.ALREADY_EXIST, "您的账号已在其他设备登录");
                     response.getWriter().write(getJSONObject(result));
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -10,6 +10,10 @@ function getUserInfo() {
         if (code === 401) {
             location.href = location.origin + "/login.html";
             return;
+        } else if (code == 1001) {
+            alert("你的账户已经在别的设备登录");
+            location.href = location.origin + "/login.html";
+            return;
         }
         if (data) {
             titleDom.innerHTML = 'Hello ' + data.userName + ', 欢迎登录追梦空间';
