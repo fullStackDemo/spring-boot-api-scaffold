@@ -8,6 +8,8 @@ import com.scaffold.test.redis.RedisUtils;
 import com.scaffold.test.service.UserService;
 import com.scaffold.test.utils.BaseUtils;
 import com.scaffold.test.utils.JWTUtils;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,9 @@ public class UserController {
     @Autowired
     private RedisUtils redisUtils;
 
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     /**
      * 注册
@@ -60,9 +65,12 @@ public class UserController {
         User userInfo = userService.findUser(user);
         if (userInfo != null) {
             HashMap<Object, Object> result = new HashMap<>();
-            result.put("token", JWTUtils.createToken(userInfo));
-            // 存储到Redis
-            redisUtils.set(userInfo.getUserId(), JWTUtils.createToken(userInfo), 2, TimeUnit.HOURS);
+            String token = JWTUtils.createToken(userInfo);
+            result.put("token", token);
+            // 存储到 Redis
+            RBucket<User> bucket = redissonClient.getBucket(token);
+            bucket.set(user, JWTUtils.EXPIRATION_DATE, TimeUnit.SECONDS);
+
             return ResultGenerator.setSuccessResult(result);
         } else {
             return ResultGenerator.setFailResult("登录失败, 请检查用户名和密码");

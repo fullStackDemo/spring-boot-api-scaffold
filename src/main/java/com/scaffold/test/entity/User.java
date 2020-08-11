@@ -27,4 +27,10 @@ public class User {
     @TableField(exist = false)
     private String token;
 
+    /**
+     * 是否被踢出
+     */
+    @TableField(exist = false)
+    private Boolean kickout;
+
 }

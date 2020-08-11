@@ -24,7 +24,7 @@ public class JWTUtils {
     /**
      * expirationDate 生成jwt的有效期，单位秒
      */
-    private static final long EXPIRATION_DATE = 2 * 60 * 60;
+    public static final long EXPIRATION_DATE = 2 * 60 * 60;
 
 
     /**
@@ -56,6 +56,7 @@ public class JWTUtils {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
         claims.put("userName", user.getUserName());
+        claims.put("crateTime", nowMillis);
 
         // 生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了
         SecretKey key = generalKey(SECRETKEY + user.getPassword());
