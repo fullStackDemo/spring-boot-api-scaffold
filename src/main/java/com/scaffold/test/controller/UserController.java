@@ -6,13 +6,15 @@ import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.User;
 import com.scaffold.test.redis.RedisUtils;
 import com.scaffold.test.service.UserService;
-import com.scaffold.test.utils.BaseUtils;
+import com.scaffold.test.utils.HttpUtils;
 import com.scaffold.test.utils.JWTUtils;
+import com.scaffold.test.utils.UUIDUtils;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -65,11 +67,14 @@ public class UserController {
         User userInfo = userService.findUser(user);
         if (userInfo != null) {
             HashMap<Object, Object> result = new HashMap<>();
+            String uuid = UUIDUtils.getUUID();
             String token = JWTUtils.createToken(userInfo);
             result.put("token", token);
+            result.put("uuid", uuid);
             // 存储到 Redis
             RBucket<User> bucket = redissonClient.getBucket(token);
             user.setUserId(userInfo.getUserId());
+            user.setUuid(uuid);
             bucket.set(user, JWTUtils.EXPIRATION_DATE, TimeUnit.SECONDS);
 
             return ResultGenerator.setSuccessResult(result);
@@ -84,7 +89,13 @@ public class UserController {
      */
     @GetMapping("/info")
     public Result getUserInfo(){
-        User currentUser = BaseUtils.getCurrentUser();
+//        User currentUser = BaseUtils.getCurrentUser();
+        // 从redis中获取
+        HttpServletRequest request = HttpUtils.getRequest();
+        String token = request.getHeader("token");
+        RBucket<User> bucket = redissonClient.getBucket(token);
+        User currentUser = bucket.get();
+        currentUser.setPassword(null);
         return ResultGenerator.setSuccessResult(currentUser);
     }
 

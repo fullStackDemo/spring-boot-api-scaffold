@@ -113,6 +113,7 @@ public class MD5Utils {
 			System.out.println("32bit-md5:\n" + md532);
 			String md532_double = MD5Utils.MD5_32bit((md532));
 			System.out.println("md532_double:\n" + md532_double);
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();

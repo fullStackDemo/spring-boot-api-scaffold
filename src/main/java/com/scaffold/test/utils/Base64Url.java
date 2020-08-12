@@ -24,6 +24,7 @@ public class Base64Url {
 
     /**
      * base64解密
+     *
      * @param text
      * @return
      */
@@ -34,13 +35,13 @@ public class Base64Url {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        System.out.println(Base64Url.encode(JSON.parseObject("{\"sub\":\"{userName=test1, userId=fcfbb2b3d61944f2b31237d2338b54f3}\",\"userName\":\"test1\",\"exp\":1596556187,\"userId\":\"fcfbb2b3d61944f2b31237d2338b54f3\",\"iat\":1596548987,\"jti\":\"67d5f810-7e87-48a3-8bf8-8a09b857887c\"}")));
+//        System.out.println(Base64Url.encode(JSON.parseObject("{\"sub\":\"{userName=test1, userId=fcfbb2b3d61944f2b31237d2338b54f3}\",\"userName\":\"test1\",\"exp\":1596556187,\"userId\":\"fcfbb2b3d61944f2b31237d2338b54f3\",\"iat\":1596548987,\"jti\":\"67d5f810-7e87-48a3-8bf8-8a09b857887c\"}")));
+//
+//        System.out.println(Base64Url.decode("eyJzdWIiOiJ7dXNlck5hbWU9dGVzdDEsIHVzZXJJZD1mY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmM30iLCJ1c2VyTmFtZSI6InRlc3QxIiwiZXhwIjoxNTk2NTU2MTg3LCJ1c2VySWQiOiJmY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmMyIsImlhdCI6MTU5NjU0ODk4NywianRpIjoiNjdkNWY4MTAtN2U4Ny00OGEzLThiZjgtOGEwOWI4NTc4ODdjIn0"));
 
-        System.out.println(Base64Url.decode("eyJzdWIiOiJ7dXNlck5hbWU9dGVzdDEsIHVzZXJJZD1mY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmM30iLCJ1c2VyTmFtZSI6InRlc3QxIiwiZXhwIjoxNTk2NTU2MTg3LCJ1c2VySWQiOiJmY2ZiYjJiM2Q2MTk0NGYyYjMxMjM3ZDIzMzhiNTRmMyIsImlhdCI6MTU5NjU0ODk4NywianRpIjoiNjdkNWY4MTAtN2U4Ny00OGEzLThiZjgtOGEwOWI4NTc4ODdjIn0"));
-
-
+        System.out.println(Base64Url.encode("test" + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7dXNlck5hbWU9dGVzdCwgdXNlcklkPTg0NjFiMDA2NzljMTQ1MmY4Mzk0NTkyMjZmYTIwODEzfSIsImNyYXRlVGltZSI6MTU5NzIwNjI3ODkwMiwidXNlck5hbWUiOiJ0ZXN0IiwiZXhwIjoxNTk3MjEzNDc4LCJ1c2VySWQiOiI4NDYxYjAwNjc5YzE0NTJmODM5NDU5MjI2ZmEyMDgxMyIsImlhdCI6MTU5NzIwNjI3OCwianRpIjoiZjY5NTY0ODItMzgxYy00ZjdkLWJhN2YtNTI4OTBiOGY5ZTc2In0.IYMA7e9y22OZUgbsXneLalHSUWWUl8R-H546d0qAL7Y"));
     }
 
 

@@ -33,4 +33,7 @@ public class User {
     @TableField(exist = false)
     private Boolean kickout = false;
 
+    @TableField(exist = false)
+    private String uuid;
+
 }

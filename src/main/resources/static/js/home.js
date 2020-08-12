@@ -17,7 +17,10 @@ function getUserInfo() {
         }
         if (data) {
             titleDom.innerHTML = 'Hello ' + data.userName + ', 欢迎登录追梦空间';
-            createSocket(data.userId)
+            createSocket({
+                sessionId: data.uuid,
+                userId: data.userId
+            })
         }
 
     })
@@ -28,11 +31,17 @@ function getUserInfo() {
 
 let socket;
 
-const createSocket = (userId) => {
+const createSocket = (params) => {
     if (typeof WebSocket == 'undefined') {
         console.log("浏览器不支持websocket");
     } else {
-        let socketUrl = location.origin + "/websocket/" + userId;
+        const paramsArr = [];
+        Object.keys(params).forEach(m=>{
+            paramsArr.push(`${m}=${params[m]}`);
+        });
+        const sessionId = params['sessionId'];
+        const userId = params['userId'];
+        let socketUrl = location.origin + "/message?" + paramsArr.join("&");
         socketUrl = socketUrl.replace(/http|https/g, 'ws');
         console.log(socketUrl);
         if (socket != null) {
@@ -42,21 +51,25 @@ const createSocket = (userId) => {
         socket = new WebSocket(socketUrl);
         // 建立连接
         socket.onopen = () => {
-            console.log("建立连接");
+            console.log("建立连接", sessionId);
 
             socket.send(JSON.stringify({
-                userId,
+                sessionId: sessionId,
                 query: 'onLineNumber'
             }))
         };
         // 获取消息
         socket.onmessage = message => {
-            console.log(message);
+            console.log(sessionId, message);
             result.innerText = message.data;
         };
 
     }
 };
 
+//关闭连接
+function closeWebSocket() {
+    socket.close();
+}
 
 getUserInfo();

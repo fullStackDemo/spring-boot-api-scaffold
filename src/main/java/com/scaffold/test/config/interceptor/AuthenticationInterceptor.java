@@ -179,7 +179,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                             wsResult.put("message", "您的账号已在其他设备登录");
                             wsResult.put("code", "1001");
                             log.info("用户踢出通知");
-                            WebSocketServer.sendInfo(JSONObject.toJSONString(wsResult), kickOutUser.getUserId());
+                            WebSocketServer.sendInfo(JSONObject.toJSONString(wsResult), kickOutUser.getUuid());
                         }
                     }
 

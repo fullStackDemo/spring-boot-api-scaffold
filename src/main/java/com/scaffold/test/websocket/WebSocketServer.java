@@ -2,19 +2,20 @@ package com.scaffold.test.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.scaffold.test.utils.SystemUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@ServerEndpoint("/websocket/{userId}")
+@ServerEndpoint("/message")
 public class WebSocketServer {
 
     // 存放当前连接的客户端的Websocket对象
@@ -23,30 +24,39 @@ public class WebSocketServer {
     private Session session;
     // 当前用户id
     private String userId;
-    // 在线人数
-    private static int onlineNumber = 0;
-
+    // 当前会话连接id
+    private String sessionId;
+    // 在线用户ID
+    private static ArrayList<String> userList;
 
     /**
      * 连接打开时调用
      *
-     * @param session
-     * @param userId
+     * @param session 会话
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
+    public void onOpen(Session session) {
         this.session = session;
+        JSONObject query = getSessionQuery(session);
+        String userId = query.getString("userId");
+        String sessionId = query.getString("sessionId");
+
+        userList = new ArrayList<>();
+
         this.userId = userId;
+        this.sessionId = sessionId;
         // 判断连接是否已经成立
-        if (webSocketMap.containsKey(userId)) {
+        if (webSocketMap.containsKey(sessionId)) {
             // 已存在，先移除再添加
-            webSocketMap.remove(userId);
-            webSocketMap.put(userId, this);
+            webSocketMap.remove(sessionId);
+            webSocketMap.put(sessionId, this);
         } else {
             // 不存在，直接添加
-            webSocketMap.put(userId, this);
+            webSocketMap.put(sessionId, this);
             // 增加在线人数
-            addOnlineNumber();
+            if (!userList.contains(userId)) {
+                userList.add(userId);
+            }
             // 通知所有人
             sendMessageAll("当前连接人数为：" + getOnlineNumber());
         }
@@ -59,14 +69,18 @@ public class WebSocketServer {
      * 连接关闭时调用
      */
     @OnClose
-    public void onClose() {
-        if (webSocketMap.containsKey(userId)) {
-            webSocketMap.remove(userId);
-            subOnlineNumber();
+    public void onClose(Session session) {
+        JSONObject query = getSessionQuery(session);
+        String userId = query.getString("userId");
+        String sessionId = query.getString("sessionId");
+
+        if (webSocketMap.containsKey(sessionId)) {
+            webSocketMap.remove(sessionId);
+            userList.remove(userId);
             // 通知所有人
             sendMessageAll("当前连接人数为：" + getOnlineNumber());
         }
-        log.info("用户退出：" + userId + ",当前连接人数为：" + getOnlineNumber());
+        log.info("用户退出：" + sessionId + ",当前连接人数为：" + getOnlineNumber());
     }
 
     /**
@@ -83,16 +97,19 @@ public class WebSocketServer {
         if (StringUtils.isNotBlank(message)) {
             //解析消息
             JSONObject messageInfo = JSON.parseObject(message);
-            String userId = messageInfo.getString("userId");
+            String sessionId = messageInfo.getString("sessionId");
             // 用户查询内容
             String query = messageInfo.getString("query");
             // 验证UserId, 如果存在，发送消息
-            if (StringUtils.isNoneBlank(userId) && webSocketMap.containsKey(userId)) {
-                String msg = messageInfo.toJSONString();
+            if (StringUtils.isNoneBlank(sessionId) && webSocketMap.containsKey(sessionId)) {
+                String msg = null;
+                /*
+                 * 查询人数
+                 */
                 if (query.equals("onLineNumber")) {
                     msg = "当前在线人数：" + getOnlineNumber();
                 }
-                webSocketMap.get(userId).sendMessage(msg);
+                webSocketMap.get(sessionId).sendMessage(msg);
             } else {
                 log.error("用户不存在");
             }
@@ -102,12 +119,13 @@ public class WebSocketServer {
     /**
      * 连接出错时调用
      *
-     * @param session
+     * @param session session
      * @param err
      */
     @OnError
     public void onError(Session session, Throwable err) {
-        log.error(this.userId + "连接出错，" + err.getMessage());
+        JSONObject sessionQuery = getSessionQuery(session);
+        log.error(sessionQuery.getString("sessionId") + "连接出错，" + err.getMessage());
         err.printStackTrace();
     }
 
@@ -127,29 +145,29 @@ public class WebSocketServer {
      * 发送自定义消息给客户端
      *
      * @param message
-     * @param userId
+     * @param sessionId
      * @throws IOException
      */
-    public static void sendInfo(String message, @PathParam("userId") String userId) throws IOException {
-        log.info("发送消息给" + userId + ",内容为：" + message);
-        if (StringUtils.isNoneBlank(message) && webSocketMap.containsKey(userId)) {
-            webSocketMap.get(userId).sendMessage(message);
+    public static void sendInfo(String message, String sessionId) throws IOException {
+        log.info("发送消息给" + sessionId + ",内容为：" + message);
+        if (StringUtils.isNoneBlank(message) && webSocketMap.containsKey(sessionId)) {
+            webSocketMap.get(sessionId).sendMessage(message);
         } else {
-            log.error("用户" + userId + "不在线");
+            log.error("用户" + sessionId + "不在线");
         }
     }
 
     /**
      * 群发消息
      *
-     * @param message
+     * @param message 消息
      */
     public void sendMessageAll(String message) {
         // 遍历 HashMap
         for (String key : webSocketMap.keySet()) {
             // 排除当前连接用户
             try {
-                if (!key.equals(this.userId)) {
+                if (!key.equals(this.sessionId)) {
                     webSocketMap.get(key).sendMessage(message);
                 }
             } catch (Exception e) {
@@ -160,17 +178,20 @@ public class WebSocketServer {
 
     // 获取在线人数，锁定线程
     public static synchronized int getOnlineNumber() {
-        return onlineNumber;
+        return userList.size();
     }
 
-    // 增加人数
-    public static synchronized void addOnlineNumber() {
-        onlineNumber++;
-    }
 
-    // 减少人数
-    public static synchronized void subOnlineNumber() {
-        onlineNumber--;
+    /**
+     * 获取参数
+     *
+     * @param session session
+     * @return JSONObject
+     */
+    public static JSONObject getSessionQuery(Session session) {
+        String queryString = session.getQueryString();
+        JSONObject query = SystemUtils.getQuery(queryString);
+        return query;
     }
 
 

@@ -1,5 +1,7 @@
 package com.scaffold.test.utils;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,11 +87,30 @@ public class SystemUtils {
 
     /**
      * 获取当前时刻
+     *
      * @return hour
      */
-    public static int getCurrentHour(){
+    public static int getCurrentHour() {
         Date date = new Date();
         return date.getHours();
+    }
+
+    /**
+     * 格式化参数
+     *
+     * @param queryString  "uuid=3bdc8a60c4f542bda9257ac71f330f41&userId=8461b00679c1452f839459226fa20813"
+     * @return JSONObject
+     */
+    public static JSONObject getQuery(String queryString) {
+        JSONObject result = new JSONObject();
+        String[] queryArr = queryString.split("&");
+        for (String query : queryArr) {
+            String[] queryArr2 = query.split("=");
+            if (queryArr2.length == 2) {
+                result.put(queryArr2[0], queryArr2[1]);
+            }
+        }
+        return result;
     }
 
 
@@ -97,5 +118,9 @@ public class SystemUtils {
         System.out.println(getDateFromToday(60));
         System.out.println(getWeek("2020-08-01"));
         System.out.println(getCurrentHour());
+
+        String testValue = "uuid=3bdc8a60c4f542bda9257ac71f330f41&userId=8461b00679c1452f839459226fa20813";
+        System.out.println(getQuery(testValue));
+
     }
 }
