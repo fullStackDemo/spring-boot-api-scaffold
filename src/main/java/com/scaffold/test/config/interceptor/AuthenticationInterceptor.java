@@ -9,6 +9,7 @@ import com.scaffold.test.entity.User;
 import com.scaffold.test.service.UserService;
 import com.scaffold.test.utils.BaseUtils;
 import com.scaffold.test.utils.JWTUtils;
+import com.scaffold.test.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,19 +39,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     public RedissonClient redissonClient;
 
-    /**
-     * 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-     */
-    private static final boolean KICKOUT_AFTER = false;
+    @Autowired
+    WebSocketServer webSocketServer;
 
-    /**
-     * 同一个帐号最大会话数 默认1
-     */
-    private static final int MAX_SESSION = 1;
-
-    public static final String PREFIX = "uni_token_";
-
-    public static final String PREFIX_LOCK = "uni_token_lock_";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -127,11 +120,23 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
      * @param token 令牌
      */
     public Boolean kickOut(String token, HttpServletResponse response) {
+        // 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
+        boolean KICKOUT_AFTER = true;
+
+        // 同一个帐号最大会话数 默认1
+        int MAX_SESSION = 2;
+
+        String PREFIX = "uni_token_";
+
+        String PREFIX_LOCK = "uni_token_lock_";
+
         // 从redis中获取用户信息
         RBucket<User> redisBucket = redissonClient.getBucket(token);
         User currentUser = redisBucket.get();
         String username = currentUser.getUserName();
         String userKey = PREFIX + "deque_" + username;
+
+        // 锁定
         String lockKey = PREFIX_LOCK + username;
         RLock lock = redissonClient.getLock(lockKey);
         lock.lock(2, TimeUnit.SECONDS);
@@ -140,6 +145,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             RDeque<String> deque = redissonClient.getDeque(userKey);
             // 如果队列里没有此token，且用户没有被踢出；放入队列
             if (!deque.contains(token) && !currentUser.getKickout().equals(Boolean.TRUE)) {
+                // 队列是先入后出，后来居上
                 deque.push(token);
             }
 
@@ -148,10 +154,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
                 String kickoutSessionId;
                 if (KICKOUT_AFTER) {
-                    // 踢出前者
+                    // 踢出最后一个
                     kickoutSessionId = deque.removeFirst();
                 } else {
-                    // 踢出后者
+                    // 踢出第一个
                     kickoutSessionId = deque.removeLast();
                 }
 
@@ -162,6 +168,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     if (kickOutUser != null) {
                         kickOutUser.setKickout(true);
                         bucket.set(kickOutUser);
+                        // 推送消息
+                        Map<Object, Object> wsResult = new HashMap<>();
+                        wsResult.put("message", "您的账号已在其他设备登录");
+                        wsResult.put("code", "1001");
+                        log.info("用户踢出通知");
+                        // 注销
+                        WebSocketServer.sendInfo(JSONObject.toJSONString(wsResult), kickOutUser.getUserId());
                     }
 
                 } catch (Exception e) {
@@ -170,6 +183,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
             }
             // 如果被踢出了，提示退出
+            // 获取redis更新后数据
+            currentUser = redisBucket.get();
             if (currentUser.getKickout()) {
                 try {
                     // 注销
@@ -184,10 +199,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         } finally {
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
-                log.info(currentUser.getUserName() + " unlock");
+                log.info("用户 " + currentUser.getUserName() + " unlock");
 
             } else {
-                log.info(currentUser.getUserName() + " already automatically release lock");
+                log.info("用户 " + currentUser.getUserName() + " already automatically release lock");
             }
         }
 
@@ -198,6 +213,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     /**
      * 响应结果转化格式
+     *
      * @param result
      * @return
      */

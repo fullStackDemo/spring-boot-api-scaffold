@@ -69,6 +69,7 @@ public class UserController {
             result.put("token", token);
             // 存储到 Redis
             RBucket<User> bucket = redissonClient.getBucket(token);
+            user.setUserId(userInfo.getUserId());
             bucket.set(user, JWTUtils.EXPIRATION_DATE, TimeUnit.SECONDS);
 
             return ResultGenerator.setSuccessResult(result);
