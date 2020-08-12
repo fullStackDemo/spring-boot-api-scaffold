@@ -29,9 +29,9 @@ public class WebSocketServer {
     // 当前会话连接id
     private String sessionId;
     // 在线用户ID
-    private static ArrayList<String> userList;
+    private static ArrayList<String> userList = new ArrayList<>();
     // 记录同一个用户UserID开启了几个会话
-    private static Map<String, Object> userMap;
+    private static Map<String, Object> userMap = new HashMap<>();
 
     /**
      * 连接打开时调用
@@ -45,7 +45,6 @@ public class WebSocketServer {
         String userId = query.getString("userId");
         String sessionId = query.getString("sessionId");
         // 用户列表
-        userList = new ArrayList<>();
         setUserMap(userId, sessionId);
 
         this.userId = userId;
@@ -210,7 +209,6 @@ public class WebSocketServer {
      * @param sessionId 会话ID
      */
     public void setUserMap(String userId, String sessionId) {
-        userMap = new HashMap<>();
         if (userMap.get(userId) != null) {
             ArrayList<String> sessionIds = (ArrayList<String>) userMap.get(userId);
             if (!sessionIds.contains(sessionId)) {
