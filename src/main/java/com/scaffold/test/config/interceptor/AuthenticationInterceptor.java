@@ -120,8 +120,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
      * @param token 令牌
      */
     public Boolean kickOut(String token, HttpServletResponse response) {
-        // 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-        boolean KICKOUT_AFTER = true;
+        // 踢出之前登录的||之后登录的用户 默认踢出之前登录的用户
+        boolean KICKOUT_AFTER = false;
 
         // 同一个帐号最大会话数 默认1
         int MAX_SESSION = 2;
@@ -168,13 +168,19 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     if (kickOutUser != null) {
                         kickOutUser.setKickout(true);
                         bucket.set(kickOutUser);
-                        // 推送消息
-                        Map<Object, Object> wsResult = new HashMap<>();
-                        wsResult.put("message", "您的账号已在其他设备登录");
-                        wsResult.put("code", "1001");
-                        log.info("用户踢出通知");
-                        // 注销
-                        WebSocketServer.sendInfo(JSONObject.toJSONString(wsResult), kickOutUser.getUserId());
+
+                        // 获取redis更新后数据
+                        currentUser = redisBucket.get();
+
+                        // 如果不是踢出最后一个登录的时候，推送消息提示
+                        if (!KICKOUT_AFTER) {
+                            // 推送消息
+                            Map<Object, Object> wsResult = new HashMap<>();
+                            wsResult.put("message", "您的账号已在其他设备登录");
+                            wsResult.put("code", "1001");
+                            log.info("用户踢出通知");
+                            WebSocketServer.sendInfo(JSONObject.toJSONString(wsResult), kickOutUser.getUserId());
+                        }
                     }
 
                 } catch (Exception e) {
@@ -183,8 +189,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
             }
             // 如果被踢出了，提示退出
-            // 获取redis更新后数据
-            currentUser = redisBucket.get();
             if (currentUser.getKickout()) {
                 try {
                     // 注销
