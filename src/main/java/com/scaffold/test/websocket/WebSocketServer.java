@@ -11,6 +11,8 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -28,6 +30,8 @@ public class WebSocketServer {
     private String sessionId;
     // 在线用户ID
     private static ArrayList<String> userList;
+    // 记录同一个用户UserID开启了几个会话
+    private static Map<String, Object> userMap;
 
     /**
      * 连接打开时调用
@@ -40,8 +44,9 @@ public class WebSocketServer {
         JSONObject query = getSessionQuery(session);
         String userId = query.getString("userId");
         String sessionId = query.getString("sessionId");
-
+        // 用户列表
         userList = new ArrayList<>();
+        setUserMap(userId, sessionId);
 
         this.userId = userId;
         this.sessionId = sessionId;
@@ -76,18 +81,22 @@ public class WebSocketServer {
 
         if (webSocketMap.containsKey(sessionId)) {
             webSocketMap.remove(sessionId);
-            userList.remove(userId);
+            deleteFromUserMap(userId, sessionId);
+            // 判断当前UserId是否有会话存在，不存在，用户数据减一
+            if (!checkUserExist(userId, sessionId)) {
+                userList.remove(userId);
+                log.info("用户退出：" + userId + ", 当前连接人数为：" + getOnlineNumber());
+            }
             // 通知所有人
             sendMessageAll("当前连接人数为：" + getOnlineNumber());
         }
-        log.info("用户退出：" + sessionId + ",当前连接人数为：" + getOnlineNumber());
     }
 
     /**
      * 收到客户端信息时调用
      *
-     * @param message
-     * @param session
+     * @param message 接收消息
+     * @param session session
      */
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
@@ -167,9 +176,9 @@ public class WebSocketServer {
         for (String key : webSocketMap.keySet()) {
             // 排除当前连接用户
             try {
-                if (!key.equals(this.sessionId)) {
-                    webSocketMap.get(key).sendMessage(message);
-                }
+//                if (!key.equals(this.sessionId)) {
+//                }
+                webSocketMap.get(key).sendMessage(message);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
@@ -192,6 +201,54 @@ public class WebSocketServer {
         String queryString = session.getQueryString();
         JSONObject query = SystemUtils.getQuery(queryString);
         return query;
+    }
+
+    /**
+     * 记录当前UserId，产生了多少个会话链接
+     *
+     * @param userId    用户Id
+     * @param sessionId 会话ID
+     */
+    public void setUserMap(String userId, String sessionId) {
+        userMap = new HashMap<>();
+        if (userMap.get(userId) != null) {
+            ArrayList<String> sessionIds = (ArrayList<String>) userMap.get(userId);
+            if (!sessionIds.contains(sessionId)) {
+                sessionIds.add(sessionId);
+            }
+        } else {
+            ArrayList<String> sessionIds = new ArrayList<>();
+            sessionIds.add(sessionId);
+            userMap.put(userId, sessionIds);
+        }
+    }
+
+    /**
+     * 从记录当前UserId的会话链接移除当前会话
+     *
+     * @param userId    用户Id
+     * @param sessionId 会话ID
+     */
+    public void deleteFromUserMap(String userId, String sessionId) {
+        if (userMap.get(userId) != null) {
+            ArrayList<String> sessionIds = (ArrayList<String>) userMap.get(userId);
+            sessionIds.remove(sessionId);
+        }
+    }
+
+    /**
+     * 检查当前UserId 是否还有会话存在，不存在用户数减一
+     *
+     * @param userId    用户Id
+     * @param sessionId 会话ID
+     * @return true
+     */
+    public Boolean checkUserExist(String userId, String sessionId) {
+        if (userMap.get(userId) != null) {
+            ArrayList<String> sessionIds = (ArrayList<String>) userMap.get(userId);
+            return sessionIds.size() > 0;
+        }
+        return false;
     }
 
 
