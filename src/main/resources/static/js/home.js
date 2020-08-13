@@ -63,12 +63,11 @@ const createSocket = (params) => {
         socket.onmessage = message => {
             console.log(sessionId, message);
             const data = JSON.parse(message.data);
-            if (data.code === 1001) {
-                debugger
+            if (data.code == 1001) {
                 // 踢出通知
                 alert(data.message);
                 location.href = location.origin + "/login.html";
-            } else if (data.code === 200) {
+            } else if (data.code == 200) {
                 result.innerText = data.message;
             }
         };
