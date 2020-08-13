@@ -124,7 +124,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         boolean KICKOUT_AFTER = false;
 
         // 同一个帐号最大会话数 默认1
-        int MAX_SESSION = 2;
+        int MAX_SESSION = 1;
 
         String PREFIX = "uni_token_";
 

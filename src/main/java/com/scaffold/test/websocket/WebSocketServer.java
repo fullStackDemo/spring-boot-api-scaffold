@@ -62,7 +62,8 @@ public class WebSocketServer {
                 userList.add(userId);
             }
             // 通知所有人
-            sendMessageAll("当前连接人数为：" + getOnlineNumber());
+            String message = generateMessage(200, "当前连接人数为：" + getOnlineNumber());
+            sendMessageAll(message);
         }
 
         log.info("连接用户：" + userId + ",当前连接人数为：" + getOnlineNumber());
@@ -87,7 +88,8 @@ public class WebSocketServer {
                 log.info("用户退出：" + userId + ", 当前连接人数为：" + getOnlineNumber());
             }
             // 通知所有人
-            sendMessageAll("当前连接人数为：" + getOnlineNumber());
+            String message = generateMessage(200, "当前连接人数为：" + getOnlineNumber());
+            sendMessageAll(message);
         }
     }
 
@@ -115,7 +117,7 @@ public class WebSocketServer {
                  * 查询人数
                  */
                 if (query.equals("onLineNumber")) {
-                    msg = "当前在线人数：" + getOnlineNumber();
+                    msg = generateMessage(200, "当前在线人数：" + getOnlineNumber());
                 }
                 webSocketMap.get(sessionId).sendMessage(msg);
             } else {
@@ -175,8 +177,6 @@ public class WebSocketServer {
         for (String key : webSocketMap.keySet()) {
             // 排除当前连接用户
             try {
-//                if (!key.equals(this.sessionId)) {
-//                }
                 webSocketMap.get(key).sendMessage(message);
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -247,6 +247,21 @@ public class WebSocketServer {
             return sessionIds.size() > 0;
         }
         return false;
+    }
+
+
+    /**
+     * 生成消息
+     *
+     * @param code
+     * @param message
+     * @return
+     */
+    public String generateMessage(int code, String message) {
+        Map<Object, Object> wsResult = new HashMap<>();
+        wsResult.put("message", message);
+        wsResult.put("code", code);
+        return JSONObject.toJSONString(wsResult);
     }
 
 

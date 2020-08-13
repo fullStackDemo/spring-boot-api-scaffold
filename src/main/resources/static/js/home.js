@@ -36,7 +36,7 @@ const createSocket = (params) => {
         console.log("浏览器不支持websocket");
     } else {
         const paramsArr = [];
-        Object.keys(params).forEach(m=>{
+        Object.keys(params).forEach(m => {
             paramsArr.push(`${m}=${params[m]}`);
         });
         const sessionId = params['sessionId'];
@@ -56,12 +56,21 @@ const createSocket = (params) => {
             socket.send(JSON.stringify({
                 sessionId: sessionId,
                 query: 'onLineNumber'
-            }))
+            }));
+
         };
         // 获取消息
         socket.onmessage = message => {
             console.log(sessionId, message);
-            result.innerText = message.data;
+            const data = JSON.parse(message.data);
+            if (data.code === 1001) {
+                debugger
+                // 踢出通知
+                alert(data.message);
+                location.href = location.origin + "/login.html";
+            } else if (data.code === 200) {
+                result.innerText = data.message;
+            }
         };
 
     }
