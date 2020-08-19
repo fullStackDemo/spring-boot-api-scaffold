@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.entity.Test;
 import com.scaffold.test.entity.TestList;
+import com.scaffold.test.utils.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -157,6 +158,18 @@ public class TestController {
     @RequestMapping("/cookie")
     public Object getCookie(@CookieValue(name = "token") String token) {
         return token;
+    }
+
+
+
+
+
+    @PassToken
+    @GetMapping("/keep")
+    public String testKeep(){
+        HttpServletRequest request = HttpUtils.getRequest();
+        System.out.println(request.getHeader("Connection"));
+        return request.getHeader("Connection");
     }
 
 
