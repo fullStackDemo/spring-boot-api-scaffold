@@ -264,8 +264,6 @@ public class WebsocketConfig {
 ~~~
 
 > websocket对应也有以下几个方法：
->
-> 
 
 ~~~java
 package com.scaffold.test.websocket;
@@ -330,4 +328,48 @@ public class WebSocketServer {
 }
 
 ~~~
+
+这里我们要实现的的是`实时推送当前在线人数的一个需求，包括两种场景`：
+
+>1、同一个账户，在不同的客户端（浏览器登录）登录，实时推送当前在线人数(+1账户，同一个账户再次登录应该是不增加)；
+>
+>2、不同的账户，在不同的户端（浏览器登录）登录，实时推送当前在线人数（多一个不同账户登录，就会+1）；
+
+用户登录注册功能在实现在之前的文章中[Spring Boot手把手教学(15)：RESTful api接口如何开启登录鉴权拦截和放行](https://juejin.im/post/6854573218917777415)，已经有实现的过程，这里不再赘述;
+
+> 我们这里讲下需要修改的地方：
+
+由于有同一个账户在不同客户端登录的场景存在，我们就能把userId作为websocket的sessionId标识，只能在登录的时候，为这个账户，生成一个唯一ID标识，我们这里生成一个UUID返回到前端；
+
+~~~java
+    /**
+     * 登录
+     * @param user 用户信息
+     * @return Result
+     */
+    @PassToken
+    @PostMapping("/login")
+    public Result userLogin(User user) {
+        //验证码校验
+        if (!userService.checkCode(user.getCode())) {
+            return ResultGenerator.setFailResult("登录失败, 验证码不正确");
+        }
+        User userInfo = userService.findUser(user);
+        if (userInfo != null) {
+            HashMap<Object, Object> result = new HashMap<>();
+            // 生成UUID
+            String uuid = UUIDUtils.getUUID();
+            String token = JWTUtils.createToken(userInfo);
+            result.put("token", token);
+            result.put("uuid", uuid);
+            return ResultGenerator.setSuccessResult(result);
+        } else {
+            return ResultGenerator.setFailResult("登录失败, 请检查用户名和密码");
+        }
+    }
+~~~
+
+
+
+
 
