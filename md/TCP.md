@@ -121,8 +121,6 @@ Note over 客户端,服务端: 传输数据
 
 数据传输完毕后，没有后续数据请求后，双方就会释放连接。
 
-
-
 ~~~sequence
 Title: TCP四次挥手
 Note over 客户端,服务端: 传输数据
@@ -131,22 +129,51 @@ Note right of 服务端: 处于ESTABLISHED状态
 Note over 客户端,服务端: 客户端关闭连接
 Note left of 客户端: 主动断开
 Note right of 服务端: 被动断开
-Note over 客户端,服务端: SYN
-客户端-->服务端: 发起请求，SYN=1,seq=x(客户端序列号)
-Note left of 客户端: 客户端进入SYN_SENT状态
-Note right of 服务端: 服务端被动打开进入LISTEN状态
-Note over 客户端,服务端: SYN+ACK
-服务端-->客户端: 同意连接，确认ACK=1,SYN=1,ack=x+1,seq=y(服务端序列号)
-Note right of 服务端: 服务端进入SYN-RCVD(同步收到)状态
+
+Note over 客户端,服务端: FIN
+客户端-->服务端: 发起请求，FIN=1,seq=u(客户端序列号)
+Note left of 客户端: 客户端进入FIN-WAIT-1状态
+
 Note over 客户端,服务端: ACK
-客户端-->服务端: 收到确认后,ACK=1,ack=y+1,seq=x+1
-Note over 客户端,服务端: 连接建立
-Note left of 客户端: 客户端进入ESTABLISHED状态
-Note right of 服务端: 服务端进入ESTABLISHED状态
+服务端-->客户端: 确认断开,ACK=1,ack=u+1,seq=v(服务端序列号)
+Note right of 服务端: 服务端被动进入CLOSE-WAIT状态
+Note left of 客户端: 客户端进入FIN-WAIT-2状态
+
+Note over 客户端,服务端: 传输数据
+Note over 客户端,服务端: FIN
+服务端-->客户端: 发送数据完毕后确认断开,FIN=1, ACK=1,ack=u+1,seq=w(服务端序列号)
+Note right of 服务端: 服务端进入LAST-ACK（最后确认）
+
+Note over 客户端,服务端: ACK
+客户端-->服务端: 收到释放报文后后,ACK=1,ack=w+1,seq=u+1
+Note left of 客户端: 客户端进入TIME-WAIT状态
+Note over 客户端,服务端: 连接释放成功
+Note right of 服务端: 服务端进入ClOSED状态
 
 ~~~
 
+![1597911450547](TCP.assets/1597911450547.png)
 
+![1597914791242](TCP.assets/1597914791242.png)
+
+数据传输完毕后，双方都可以释放连接.
+此时客户端和服务器都是处于ESTABLISHED状态，然后客户端主动断开连接，服务器被动断开连接.
+
+1, 客户端进程发出连接释放报文，并且停止发送数据。
+释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。
+
+2, 服务器收到连接释放报文，发出确认报文，ACK=1，确认序号为 u+1，并且带上自己的序列号seq=v，此时服务端就进入了CLOSE-WAIT（关闭等待）状态。
+TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。
+
+3, 客户端收到服务器的确认请求后，此时客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最终数据）
+
+4, 服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，确认序号为v+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。
+
+5, 客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，确认序号为w+1，而自己的序列号是u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。
+
+6, 服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。
+
+这里不再赘述，只是简单介绍下TCP；
 
 ### 4、 websocket
 
@@ -174,5 +201,133 @@ Http请求头中`Connection:Upgrade ``Upgrade:websocket``,
 
 如图所示，Websocket协议本质上是一个基于TCP的协议。建立连接需要握手，客户端（浏览器）首先向服务器（web server）发起一条特殊的http请求，web server解析后生成应答到浏览器，这样子一个websocket连接就建立了，直到某一方关闭连接。
 
-### 
+![1597914958679](TCP.assets/1597914958679.png)
+
+### 5 、客户端连接websocket
+
+~~~javascript
+var ws = new WebSocket(socketUrl);
+
+ws.onopen = function(evt) { 
+  console.log("Connection open ..."); 
+  ws.send("Hello");
+};
+
+ws.onmessage = function(evt) {
+  console.log( "Received Message: " + evt.data);
+  ws.close();
+};
+
+ws.onclose = function(evt) {
+  console.log("Connection closed.");
+};
+
+~~~
+
+### 6、服务端创建websocket
+
+> maven安装依赖
+
+~~~xml
+        <!-- websocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+~~~
+
+> 开启websocket
+>
+> com.scaffold.test.config.WebsocketConfig
+
+~~~java
+package com.scaffold.test.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+
+/**
+ * websocket 自动装配
+ */
+
+@Configuration
+public class WebsocketConfig {
+
+    // 开启WebSocket支持
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter(){
+        return new ServerEndpointExporter();
+    }
+}
+
+~~~
+
+> websocket对应也有以下几个方法：
+>
+> 
+
+~~~java
+package com.scaffold.test.websocket;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.scaffold.test.utils.SystemUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
+@Component
+@ServerEndpoint("/message")
+public class WebSocketServer {
+
+    // 存放当前连接的客户端的Websocket对象
+    private static ConcurrentHashMap<String, WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    // 与客户端的连接会话，通过它来给客户端发送数据
+    private Session session;
+
+    /**
+     * 连接打开时调用
+     *
+     * @param session 会话
+     */
+    @OnOpen
+    public void onOpen(Session session) { }
+
+    /**
+     * 连接关闭时调用
+     */
+    @OnClose
+    public void onClose(Session session) {}
+
+    /**
+     * 收到客户端信息时调用
+     *
+     * @param message 接收消息
+     * @param session session
+     */
+    @OnMessage
+    public void onMessage(String message, Session session) {}
+
+    /**
+     * 连接出错时调用
+     *
+     * @param session session
+     * @param err
+     */
+    @OnError
+    public void onError(Session session, Throwable err) {}
+
+}
+
+~~~
 
