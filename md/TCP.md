@@ -4,6 +4,10 @@
 
 ### 1、前言
 
+websocket一般用途为消息提醒，股票行情数据推送等等；有很多用途。
+
+我们这里简单举例理解websocket和如何前后端接入websocket；
+
 我们这里使用WireShark进行抓包分析；
 
 WireShark是一个网络抓包分析软件。主要是截取网络封包，并尽可能显示出最为详细的网络封包资料。WireShark抓包是根据TCP/IP五层协议来的，也就是物理层、数据链路层、网络层、传输层、应用层。我们主要关注传输层和应用层。
@@ -224,7 +228,7 @@ ws.onclose = function(evt) {
 
 ~~~
 
-### 6、服务端创建websocket
+### 6、服务端创建websocket代码实现
 
 > maven安装依赖
 
@@ -657,7 +661,7 @@ public class WebSocketServer {
 }
 ~~~
 
-### 7、前端发起websocket
+### 7、前端发起websocket代码实现
 
 ![1598248435044](TCP.assets/1598248435044.png)
 
@@ -745,5 +749,7 @@ getUserInfo();
 
 ![1598248365184](TCP.assets/1598248365184.png)
 
+### 8、总结
 
+以上仅为一个简单的示例，websocket是不同于HTTP的特殊报文请求，有很多其他用途，下次，我们将讲解如何控制单用户登录，当同一个账户多客户端登录的时候，实现互踢，仅保持一个客户端登录并使用websocket做出用户踢出提醒。
 
