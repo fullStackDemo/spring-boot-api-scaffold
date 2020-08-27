@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.BusMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.Bus">
+        <id column="id" property="id" />
+        <result column="route_name" property="routeName" />
+        <result column="route_code" property="routeCode" />
+        <result column="first_time" property="firstTime" />
+        <result column="last_time" property="lastTime" />
+        <result column="price_base" property="priceBase" />
+        <result column="start_stop_name" property="startStopName" />
+        <result column="end_stop_name" property="endStopName" />
+        <result column="nearest_stop_name" property="nearestStopName" />
+        <result column="nearest_stop_duration" property="nearestStopDuration" />
+        <result column="nearest_stop_distance" property="nearestStopDistance" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, route_name, route_code, first_time, last_time, price_base, start_stop_name, end_stop_name, nearest_stop_name, nearest_stop_duration, nearest_stop_distance, update_time, create_time
+    </sql>
+
+</mapper>

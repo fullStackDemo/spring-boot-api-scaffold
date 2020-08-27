@@ -3,11 +3,14 @@ package com.scaffold.test.utils;
 import com.scaffold.test.entity.HttpParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -16,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,7 +79,10 @@ public class HttpUtils {
         HttpPost httpPost = new HttpPost(httpParams.getRequestUrl());
         // 请求头
         Map<String, Object> requestHeader = httpParams.getRequestHeader();
-        httpPost.setHeader("Token", (String) requestHeader.get("token"));
+//        httpPost.setHeader("Token", (String) requestHeader.get("token"));
+        for (String headerKey : requestHeader.keySet()) {
+            httpPost.setHeader(headerKey, (String) requestHeader.get(headerKey));
+        }
         // 响应
         CloseableHttpResponse response = null;
         String responseData = null;
@@ -94,6 +102,17 @@ public class HttpUtils {
                     builder.addTextBody("upload_token", String.valueOf(requestParams.get("upload_token")));
                     httpEntity = builder.build();
                     httpPost.setEntity(httpEntity);
+                    break;
+                case "formUrl":
+                    List<NameValuePair> params = new ArrayList<>();
+                    for (String paramKey : requestParams.keySet()) {
+                        params.add(new BasicNameValuePair(paramKey, requestParams.get(paramKey).toString()));
+                    }
+                    try {
+                        httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
