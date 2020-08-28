@@ -1,7 +1,6 @@
 package com.scaffold.test.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.scaffold.test.entity.Bus;
 import com.scaffold.test.entity.Route;
 
 /**
@@ -19,6 +18,6 @@ public interface RouteService extends IService<Route> {
      *
      * @return
      */
-    Bus getRouteData();
+    Route getRouteData();
 
 }

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RouteMapper extends BaseMapper<Route> {
 
+    int insertRoute(Route route);
 }

@@ -34,8 +34,11 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
     @Autowired
     RouteStopService routeStopService;
 
+    @Autowired
+    RouteMapper routeMapper;
+
     @Override
-    public Bus getRouteData() {
+    public Route getRouteData() {
         HttpParams httpParams = new HttpParams();
         httpParams.setRequestUrl("https://ccmcx.tenpay.com/cgi-bin/ccmcx/ccmcx_bus_route_detail.cgi");
         // 请求头
@@ -66,7 +69,7 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
         JSONObject responseData = JSONObject.parseObject(responseDataStr);
 
         // 返回结果
-        Bus result = new Bus();
+        Route result = new Route();
         result.setRouteName(responseData.getString("route_name"));
         result.setRouteCode(responseData.getString("route_code"));
         result.setStartStopName(responseData.getString("start_stop_name"));
@@ -101,7 +104,7 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
         log.info(JSONObject.toJSONString(result));
 
         // 入库
-
+        routeMapper.insertRoute(result);
         return result;
     }
 }
