@@ -3,7 +3,6 @@ package com.scaffold.test.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.scaffold.test.entity.Route;
 import com.scaffold.test.entity.RouteBus;
-import com.scaffold.test.entity.RouteStop;
 
 import java.util.List;
 
@@ -19,6 +18,6 @@ public interface RouteBusService extends IService<RouteBus> {
 
     List<RouteBus> getBusList(Route route);
 
-    void insertRouteBus(RouteStop routeStop);
+    void insertRouteBus(RouteBus routeBus);
 
 }

@@ -4,19 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.scaffold.test.entity.RouteBus">
-        <id column="id" property="id" />
-        <result column="distance" property="distance" />
-        <result column="duration" property="duration" />
-        <result column="longitude" property="longitude" />
-        <result column="latitude" property="latitude" />
-        <result column="next_stop_code" property="nextStopCode" />
-        <result column="next_stop_index" property="nextStopIndex" />
-        <result column="next_stop_name" property="nextStopName" />
-        <result column="stop_index" property="stopIndex" />
-        <result column="stop_num" property="stopNum" />
-        <result column="state" property="state" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="distance" property="distance"/>
+        <result column="duration" property="duration"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="next_stop_code" property="nextStopCode"/>
+        <result column="next_stop_index" property="nextStopIndex"/>
+        <result column="next_stop_name" property="nextStopName"/>
+        <result column="stop_index" property="stopIndex"/>
+        <result column="stop_num" property="stopNum"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,9 +26,16 @@
 
     <insert id="insertRouteBus">
         replace into route_bus
-        (distance, duration, longitude, latitude, next_stop_code, next_stop_index, next_stop_name, stop_index, stop_num, state, route_code, stop_code_refer, stop_name_refer)
-        values
-        (#{distance}, #{duration}, #{longitude}, #{latitude}, #{nextStopCode}, #{nextStopIndex}, #{nextStopName}, #{stopIndex}, #{stopNum}, #{state}, #{routeCode}, #{stopCodeRefer}, #{stopNameRefer})
+        (distance, duration, longitude, latitude, next_stop_code, next_stop_index, next_stop_name, stop_index, stop_num,
+         state, route_code, stop_code_refer, stop_name_refer)
+        values (#{distance}, #{duration}, #{longitude}, #{latitude}, #{nextStopCode}, #{nextStopIndex}, #{nextStopName},
+                #{stopIndex}, #{stopNum}, #{state}, #{routeCode}, #{stopCodeRefer}, #{stopNameRefer})
     </insert>
+
+    <delete id="deleteRouteBus">
+        delete
+        from route_bus
+        where route_code = #{routeCode}
+    </delete>
 
 </mapper>

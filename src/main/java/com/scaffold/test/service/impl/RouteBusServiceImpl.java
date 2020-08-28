@@ -109,7 +109,7 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
                     JSONObject busInfo = (JSONObject) o;
                     // 路线数据
                     RouteBus routeBus = new RouteBus();
-                    routeBus.setRouteCode(routeInfo.getString("route_code"));
+                    routeBus.setRouteCode(routeCode);
                     routeBus.setStopCodeRefer(routeInfo.getString("stop_code"));
                     routeBus.setStopNameRefer(routeInfo.getString("stop_name"));
                     routeBus.setDistance(busInfo.getString("distance"));
@@ -127,7 +127,10 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
             }
         }
 
-        for(RouteBus routeBus: liveBusList){
+        // 删除所有
+        routeBusMapper.deleteRouteBus(routeCode);
+        // 插入数据
+        for (RouteBus routeBus : liveBusList) {
             routeBusMapper.insertRouteBus(routeBus);
         }
 
@@ -135,5 +138,7 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
     }
 
     @Override
-    public void insertRouteBus(RouteStop routeStop) {}
+    public void insertRouteBus(RouteBus routeBus) {
+
+    }
 }
