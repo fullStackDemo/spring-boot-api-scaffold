@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RouteBusMapper extends BaseMapper<RouteBus> {
 
+    int insertRouteBus(RouteBus routeBus);
 }

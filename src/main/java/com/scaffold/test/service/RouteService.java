@@ -14,10 +14,17 @@ import com.scaffold.test.entity.Route;
 public interface RouteService extends IService<Route> {
 
     /**
-     * 获取路线数据
+     * 捕获全部路线数据
      *
      * @return
      */
     Route getRouteData();
+
+    /**
+     * 获取routeCode对应路线数据
+     * @param routeCode
+     * @return
+     */
+    Route findRouteByCode(String routeCode);
 
 }

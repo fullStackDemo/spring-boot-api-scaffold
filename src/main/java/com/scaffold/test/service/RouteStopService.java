@@ -1,7 +1,9 @@
 package com.scaffold.test.service;
 
-import com.scaffold.test.entity.RouteStop;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scaffold.test.entity.RouteStop;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface RouteStopService extends IService<RouteStop> {
 
     void insertStop(RouteStop routeStop);
+
+    /**
+     * 查找当前路线的所有站点
+     * @param routeCode
+     * @return
+     */
+    List<RouteStop> findCurrentRouteStopList(String routeCode);
 }

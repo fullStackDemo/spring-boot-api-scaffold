@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -25,5 +27,10 @@ public class RouteStopServiceImpl extends ServiceImpl<RouteStopMapper, RouteStop
     @Override
     public void insertStop(RouteStop routeStop) {
         routeStopMapper.insertRoute(routeStop);
+    }
+
+    @Override
+    public List<RouteStop> findCurrentRouteStopList(String routeCode) {
+        return routeStopMapper.findRouteStopList(routeCode);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ *  公交路线停靠站信息
  * </p>
  *
  * @author alex wong

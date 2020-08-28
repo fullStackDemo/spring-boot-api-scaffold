@@ -4,18 +4,18 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.scaffold.test.entity.RouteStop">
-        <id column="id" property="id" />
-        <result column="route_code" property="routeCode" />
-        <result column="stop_name" property="stopName" />
-        <result column="stop_code" property="stopCode" />
-        <result column="longitude" property="longitude" />
-        <result column="latitude" property="latitude" />
-        <result column="order_num" property="orderNum" />
-        <result column="flag" property="flag" />
-        <result column="station_id" property="stationId" />
-        <result column="is_attention" property="isAttention" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="route_code" property="routeCode"/>
+        <result column="stop_name" property="stopName"/>
+        <result column="stop_code" property="stopCode"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="flag" property="flag"/>
+        <result column="station_id" property="stationId"/>
+        <result column="is_attention" property="isAttention"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,8 +26,15 @@
     <insert id="insertRoute">
         replace into route_stop
         (route_code, stop_name, stop_code, longitude, latitude, order_num, station_id, is_attention, flag)
-        values
-        (#{routeCode}, #{stopName}, #{stopCode}, #{longitude}, #{latitude}, #{orderNum}, #{stationId}, #{isAttention}, #{flag})
+        values (#{routeCode}, #{stopName}, #{stopCode}, #{longitude}, #{latitude}, #{orderNum}, #{stationId},
+                #{isAttention}, #{flag})
     </insert>
+
+    <select id="findRouteStopList" resultType="com.scaffold.test.entity.RouteStop">
+        select
+        <include refid="Base_Column_List"></include>
+        from route_stop
+        where route_code=#{routeCode}
+    </select>
 
 </mapper>

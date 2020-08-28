@@ -25,9 +25,9 @@ public class RouteBus implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Double distance;
+    private String distance;
 
-    private Integer duration;
+    private String duration;
 
     /**
      * 经度
@@ -41,15 +41,21 @@ public class RouteBus implements Serializable {
 
     private String nextStopCode;
 
-    private Integer nextStopIndex;
+    private String nextStopIndex;
 
     private String nextStopName;
 
     private String stopIndex;
 
-    private Integer stopNum;
+    private String stopNum;
 
     private String state;
+
+    private String routeCode;
+
+    private String stopNameRefer;
+
+    private String stopCodeRefer;
 
     private LocalDateTime createTime;
 

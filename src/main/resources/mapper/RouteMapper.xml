@@ -23,11 +23,19 @@
     <sql id="Base_Column_List">
         id, route_name, route_code, first_time, last_time, price_base, start_stop_name, end_stop_name, nearest_stop_name, nearest_stop_duration, nearest_stop_distance, update_time, create_time
     </sql>
+
     <insert id="insertRoute">
         replace into route
         (route_name, route_code, first_time, last_time, price_base, start_stop_name, end_stop_name, nearest_stop_name, nearest_stop_duration, nearest_stop_distance)
         values
         (#{routeName}, #{routeCode}, #{firstTime}, #{lastTime}, #{priceBase}, #{startStopName}, #{endStopName}, #{nearestStopName}, #{nearestStopDuration}, #{nearestStopDistance})
     </insert>
+
+    <select id="findRouteByCode" resultType="com.scaffold.test.entity.Route">
+        select
+        <include refid="Base_Column_List"></include>
+        from route
+        where route_code=#{routeCode}
+    </select>
 
 </mapper>

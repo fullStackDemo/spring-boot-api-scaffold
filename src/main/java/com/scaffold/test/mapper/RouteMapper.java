@@ -2,6 +2,7 @@ package com.scaffold.test.mapper;
 
 import com.scaffold.test.entity.Route;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,4 +15,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface RouteMapper extends BaseMapper<Route> {
 
     int insertRoute(Route route);
+
+    Route findRouteByCode(@Param("routeCode") String routeCode);
 }

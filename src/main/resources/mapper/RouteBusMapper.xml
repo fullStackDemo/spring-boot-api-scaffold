@@ -21,7 +21,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, distance, duration, longitude, latitude, next_stop_code, next_stop_index, next_stop_name, stop_index, stop_num, state, create_time, update_time
+        id, distance, duration, longitude, latitude, next_stop_code, next_stop_index, next_stop_name, stop_index, stop_num, state, route_code, stop_code_refer, stop_name_refer, create_time, update_time
     </sql>
+
+    <insert id="insertRouteBus">
+        replace into route_bus
+        (distance, duration, longitude, latitude, next_stop_code, next_stop_index, next_stop_name, stop_index, stop_num, state, route_code, stop_code_refer, stop_name_refer)
+        values
+        (#{distance}, #{duration}, #{longitude}, #{latitude}, #{nextStopCode}, #{nextStopIndex}, #{nextStopName}, #{stopIndex}, #{stopNum}, #{state}, #{routeCode}, #{stopCodeRefer}, #{stopNameRefer})
+    </insert>
 
 </mapper>

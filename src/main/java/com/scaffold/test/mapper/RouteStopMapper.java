@@ -1,7 +1,9 @@
 package com.scaffold.test.mapper;
 
-import com.scaffold.test.entity.RouteStop;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.scaffold.test.entity.RouteStop;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface RouteStopMapper extends BaseMapper<RouteStop> {
 
     int insertRoute(RouteStop routeStop);
+
+    List<RouteStop> findRouteStopList(String routeCode);
 
 }

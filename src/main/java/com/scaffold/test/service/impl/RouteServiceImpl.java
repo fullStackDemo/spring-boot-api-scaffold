@@ -3,7 +3,6 @@ package com.scaffold.test.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.scaffold.test.entity.Bus;
 import com.scaffold.test.entity.HttpParams;
 import com.scaffold.test.entity.Route;
 import com.scaffold.test.entity.RouteStop;
@@ -106,5 +105,10 @@ public class RouteServiceImpl extends ServiceImpl<RouteMapper, Route> implements
         // 入库
         routeMapper.insertRoute(result);
         return result;
+    }
+
+    @Override
+    public Route findRouteByCode(String routeCode) {
+        return routeMapper.findRouteByCode(routeCode);
     }
 }
