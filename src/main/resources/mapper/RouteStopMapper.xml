@@ -11,6 +11,7 @@
         <result column="longitude" property="longitude" />
         <result column="latitude" property="latitude" />
         <result column="order_num" property="orderNum" />
+        <result column="flag" property="flag" />
         <result column="station_id" property="stationId" />
         <result column="is_attention" property="isAttention" />
         <result column="create_time" property="createTime" />
@@ -21,5 +22,12 @@
     <sql id="Base_Column_List">
         id, route_code, stop_name, stop_code, longitude, latitude, order_num, station_id, is_attention, create_time, update_time
     </sql>
+
+    <insert id="insertRoute">
+        replace into route_stop
+        (route_code, stop_name, stop_code, longitude, latitude, order_num, station_id, is_attention, flag)
+        values
+        (#{routeCode}, #{stopName}, #{stopCode}, #{longitude}, #{latitude}, #{orderNum}, #{stationId}, #{isAttention}, #{flag})
+    </insert>
 
 </mapper>

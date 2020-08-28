@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RouteStopMapper extends BaseMapper<RouteStop> {
 
+    int insertRoute(RouteStop routeStop);
+
 }

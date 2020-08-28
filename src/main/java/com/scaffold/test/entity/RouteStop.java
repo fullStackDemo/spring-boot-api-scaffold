@@ -48,6 +48,11 @@ public class RouteStop implements Serializable {
     private String latitude;
 
     /**
+     * 唯一标识
+     */
+    private String flag;
+
+    /**
      * 顺序
      */
     private Integer orderNum;

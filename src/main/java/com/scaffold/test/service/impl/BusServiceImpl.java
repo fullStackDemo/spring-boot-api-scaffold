@@ -2,13 +2,16 @@ package com.scaffold.test.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.entity.Bus;
 import com.scaffold.test.entity.HttpParams;
+import com.scaffold.test.entity.RouteStop;
 import com.scaffold.test.mapper.BusMapper;
 import com.scaffold.test.service.BusService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.scaffold.test.service.RouteStopService;
 import com.scaffold.test.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,6 +28,9 @@ import java.util.Map;
 @Slf4j
 @Service
 public class BusServiceImpl extends ServiceImpl<BusMapper, Bus> implements BusService {
+
+    @Autowired
+    RouteStopService routeStopService;
 
     @Override
     public Bus getRouteData() {
@@ -75,10 +81,24 @@ public class BusServiceImpl extends ServiceImpl<BusMapper, Bus> implements BusSe
             JSONObject stop = (JSONObject) o;
             if (stop.get("stop_code").equals(responseData.getString("nearest_stop_code"))) {
                 result.setNearestStopName(stop.getString("stop_name"));
-                break;
             }
+            // 插入数据
+            RouteStop routeStop = new RouteStop();
+            routeStop.setIsAttention(stop.getString("is_attention"));
+            routeStop.setLatitude(stop.getString("latitude"));
+            routeStop.setLongitude(stop.getString("longitude"));
+            routeStop.setOrderNum(stop.getInteger("order_num"));
+            routeStop.setStationId(stop.getString("station_id"));
+            routeStop.setStopName(stop.getString("stop_name"));
+            routeStop.setStopCode(stop.getString("stop_code"));
+            routeStop.setRouteCode(result.getRouteCode());
+            routeStop.setFlag(result.getRouteCode() + stop.getString("stop_code"));
+            routeStopService.insertStop(routeStop);
+
         }
         log.info(JSONObject.toJSONString(result));
+
+        // 入库
 
         return result;
     }
