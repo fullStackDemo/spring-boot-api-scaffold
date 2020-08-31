@@ -89,7 +89,7 @@ public class UserController {
      */
     @GetMapping("/info")
     public Result getUserInfo(){
-//        User currentUser = BaseUtils.getCurrentUser();
+        // User currentUser = BaseUtils.getCurrentUser();
         // 从redis中获取
         HttpServletRequest request = HttpUtils.getRequest();
         String token = request.getHeader("token");
