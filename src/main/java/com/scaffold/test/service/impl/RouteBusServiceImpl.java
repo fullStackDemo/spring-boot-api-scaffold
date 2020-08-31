@@ -53,6 +53,8 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
                     break;
                 }
             }
+        } else {
+            return null;
         }
         // 拼接数据, 关注的站点和终点站
         JSONArray dataArr = new JSONArray(2);
