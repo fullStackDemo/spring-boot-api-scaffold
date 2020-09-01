@@ -2,6 +2,7 @@
 
 const titleDom = document.querySelector(".weui-form__title");
 const result = document.getElementById("result");
+const result2 = document.getElementById("result2");
 
 // getUserInfo
 function getUserInfo() {
@@ -21,6 +22,10 @@ function getUserInfo() {
                 sessionId: data.uuid,
                 userId: data.userId
             })
+            createSocket2({
+                sessionId: data.uuid,
+                routeCode: "d3ulY7HyJmfscUBCvHDX4dBnV8Te5ZK4orhtzbSf0e0="
+            })
         }
 
     })
@@ -30,6 +35,7 @@ function getUserInfo() {
 // websocket 连接
 
 let socket;
+let socket2;
 
 const createSocket = (params) => {
     if (typeof WebSocket == 'undefined') {
@@ -75,9 +81,44 @@ const createSocket = (params) => {
     }
 };
 
-//关闭连接
-function closeWebSocket() {
-    socket.close();
-}
+const createSocket2 = (params) => {
+    if (typeof WebSocket == 'undefined') {
+        console.log("浏览器不支持websocket");
+    } else {
+        const paramsArr = [];
+        Object.keys(params).forEach(m => {
+            paramsArr.push(`${m}=${params[m]}`);
+        });
+        const sessionId = params['sessionId'];
+        let socketUrl = location.origin + "/liveBus?" + paramsArr.join("&");
+        socketUrl = socketUrl.replace(/http|https/g, 'ws');
+        console.log(socketUrl);
+        if (socket2 != null) {
+            socket2.close();
+            socket2 = null;
+        }
+        socket2 = new WebSocket(socketUrl);
+        // 建立连接
+        socket2.onopen = () => {
+            console.log("建立连接2", sessionId);
+
+            socket2.send(JSON.stringify({
+                sessionId: sessionId,
+                routeCode: "d3ulY7HyJmfscUBCvHDX4dBnV8Te5ZK4orhtzbSf0e0="
+            }));
+
+        };
+        // 获取消息
+        socket2.onmessage = message => {
+            console.log(sessionId, message);
+            const data = JSON.parse(message.data);
+            console.log("连接2");
+            console.log(data)
+            result2.innerText = JSON.stringify(data);
+        };
+
+    }
+};
+
 
 getUserInfo();

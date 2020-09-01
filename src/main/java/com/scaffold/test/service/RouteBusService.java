@@ -18,6 +18,10 @@ public interface RouteBusService extends IService<RouteBus> {
 
     List<RouteBus> getBusList(Route route);
 
-    void insertRouteBus(RouteBus routeBus);
+    /**
+     * 获取现在路线中行驶的公交车信息
+     * @param routeBus
+     */
+    List<RouteBus> getLiveBusStatus(RouteBus routeBus);
 
 }

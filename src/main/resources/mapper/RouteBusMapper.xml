@@ -37,5 +37,11 @@
         from route_bus
         where route_code = #{routeCode}
     </delete>
+    <select id="getLiveBusStatus" resultType="com.scaffold.test.entity.RouteBus">
+        select
+        <include refid="Base_Column_List"></include>
+        from route_bus
+        where route_code = #{routeCode}
+    </select>
 
 </mapper>

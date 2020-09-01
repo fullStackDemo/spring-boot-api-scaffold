@@ -11,6 +11,7 @@ import com.scaffold.test.mapper.RouteBusMapper;
 import com.scaffold.test.service.RouteBusService;
 import com.scaffold.test.service.RouteStopService;
 import com.scaffold.test.utils.HttpUtils;
+import com.scaffold.test.websocket.LiveBusSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,9 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
 
     @Autowired
     RouteBusMapper routeBusMapper;
+
+    @Autowired
+    LiveBusSocket liveBusSocket;
 
     @Override
     public List<RouteBus> getBusList(Route route) {
@@ -136,11 +140,20 @@ public class RouteBusServiceImpl extends ServiceImpl<RouteBusMapper, RouteBus> i
             routeBusMapper.insertRouteBus(routeBus);
         }
 
+        // 定时推送
+        try {
+            System.out.println(JSONArray.toJSONString(liveBusList));
+            liveBusSocket.sendMessageAll(JSONArray.toJSONString(liveBusList));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return liveBusList;
     }
 
     @Override
-    public void insertRouteBus(RouteBus routeBus) {
-
+    public List<RouteBus> getLiveBusStatus(RouteBus routeBus) {
+        return routeBusMapper.getLiveBusStatus(routeBus);
     }
+
 }

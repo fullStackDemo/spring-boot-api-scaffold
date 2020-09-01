@@ -1,7 +1,9 @@
 package com.scaffold.test.mapper;
 
-import com.scaffold.test.entity.RouteBus;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.scaffold.test.entity.RouteBus;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +18,6 @@ public interface RouteBusMapper extends BaseMapper<RouteBus> {
     int insertRouteBus(RouteBus routeBus);
 
     int deleteRouteBus(String routeCode);
+
+    List<RouteBus> getLiveBusStatus(RouteBus routeBus);
 }

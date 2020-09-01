@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * <p>
- *  路线上行驶的动态车辆信息
+ * 路线上行驶的动态车辆信息
  * </p>
  *
  * @author alex wong
@@ -33,11 +33,12 @@ public class RouteBusController {
 
     /**
      * 获取路线上正在行驶的车辆信息
+     *
      * @param route 路线数据
      * @return
      */
     @GetMapping("list")
-    public List<RouteBus> getBusList(Route route){
+    public List<RouteBus> getBusList(Route route) {
         return routeBusService.getBusList(route);
     }
 
@@ -46,11 +47,23 @@ public class RouteBusController {
      */
     @Async
     @Scheduled(fixedDelay = 10000)
-    public void getLiveBusList(){
+    public void getLiveBusList() {
         log.info("公交实时更新");
         Route route = new Route();
         route.setRouteCode("d3ulY7HyJmfscUBCvHDX4dBnV8Te5ZK4orhtzbSf0e0=");
         routeBusService.getBusList(route);
+    }
+
+
+    /**
+     * 读取当前实时公交
+     *
+     * @param routeBus
+     * @return
+     */
+    @GetMapping("live")
+    public List<RouteBus> getLiveBusStatus(RouteBus routeBus) {
+        return routeBusService.getLiveBusStatus(routeBus);
     }
 }
 
