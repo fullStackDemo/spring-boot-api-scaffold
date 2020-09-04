@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-09-04
  */
 public interface FxRateMapper extends BaseMapper<FxRate> {
-
+    int insertRate(FxRate fxRate);
 }

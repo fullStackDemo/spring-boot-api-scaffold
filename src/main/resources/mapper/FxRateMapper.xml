@@ -8,15 +8,24 @@
         <result column="source" property="source" />
         <result column="rate_date" property="rateDate" />
         <result column="rate" property="rate" />
-        <result column="sellCcy" property="sellCcy" />
-        <result column="buyCcy" property="buyCcy" />
+        <result column="sell_ccy" property="sellCcy" />
+        <result column="buy_ccy" property="buyCcy" />
+        <result column="ccy_type" property="ccyType" />
+        <result column="ccy_pair" property="ccyPair" />
         <result column="flag" property="flag" />
         <result column="create_time" property="createTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, source, rate_date, rate, sellCcy, buyCcy, flag, create_time
+        id, source, rate_date, rate, sell_ccy, buy_ccy, flag, create_time, ccy_type, ccy_pair
     </sql>
+
+    <insert id="insertRate">
+        replace into fx_rate
+        (source, rate_date, rate, sell_ccy, buy_ccy, flag, ccy_type, ccy_pair)
+        values
+        (#{source}, #{rateDate}, #{rate}, #{sellCcy}, #{buyCcy}, #{flag}, #{ccyType}, #{ccyPair})
+    </insert>
 
 </mapper>

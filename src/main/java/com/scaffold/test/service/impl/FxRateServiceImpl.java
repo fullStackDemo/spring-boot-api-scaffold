@@ -1,11 +1,11 @@
 package com.scaffold.test.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scaffold.test.entity.FxRate;
 import com.scaffold.test.mapper.FxRateMapper;
 import com.scaffold.test.service.FxRateService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -27,6 +27,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> implements FxRateService {
+
+    @Autowired
+    FxRateMapper fxRateMapper;
 
     @Override
     public void readExcel() {
@@ -92,7 +95,10 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                     }
                 }
 
-                log.info(JSONArray.toJSONString(rateList));
+                // 入库
+                for(FxRate data: rateList){
+                    fxRateMapper.insertRate(data);
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
