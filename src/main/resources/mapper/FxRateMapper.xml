@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.FxRateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.FxRate">
+        <id column="id" property="id" />
+        <result column="source" property="source" />
+        <result column="rate_date" property="rateDate" />
+        <result column="rate" property="rate" />
+        <result column="sellCcy" property="sellCcy" />
+        <result column="buyCcy" property="buyCcy" />
+        <result column="flag" property="flag" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, source, rate_date, rate, sellCcy, buyCcy, flag, create_time
+    </sql>
+
+</mapper>
