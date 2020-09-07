@@ -8,6 +8,7 @@ import com.scaffold.test.mapper.FxPairMapper;
 import com.scaffold.test.mapper.FxRateMapper;
 import com.scaffold.test.mapper.FxTypeMapper;
 import com.scaffold.test.service.FxRateService;
+import com.scaffold.test.utils.SystemUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,12 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
     @Override
     public void readExcel() {
         // 读取文件夹里的文件
-        File floder = new File("F:/spark");
-        File[] files = floder.listFiles();
+        File folder = new File("F:/spark");
+        File folderOut = new File("F:/sparkOut");
+        if (SystemUtils.isWindow() && !folderOut.exists()) {
+            folderOut.mkdirs();
+        }
+        File[] files = folder.listFiles();
         for (File file : files) {
             // 获取货币对和报价品种
             String fileName = file.getName();
@@ -128,12 +133,25 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                     fxRateMapper.insertRate(data);
                 }
 
+                // 删除已解析过的文件, 移除到其他文件夹
+                try {
+                    String outPath = file.getPath().replace("spark", "sparkOut");
+                    File outFile = new File(outPath);
+                    if (!outFile.exists()) {
+                        outFile.createNewFile();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 if (bufferedReader != null) {
                     try {
                         bufferedReader.close();
+                        // 读取结束，删除文件
+                        file.delete();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
