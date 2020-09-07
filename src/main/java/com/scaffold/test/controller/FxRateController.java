@@ -44,7 +44,7 @@ public class FxRateController {
 
 
     /**
-     * 获取卖出货币数据
+     * 获取卖出货币数据List
      *
      * @return
      */
@@ -54,8 +54,8 @@ public class FxRateController {
     }
 
     /**
-     * 获取对应买入货币数据
-     *
+     * 获取对应卖出货币数据
+     * @param sellCcy 卖出货币
      * @return
      */
     @GetMapping("buy")
@@ -68,7 +68,7 @@ public class FxRateController {
 
     /**
      * 获取对应货币对报价类型数据
-     * @param ccyPair
+     * @param ccyPair 货币对
      * @return
      */
     @GetMapping("type")

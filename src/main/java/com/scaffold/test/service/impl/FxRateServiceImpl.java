@@ -8,12 +8,13 @@ import com.scaffold.test.mapper.FxPairMapper;
 import com.scaffold.test.mapper.FxRateMapper;
 import com.scaffold.test.mapper.FxTypeMapper;
 import com.scaffold.test.service.FxRateService;
+import com.scaffold.test.utils.CSVUtils;
 import com.scaffold.test.utils.SystemUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,22 +70,9 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
 
             // 数据解析过程
             List<FxRate> rateList = new ArrayList<>();
-            // CSV数据
-            List<String> dataList = new ArrayList<>();
-            BufferedReader bufferedReader = null;
-            // 解析CSV文件
-            try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream, "GBK"));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    dataList.add(line);
-                }
-                // 无数据
-                if (dataList.size() == 0) {
-                    return;
-                }
-                // 判断CSV数据
+            List<String> dataList = CSVUtils.importCsv(file);
+            // 判断CSV数据
+            if (dataList.size() > 0) {
                 // 获取头部数据
                 String[] headerData = dataList.get(0).split(",");
                 String sparkTimestamp = "SparkTimestamp";
@@ -135,34 +123,20 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                 }
 
                 // 删除已解析过的文件, 移除到其他文件夹
-//                try {
-//                    String outPath = file.getPath().replace("spark", "sparkOut");
-//                    File outFile = new File(outPath);
-//                    FileOutputStream fileOutputStream = new FileOutputStream(outFile);
-//                    if (!outFile.exists()) {
-//                        int a;
-//                        byte[] b = new byte[1024];
-//                        while ((a = fileInputStream.read(b)) != 1) {
-//                            fileOutputStream.write(a);
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    String outPath = file.getPath().replace("spark", "sparkOut");
+                    File outFile = new File(outPath);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                        // 读取结束，删除文件
-//                        file.delete();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//                    if (!outFile.exists()) {
+//                        CSVUtils.exportCsv(outFile, dataList);
+//                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
             }
+
         }
     }
 }
