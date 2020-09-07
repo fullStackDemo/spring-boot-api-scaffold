@@ -21,4 +21,9 @@
         (#{ccyType}, #{ccyPair})
     </insert>
 
+    <select id="getCcyPairType" resultType="com.scaffold.test.entity.FxType">
+        select ccy_type, ccy_pair from fx_type
+        where ccy_pair=#{ccyPair}
+    </select>
+
 </mapper>

@@ -22,4 +22,14 @@
         (#{sellCcy}, #{buyCcy}, #{ccyPair})
     </insert>
 
+    <select id="getSellList" resultType="com.scaffold.test.entity.FxPair">
+        select distinct buy_ccy from fx_pair
+    </select>
+
+    <select id="getBuyList" resultType="com.scaffold.test.entity.FxPair">
+        select buy_ccy from fx_pair
+        where sell_ccy=#{sellCcy}
+    </select>
+
+
 </mapper>

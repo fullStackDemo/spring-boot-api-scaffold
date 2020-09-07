@@ -1,11 +1,13 @@
 package com.scaffold.test.mapper;
 
-import com.scaffold.test.entity.FxType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.scaffold.test.entity.FxType;
+
+import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author alex wong
@@ -14,5 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface FxTypeMapper extends BaseMapper<FxType> {
 
     int insertType(FxType fxType);
+
+    List<FxType> getCcyPairType(FxType fxType);
 
 }

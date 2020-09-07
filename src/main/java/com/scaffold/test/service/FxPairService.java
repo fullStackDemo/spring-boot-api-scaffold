@@ -1,7 +1,10 @@
 package com.scaffold.test.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scaffold.test.entity.FxPair;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,6 +16,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FxPairService extends IService<FxPair> {
 
+    List<JSONObject> getSellList();
 
+    List<JSONObject> getBuyList(FxPair fxPair);
 
 }

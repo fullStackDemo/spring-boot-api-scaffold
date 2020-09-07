@@ -13,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +80,10 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                 while ((line = bufferedReader.readLine()) != null) {
                     dataList.add(line);
                 }
+                // 无数据
+                if (dataList.size() == 0) {
+                    return;
+                }
                 // 判断CSV数据
                 // 获取头部数据
                 String[] headerData = dataList.get(0).split(",");
@@ -123,7 +124,7 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                             double askPrice = Double.parseDouble(currentLineData[bestAskPriceIndex]);
                             fxRate.setRate((bidPrice + askPrice) / 2);
                         }
-                        fxRate.setFlag(fxRate.getCcyPair() + fxRate.getRateDate());
+                        fxRate.setFlag(fxRate.getCcyPair() + fxRate.getCcyType() + fxRate.getRateDate());
                         rateList.add(fxRate);
                     }
                 }
@@ -134,15 +135,20 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                 }
 
                 // 删除已解析过的文件, 移除到其他文件夹
-                try {
-                    String outPath = file.getPath().replace("spark", "sparkOut");
-                    File outFile = new File(outPath);
-                    if (!outFile.exists()) {
-                        outFile.createNewFile();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    String outPath = file.getPath().replace("spark", "sparkOut");
+//                    File outFile = new File(outPath);
+//                    FileOutputStream fileOutputStream = new FileOutputStream(outFile);
+//                    if (!outFile.exists()) {
+//                        int a;
+//                        byte[] b = new byte[1024];
+//                        while ((a = fileInputStream.read(b)) != 1) {
+//                            fileOutputStream.write(a);
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -151,7 +157,7 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                     try {
                         bufferedReader.close();
                         // 读取结束，删除文件
-                        file.delete();
+//                        file.delete();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

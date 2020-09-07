@@ -1,7 +1,10 @@
 package com.scaffold.test.service;
 
-import com.scaffold.test.entity.FxType;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scaffold.test.entity.FxType;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-09-07
  */
 public interface FxTypeService extends IService<FxType> {
+
+    List<JSONObject> getCcyPairType(FxType fxType);
 
 }
