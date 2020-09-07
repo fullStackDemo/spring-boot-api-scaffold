@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.FxPairMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.FxPair">
+        <id column="id" property="id" />
+        <result column="sell_ccy" property="sellCcy" />
+        <result column="buy_ccy" property="buyCcy" />
+        <result column="ccy_pair" property="ccyPair" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sell_ccy, buy_ccy, ccy_pair
+    </sql>
+
+    <insert id="insertPair">
+        replace into fx_pair
+        (sell_ccy, buy_ccy, ccy_pair)
+        values
+        (#{sellCcy}, #{buyCcy}, #{ccyPair})
+    </insert>
+
+</mapper>

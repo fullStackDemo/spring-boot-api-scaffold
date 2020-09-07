@@ -1,8 +1,12 @@
 package com.scaffold.test.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.scaffold.test.entity.FxPair;
 import com.scaffold.test.entity.FxRate;
+import com.scaffold.test.entity.FxType;
+import com.scaffold.test.mapper.FxPairMapper;
 import com.scaffold.test.mapper.FxRateMapper;
+import com.scaffold.test.mapper.FxTypeMapper;
 import com.scaffold.test.service.FxRateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +35,39 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
     @Autowired
     FxRateMapper fxRateMapper;
 
+    @Autowired
+    FxTypeMapper fxTypeMapper;
+
+    @Autowired
+    FxPairMapper fxPairMapper;
+
     @Override
     public void readExcel() {
-        List<FxRate> rateList = new ArrayList<>();
         // 读取文件夹里的文件
         File floder = new File("F:/spark");
         File[] files = floder.listFiles();
         for (File file : files) {
-            //数据
+            // 获取货币对和报价品种
+            String fileName = file.getName();
+            String[] fileNameArr = fileName.split("\\.");
+            String ccyPair = fileNameArr[0];
+            String sellCcy = ccyPair.substring(0, 3);
+            String buyCcy = ccyPair.substring(3, 6);
+            String ccyType = fileNameArr[1];
+            // 插入数据库
+            FxType fxType = new FxType();
+            fxType.setCcyType(ccyType);
+            fxType.setCcyPair(ccyPair);
+            fxTypeMapper.insertType(fxType);
+            FxPair fxPair = new FxPair();
+            fxPair.setSellCcy(sellCcy);
+            fxPair.setBuyCcy(buyCcy);
+            fxPair.setCcyPair(ccyPair);
+            fxPairMapper.insertPair(fxPair);
+
+            // 数据解析过程
+            List<FxRate> rateList = new ArrayList<>();
+            // CSV数据
             List<String> dataList = new ArrayList<>();
             BufferedReader bufferedReader = null;
             // 解析CSV文件
@@ -49,7 +78,6 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                 while ((line = bufferedReader.readLine()) != null) {
                     dataList.add(line);
                 }
-                System.out.println(dataList);
                 // 判断CSV数据
                 // 获取头部数据
                 String[] headerData = dataList.get(0).split(",");
@@ -70,20 +98,19 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                         bestAskPriceIndex = i;
                     }
                 }
+
                 // 遍历数据
                 for (int i = 0; i < dataList.size(); i++) {
                     if (i > 0) {
                         String[] currentLineData = dataList.get(i).split(",");
                         FxRate fxRate = new FxRate();
-                        String fileName = file.getName();
-                        String[] fileNameArr = fileName.split("\\.");
                         fxRate.setSource("spark");
                         // 获取货币类型和买卖货币
                         if (fileNameArr.length > 0) {
-                            fxRate.setSellCcy(fileNameArr[0].substring(0, 3));
-                            fxRate.setBuyCcy(fileNameArr[0].substring(3, 6));
-                            fxRate.setCcyType(fileNameArr[1]);
-                            fxRate.setCcyPair(fileNameArr[0]);
+                            fxRate.setSellCcy(sellCcy);
+                            fxRate.setBuyCcy(buyCcy);
+                            fxRate.setCcyType(ccyType);
+                            fxRate.setCcyPair(ccyPair);
                         }
                         if (currentLineData.length > 0) {
                             fxRate.setRateDate(currentLineData[sparkTimestampIndex]);
@@ -91,12 +118,13 @@ public class FxRateServiceImpl extends ServiceImpl<FxRateMapper, FxRate> impleme
                             double askPrice = Double.parseDouble(currentLineData[bestAskPriceIndex]);
                             fxRate.setRate((bidPrice + askPrice) / 2);
                         }
+                        fxRate.setFlag(fxRate.getCcyPair() + fxRate.getRateDate());
                         rateList.add(fxRate);
                     }
                 }
 
                 // 入库
-                for(FxRate data: rateList){
+                for (FxRate data : rateList) {
                     fxRateMapper.insertRate(data);
                 }
 

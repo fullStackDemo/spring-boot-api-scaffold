@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaffold.test.mapper.FxTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.scaffold.test.entity.FxType">
+        <id column="id" property="id"/>
+        <result column="ccy_type" property="ccyType"/>
+        <result column="ccy_pair" property="ccyPair"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, ccy_type, ccy_pair
+    </sql>
+
+    <insert id="insertType">
+        replace into fx_type
+        (ccy_type, ccy_pair)
+        values
+        (#{ccyType}, #{ccyPair})
+    </insert>
+
+</mapper>
