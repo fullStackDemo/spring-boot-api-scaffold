@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -69,6 +70,58 @@ public class HttpUtils {
     }
 
     /**
+     * GET
+     */
+    public static String get(HttpParams httpParams) {
+
+        // 创建HTTP客户端
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        // 请求参数
+        Map<String, Object> requestParams = httpParams.getRequestParams();
+        List<String> paramsArr = new ArrayList<>();
+        if (requestParams != null) {
+            for (String paramKey : requestParams.keySet()) {
+                paramsArr.add(paramKey + "=" + requestParams.get(paramKey));
+            }
+        }
+        // GET
+        HttpGet httpGet = new HttpGet(httpParams.getRequestUrl() + "?" + String.join("&", paramsArr));
+        // 请求头
+        Map<String, Object> requestHeader = httpParams.getRequestHeader();
+        if (requestHeader != null) {
+            for (String headerKey : requestHeader.keySet()) {
+                httpGet.setHeader(headerKey, (String) requestHeader.get(headerKey));
+            }
+        }
+        // 响应
+        CloseableHttpResponse response;
+        String responseData = null;
+        try {
+            // 客户端执行GET请求
+            response = httpClient.execute(httpGet);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                // 从响应中获取响应实体
+                HttpEntity entity = response.getEntity();
+                responseData = EntityUtils.toString(entity, "utf-8");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // 释放资源
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return responseData;
+    }
+
+    /**
      * POST
      */
     public static String post(HttpParams httpParams) {
@@ -79,9 +132,10 @@ public class HttpUtils {
         HttpPost httpPost = new HttpPost(httpParams.getRequestUrl());
         // 请求头
         Map<String, Object> requestHeader = httpParams.getRequestHeader();
-//        httpPost.setHeader("Token", (String) requestHeader.get("token"));
-        for (String headerKey : requestHeader.keySet()) {
-            httpPost.setHeader(headerKey, (String) requestHeader.get(headerKey));
+        if (requestHeader != null) {
+            for (String headerKey : requestHeader.keySet()) {
+                httpPost.setHeader(headerKey, (String) requestHeader.get(headerKey));
+            }
         }
         // 响应
         CloseableHttpResponse response = null;
