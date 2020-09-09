@@ -2,6 +2,7 @@ package com.scaffold.test.controller;
 
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.redis.RedisUtils;
+import com.scaffold.test.utils.IpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +43,7 @@ public class RedisController {
     @GetMapping("set")
     @PassToken
     public void setRedis(@RequestParam String key, @RequestParam String value) {
-        redisUtils.set(key, value, 60 , TimeUnit.SECONDS);
+        redisUtils.set(key, value, 60, TimeUnit.SECONDS);
     }
 
     /**
@@ -55,6 +56,24 @@ public class RedisController {
     @PassToken
     public Object deleteRedis(@RequestParam String key) {
         return redisUtils.delete(key);
+    }
+
+
+    /**
+     * 获取IP并存入redis
+     */
+    @GetMapping("ip")
+    public Boolean setIp(@RequestParam String ip) {
+        // 判断IP是否在缓存数据中
+        Object exist = redisUtils.get(ip);
+        if (exist == null) {
+            boolean isChinaIp = IpUtils.isChinaIp(ip);
+            redisUtils.set(ip, isChinaIp);
+            return isChinaIp;
+        } else {
+            return exist.equals(true);
+        }
+
     }
 
 

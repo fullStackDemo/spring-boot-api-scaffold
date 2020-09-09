@@ -1,9 +1,9 @@
 package com.scaffold.test.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtils {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 设置key value
@@ -25,7 +25,7 @@ public class RedisUtils {
      * @param key key
      * @param value value
      */
-    public void set(String key, String value) {
+    public void set(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);
     }
 

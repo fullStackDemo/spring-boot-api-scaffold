@@ -1,16 +1,14 @@
 package com.scaffold.test.utils;
 
-import com.scaffold.test.entity.HttpParams;
-import com.scaffold.test.redis.RedisUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class IpUtils {
+
 
     public static final String IPURL = "http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest";
 
@@ -19,38 +17,46 @@ public class IpUtils {
      *
      * @return
      */
-    public static Object getChinaIp() {
-        HttpParams httpParams = new HttpParams();
-        httpParams.setRequestUrl(IPURL);
-        String response = HttpUtils.get(httpParams);
-        File file = new File("F://ip.txt");
-        FileOutputStream fileOutputStream = null;
-        if (file.exists()) {
-            file.delete();
-        }
-        try {
-            file.createNewFile();
-            String content = response;
-            fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(content.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
+//    public static Object getChinaIp() {
+//        HttpParams httpParams = new HttpParams();
+//        httpParams.setRequestUrl(IPURL);
+//        String response = HttpUtils.get(httpParams);
+//        File file = new File("F://ip.txt");
+//        FileOutputStream fileOutputStream = null;
+//        if (file.exists()) {
+//            file.delete();
+//        }
+//        try {
+//            file.createNewFile();
+//            String content = response;
+//            fileOutputStream = new FileOutputStream(file);
+//            fileOutputStream.write(content.getBytes());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (fileOutputStream != null) {
+//                    fileOutputStream.close();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return null;
+//    }
+
 
     private static Map<Integer, List<int[]>> chinaIps = new HashMap<>();
 
-    public static int test = 0;
-    public static void initData() {
+    public IpUtils() {
+        initData();
+    }
+
+    /**
+     * 获取IP
+     */
+    public static Map<Integer, List<int[]>> initData() {
+        System.out.println("start ip fetch");
         // 只存放属于中国的ip段
         Map<Integer, List<int[]>> map = new HashMap<>();
         try {
@@ -59,9 +65,7 @@ public class IpUtils {
             for (String line : lines) {
                 // 只获取中国的IP
                 if (line.startsWith("apnic|CN|ipv4|")) {
-                    test += 1;
                     System.out.println(line);
-                    System.out.println(test);
                     String[] items = line.split("\\|");
                     // ip
                     String ip = items[3];
@@ -92,25 +96,49 @@ public class IpUtils {
                                 map.put(startIp, list);
                             }
                             list.add(ipRange);
-
                         }
                     }
-
-
                 }
             }
             chinaIps.putAll(map);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        RedisUtils redisUtils = new RedisUtils();
-        redisUtils.set("ipList", "11");
-        System.out.println("test");
+        return chinaIps;
     }
 
 
-    public static void main(String[] args) {
-        initData();
+    /**
+     * 判断是否属于中国IP
+     *
+     * @param ip
+     * @return
+     */
+    public static boolean isChinaIp(String ip) {
+        if (chinaIps.size() == 0) {
+            chinaIps = initData();
+        }
+        if (StringUtils.isEmpty(ip)) {
+            return false;
+        }
+        String[] strs = ip.split("\\.");
+        int key = Integer.parseInt(strs[0]) * 256 + Integer.parseInt(strs[1]);
+        List<int[]> list = chinaIps.get(key);
+        if (list == null) {
+            return false;
+        }
+        if (list.size() == 0) {
+            // 整个IP端都是中国IP
+            return true;
+        }
+        int value = Integer.parseInt(strs[2]) * 256 + Integer.parseInt(strs[3]);
+        for (int[] ipRange : list) {
+            if (value >= ipRange[0] && value <= ipRange[1]) {
+                return true;
+            }
+        }
+        return false;
     }
+
+
 }
