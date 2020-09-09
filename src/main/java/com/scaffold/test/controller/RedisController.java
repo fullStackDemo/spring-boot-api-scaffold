@@ -64,6 +64,7 @@ public class RedisController {
      */
     @GetMapping("ip")
     public Boolean setIp(@RequestParam String ip) {
+//        ip = IpUtils.getIpAddress();
         // 判断IP是否在缓存数据中
         Object exist = redisUtils.get(ip);
         if (exist == null) {

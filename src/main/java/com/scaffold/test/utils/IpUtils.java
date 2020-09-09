@@ -3,7 +3,9 @@ package com.scaffold.test.utils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -139,6 +141,45 @@ public class IpUtils {
         }
         return false;
     }
+
+    /**
+     * 获取IP地址
+     *
+     * @return
+     */
+    public static String getIpAddress() {
+        String UNKNOWN = "unknown";
+        String LOCALHOST = "127.0.0.1";
+        String SEPARATOR = ",";
+        String ipAddress = "";
+        try {
+            HttpServletRequest request = HttpUtils.getRequest();
+            ipAddress = request.getHeader("x-forwarded-for");
+            if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("WL-Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getRemoteAddr();
+                if (LOCALHOST.equalsIgnoreCase(ipAddress)) {
+                    InetAddress inetAddress = null;
+                    try {
+                        inetAddress = InetAddress.getLocalHost();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    ipAddress = inetAddress.getHostAddress();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ipAddress;
+    }
+
 
 
 }
