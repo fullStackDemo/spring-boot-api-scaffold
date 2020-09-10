@@ -115,6 +115,7 @@ public class IpUtils {
     public static String getIpAddress() {
         String UNKNOWN = "unknown";
         String LOCALHOST = "127.0.0.1";
+        String LOCALHOST2 = "0:0:0:0:0:0:0:1";
         String SEPARATOR = ",";
         String ipAddress = "";
         try {
@@ -128,7 +129,7 @@ public class IpUtils {
             }
             if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
                 ipAddress = request.getRemoteAddr();
-                if (LOCALHOST.equalsIgnoreCase(ipAddress)) {
+                if (LOCALHOST.equalsIgnoreCase(ipAddress) || LOCALHOST2.equalsIgnoreCase(ipAddress)) {
                     InetAddress inetAddress = null;
                     try {
                         inetAddress = InetAddress.getLocalHost();
