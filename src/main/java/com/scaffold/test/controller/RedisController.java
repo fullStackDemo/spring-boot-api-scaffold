@@ -1,5 +1,8 @@
 package com.scaffold.test.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.scaffold.test.base.Result;
+import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.config.annotation.PassToken;
 import com.scaffold.test.redis.RedisUtils;
 import com.scaffold.test.utils.IpUtils;
@@ -83,7 +86,8 @@ public class RedisController {
      * 获取IP并存入redis, 判断是国内外IP
      */
     @GetMapping("ip")
-    public Boolean setIp(@RequestParam String ip) {
+    public Result setIp(@RequestParam String ip) {
+//        ip = IpUtils.getIpAddress();
         Map<String, String> ipData;
         // 从缓存中获取数据
         Object ip_map = redisUtils.get("ip_map");
@@ -93,7 +97,11 @@ public class RedisController {
             ipData = IpUtils.getIpList();
             redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
         }
-        return IpUtils.ipInChina(ipData, ip);
+        Boolean inChina = IpUtils.ipInChina(ipData, ip);
+        JSONObject object = new JSONObject();
+        object.put("ip", ip);
+        object.put("CN", inChina);
+        return ResultGenerator.setSuccessResult(object);
     }
 
 
