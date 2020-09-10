@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,11 +61,12 @@ public class RedisController {
 
 
     /**
+     * 第一种方法
      * 获取IP并存入redis
      */
-    @GetMapping("ip")
-    public Boolean setIp(@RequestParam String ip) {
-//        ip = IpUtils.getIpAddress();
+    @GetMapping("ip2")
+    public Boolean setIp2(@RequestParam String ip) {
+        ip = IpUtils.getIpAddress();
         // 判断IP是否在缓存数据中
         Object exist = redisUtils.get(ip);
         if (exist == null) {
@@ -74,7 +76,24 @@ public class RedisController {
         } else {
             return exist.equals(true);
         }
+    }
 
+    /**
+     * 第二种方法（耗时）
+     * 获取IP并存入redis, 判断是国内外IP
+     */
+    @GetMapping("ip")
+    public Boolean setIp(@RequestParam String ip) {
+        Map<String, String> ipData;
+        // 从缓存中获取数据
+        Object ip_map = redisUtils.get("ip_map");
+        if (ip_map != null) {
+            ipData = (Map<String, String>) ip_map;
+        } else {
+            ipData = IpUtils.getIpList();
+            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
+        }
+        return IpUtils.ipInChina(ipData, ip);
     }
 
 

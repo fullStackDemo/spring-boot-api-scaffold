@@ -11,48 +11,12 @@ import java.util.*;
 
 public class IpUtils {
 
+    /*
+     * 第一种方法
+     */
 
     public static final String IPURL = "http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest";
-
-    /**
-     * 获取中国IP
-     *
-     * @return
-     */
-//    public static Object getChinaIp() {
-//        HttpParams httpParams = new HttpParams();
-//        httpParams.setRequestUrl(IPURL);
-//        String response = HttpUtils.get(httpParams);
-//        File file = new File("F://ip.txt");
-//        FileOutputStream fileOutputStream = null;
-//        if (file.exists()) {
-//            file.delete();
-//        }
-//        try {
-//            file.createNewFile();
-//            String content = response;
-//            fileOutputStream = new FileOutputStream(file);
-//            fileOutputStream.write(content.getBytes());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (fileOutputStream != null) {
-//                    fileOutputStream.close();
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return null;
-//    }
-
-
     private static Map<Integer, List<int[]>> chinaIps = new HashMap<>();
-
-    public IpUtils() {
-        initData();
-    }
 
     /**
      * 获取IP
@@ -108,7 +72,6 @@ public class IpUtils {
         }
         return chinaIps;
     }
-
 
     /**
      * 判断是否属于中国IP
@@ -181,5 +144,87 @@ public class IpUtils {
     }
 
 
+    /*
+     * 第二种方法
+     */
+    public static Map<String, String> getIpList() {
+        // 集合存放Ip第一段
+        Map<String, String> ipMap = new HashMap<>();
+        try {
+            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/china_ip.txt");
+            List<String> lines = IOUtils.readLines(input, StandardCharsets.UTF_8);
+            // 读取文件内所有的中国IP
+            for (String line : lines) {
+                if (!StringUtils.isEmpty(line)) {
+                    String[] ips = line.split("\\.");
+                    String ipFirst = ips[0];
+                    // 得到一个ip地址段的起始范围
+                    String[] strs = line.split("\\/");
+                    long ip_len = Long.parseLong(strs[1]);
+                    long start_ip = ipv4ToLong(strs[0]);
+                    long end_ip = start_ip + (long) Math.pow(2, 32 - ip_len);
+                    String ipRange = start_ip + "-" + end_ip;
+                    ipMap.put(ipFirst, ipRange);
+                }
+            }
+            System.out.println(ipMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ipMap;
+    }
+
+    // 求出 IPV4 IP地址所对应的整数，比如 192.168.66.6 对应整数 3232252422
+    // 192*256*256*256 + 168*256*256 + 66*256 + 6 = 3232252422
+    // IP转换十进制（a.b.c.d）= a*256^3+b*256^2+c*256+d
+    public static long ipv4ToLong(String ip) {
+        String[] ips = ip.split("\\.");
+        long result = 0;
+        for (int i = 0; i < ips.length; i++) {
+            result += Long.parseLong(ips[i]) * Math.pow(256, 3 - i);
+        }
+        return result;
+    }
+
+    /**
+     * 判断IP是不是在中国
+     *
+     * @param ipMap 中国ip集合
+     * @param ip    传入的ip
+     * @return true
+     */
+    public static boolean ipInChina(Map<String, String> ipMap, String ip) {
+        if (ipMap == null) {
+            ipMap = getIpList();
+        }
+        // 判断 IP 是否存在
+        if (StringUtils.isEmpty(ip)) {
+            return false;
+        }
+        // 第一个IP端作为key
+        String key = ip.split("\\.")[0];
+        // 当前IP转换为整数
+        long ip_long = ipv4ToLong(ip);
+
+        // 判断第一个IP端存在
+        if (ipMap.containsKey(key)) {
+            String ipRange = ipMap.get(key);
+            String[] ipRanges = ipRange.split("\\-");
+            if (ipRanges.length == 2) {
+                long ipRange_start = Long.parseLong(ipRanges[0]);
+                long ipRange_end = Long.parseLong(ipRanges[1]);
+                // 判断是否在范围内
+                if (ip_long >= ipRange_start && ip_long <= ipRange_end) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(ipv4ToLong("192.168.66.6"));
+        getIpList();
+    }
 
 }
