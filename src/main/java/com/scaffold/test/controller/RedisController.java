@@ -87,7 +87,7 @@ public class RedisController {
      */
     @GetMapping("ip")
     public Result setIp(@RequestParam String ip) {
-//        ip = IpUtils.getIpAddress();
+        ip = IpUtils.getInternetIp();
         Map<String, String> ipData;
         // 从缓存中获取数据
         Object ip_map = redisUtils.get("ip_map");

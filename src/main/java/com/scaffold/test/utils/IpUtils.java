@@ -5,7 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -220,6 +222,35 @@ public class IpUtils {
             }
         }
         return false;
+    }
+
+
+    /**
+     * 获取外网IP
+     *
+     * @return
+     */
+    public static String getInternetIp() {
+        // 内网IP
+        String intranetIp = getIpAddress();
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            Enumeration<InetAddress> addrs;
+            while (networkInterfaces.hasMoreElements()){
+                addrs = networkInterfaces.nextElement().getInetAddresses();
+                while (addrs.hasMoreElements()){
+                    ip = addrs.nextElement();
+                    if(ip instanceof Inet4Address && ip.isSiteLocalAddress() && !ip.getHostAddress().equals(intranetIp)){
+                        return ip.getHostAddress();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return intranetIp;
     }
 
     public static void main(String[] args) {
