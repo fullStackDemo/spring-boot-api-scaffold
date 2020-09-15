@@ -165,6 +165,9 @@ public class IpUtils {
                     String[] strs = line.split("\\/");
                     long ip_len = Long.parseLong(strs[1]);
                     long start_ip = ipv4ToLong(strs[0]);
+                    if(ipFirst.equals("101")){
+                        System.out.println(line);
+                    }
                     long end_ip = start_ip + (long) Math.pow(2, 32 - ip_len);
                     String ipRange = start_ip + "-" + end_ip;
                     ipMap.put(ipFirst, ipRange);
@@ -238,11 +241,12 @@ public class IpUtils {
             Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
             InetAddress ip = null;
             Enumeration<InetAddress> addrs;
-            while (networkInterfaces.hasMoreElements()){
+            while (networkInterfaces.hasMoreElements()) {
                 addrs = networkInterfaces.nextElement().getInetAddresses();
-                while (addrs.hasMoreElements()){
+                while (addrs.hasMoreElements()) {
                     ip = addrs.nextElement();
-                    if(ip instanceof Inet4Address && ip.isSiteLocalAddress() && !ip.getHostAddress().equals(intranetIp)){
+                    if (ip instanceof Inet4Address && !ip.isSiteLocalAddress()
+                            && !ip.isLoopbackAddress() && !ip.getHostAddress().equals(intranetIp)) {
                         return ip.getHostAddress();
                     }
                 }

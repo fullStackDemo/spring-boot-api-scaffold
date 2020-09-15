@@ -85,7 +85,7 @@ logging:
 
 ## 开启定时任务
 scheduling:
-  enabled: false
+  enabled: true
 
 user:
   export: "F://project//spring-boot-api-scaffold//src/main//resources//files//"

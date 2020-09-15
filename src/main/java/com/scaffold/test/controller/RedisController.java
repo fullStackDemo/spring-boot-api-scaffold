@@ -69,7 +69,6 @@ public class RedisController {
      */
     @GetMapping("ip2")
     public Boolean setIp2(@RequestParam String ip) {
-        ip = IpUtils.getIpAddress();
         // 判断IP是否在缓存数据中
         Object exist = redisUtils.get(ip);
         if (exist == null) {
@@ -87,16 +86,17 @@ public class RedisController {
      */
     @GetMapping("ip")
     public Result setIp(@RequestParam String ip) {
-        ip = IpUtils.getInternetIp();
+//        ip = IpUtils.getInternetIp();
         Map<String, String> ipData;
         // 从缓存中获取数据
         Object ip_map = redisUtils.get("ip_map");
-        if (ip_map != null) {
-            ipData = (Map<String, String>) ip_map;
-        } else {
-            ipData = IpUtils.getIpList();
-            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
-        }
+//        if (ip_map != null) {
+//            ipData = (Map<String, String>) ip_map;
+//        } else {
+//            ipData = IpUtils.getIpList();
+//            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
+//        }
+        ipData = IpUtils.getIpList();
         Boolean inChina = IpUtils.ipInChina(ipData, ip);
         JSONObject object = new JSONObject();
         object.put("ip", ip);

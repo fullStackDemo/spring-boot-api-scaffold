@@ -15,4 +15,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //配置文件读取是否启用此配置
 @ConditionalOnProperty(prefix = "scheduling", name = "enabled", havingValue = "true")
 public class SchedulingConfig {
+
 }
