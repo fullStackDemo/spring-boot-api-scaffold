@@ -20,12 +20,12 @@ public class FixClient implements Application {
 
     @Override
     public void onLogon(SessionID sessionID) {
-        log.error("onLogon");
+        log.error("onLogon登录");
     }
 
     @Override
     public void onLogout(SessionID sessionID) {
-        log.error("onLogout");
+        log.error("onLogout退出");
     }
 
     @Override

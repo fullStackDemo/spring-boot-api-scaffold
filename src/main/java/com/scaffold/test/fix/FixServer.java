@@ -41,7 +41,7 @@ public class FixServer extends MessageCracker implements Application {
     public void fromAdmin(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
         System.out.println("接收会话类型消息时调用此方法");
         try {
-            crack(message, sessionID);
+            messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType unsupportedMessageType) {
             log.error("接收会话类型: " + unsupportedMessageType.getMessage());
             unsupportedMessageType.printStackTrace();
@@ -57,7 +57,7 @@ public class FixServer extends MessageCracker implements Application {
     @Override
     public void fromApp(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
         System.out.println("接收业务消息时调用此方法");
-        crack(message, sessionID);
+        messageCracker.crack(message, sessionID);
     }
 
 }

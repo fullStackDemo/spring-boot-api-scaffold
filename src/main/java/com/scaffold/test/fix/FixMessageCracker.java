@@ -11,12 +11,7 @@ import quickfix.fix44.Heartbeat;
 import quickfix.fix44.MessageCracker;
 import quickfix.fix44.NewOrderSingle;
 
-/**
- * <p></p>
- *
- * @author chenxjuc
- * @date 2020/4/27
- */
+
 @Slf4j
 @Component
 public class FixMessageCracker extends MessageCracker {
