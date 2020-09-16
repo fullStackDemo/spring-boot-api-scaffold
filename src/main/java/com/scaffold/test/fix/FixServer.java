@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import quickfix.*;
 
+import javax.annotation.Resource;
+
 /**
  * fix 服务端
  */
@@ -11,6 +13,9 @@ import quickfix.*;
 @Slf4j
 @Component
 public class FixServer extends MessageCracker implements Application {
+
+    @Resource
+    private FixMessageCracker messageCracker;
 
     @Override
     public void onCreate(SessionID sessionID) {
@@ -37,9 +42,11 @@ public class FixServer extends MessageCracker implements Application {
         System.out.println("接收会话类型消息时调用此方法");
         try {
             crack(message, sessionID);
-        } catch (UnsupportedMessageType | FieldNotFound | IncorrectTagValue e) {
-            e.printStackTrace();
+        } catch (UnsupportedMessageType unsupportedMessageType) {
+            log.error("接收会话类型: " + unsupportedMessageType.getMessage());
+            unsupportedMessageType.printStackTrace();
         }
+
     }
 
     @Override

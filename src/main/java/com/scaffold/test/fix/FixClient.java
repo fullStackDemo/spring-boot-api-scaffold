@@ -3,6 +3,7 @@ package com.scaffold.test.fix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import quickfix.*;
+import quickfix.field.OrderID;
 
 /**
  * Fix 客户端
@@ -49,6 +50,9 @@ public class FixClient implements Application {
     public void fromApp(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
         log.error("接收业务消息");
         log.info("fromApp:" + message);
+        OrderID orderID = new OrderID();
+        System.out.println("订单");
+        System.out.println(message.getField(orderID));
     }
 
     public static void main(String[] args) throws ConfigError {
