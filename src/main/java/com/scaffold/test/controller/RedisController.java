@@ -100,7 +100,7 @@ public class RedisController {
         Boolean inChina = IpUtils.ipInChina(ipData, ip);
         JSONObject object = new JSONObject();
         object.put("ip", ip);
-        object.put("CN", inChina);
+        object.put("country", inChina ? "CN" : "other");
         return ResultGenerator.setSuccessResult(object);
     }
 
