@@ -74,7 +74,7 @@ public class RedisController {
         Object exist = redisUtils.get(ip);
         if (exist == null) {
             // 判断IP库是否存在
-            Map<Integer, List<int[]>> ipData= IpUtils.initData();
+            Map<Integer, List<int[]>> ipData = IpUtils.initData();
             boolean isChinaIp = IpUtils.isChinaIp(ipData, ip);
             return isChinaIp;
         } else {
@@ -85,22 +85,32 @@ public class RedisController {
     /**
      * 第二种方法（耗时）
      * 获取IP并存入redis, 判断是国内外IP
+     *
+     * @return
      */
     @GetMapping("ip")
     public Result setIp(@RequestParam String ip) {
-        Map<String, Object> ipData;
-        // 从缓存中获取数据
-        Object ip_map = redisUtils.get("ip_map");
-        if (ip_map == null) {
-            ipData = (Map<String, Object>) ip_map;
-        } else {
-            ipData = IpUtils.getIpList();
-            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
-        }
-        Boolean inChina = IpUtils.ipInChina(ipData, ip);
+        // 判断IP是否在缓存数据中
+        Object exist = redisUtils.get(ip);
         JSONObject object = new JSONObject();
         object.put("ip", ip);
-        object.put("country", inChina ? "CN" : "other");
+        if (exist == null) {
+            Map<String, Object> ipData;
+            // 从缓存中获取数据
+            Object ip_map = redisUtils.get("ip_map");
+            if (ip_map != null) {
+                ipData = (Map<String, Object>) ip_map;
+            } else {
+                ipData = IpUtils.getIpList();
+                redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
+            }
+            Boolean inChina = IpUtils.ipInChina(ipData, ip);
+            object.put("country", inChina ? "CN" : "other");
+            redisUtils.set(ip, inChina);
+
+        } else {
+            object.put("country", exist.equals(true) ? "CN" : "other");
+        }
         return ResultGenerator.setSuccessResult(object);
     }
 
