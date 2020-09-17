@@ -83,14 +83,17 @@ public class RedisController {
     }
 
     /**
-     * 第二种方法（耗时）
+     * 第二种方法（耗时1~2S）
      * 获取IP并存入redis, 判断是国内外IP
      *
      * @return
      */
     @GetMapping("ip")
-    public Result setIp(@RequestParam String ip) {
-        // 判断IP是否在缓存数据中
+    public Result setIp(String ip) {
+        if (ip == null) {
+            ip = IpUtils.getWebIp();
+        }
+        // 判断IP判断结果是否在缓存数据中
         Object exist = redisUtils.get(ip);
         JSONObject object = new JSONObject();
         object.put("ip", ip);

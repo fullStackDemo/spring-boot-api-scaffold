@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
@@ -336,13 +338,33 @@ public class IpUtils {
         return intranetIp;
     }
 
+
+    /**
+     * 获取当前web的IP
+     * 可以跟随VPN的切换，IP变换
+     *
+     * @return
+     */
+    public static String getWebIp() {
+        String ipHtml = "https://whatismyipaddress.com";
+        String ip = "";
+        try {
+            Document document = Jsoup.connect(ipHtml).get();
+            ip = document.getElementById("ipv4").text();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ip;
+    }
+
     public static void main(String[] args) {
-        System.out.println(ipv4ToLong("101.96.0.0"));
-        System.out.println(ipv4ToLong("101.96.0.0") + (long) Math.pow(2, 11));
-        System.out.println(ipv4ToLong("101.96.8.0"));
-        System.out.println(ipv4ToLong("101.96.8.0") + (long) Math.pow(2, 10));
-        System.out.println(ipv4ToLong("101.96.16.0"));
-        System.out.println(ipv4ToLong("101.96.16.0") + (long) Math.pow(2, 12));
+//        System.out.println(ipv4ToLong("101.96.0.0"));
+//        System.out.println(ipv4ToLong("101.96.0.0") + (long) Math.pow(2, 11));
+//        System.out.println(ipv4ToLong("101.96.8.0"));
+//        System.out.println(ipv4ToLong("101.96.8.0") + (long) Math.pow(2, 10));
+//        System.out.println(ipv4ToLong("101.96.16.0"));
+//        System.out.println(ipv4ToLong("101.96.16.0") + (long) Math.pow(2, 12));
+        System.out.println(getWebIp());
     }
 
 }
