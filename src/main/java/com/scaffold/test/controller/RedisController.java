@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -64,7 +65,7 @@ public class RedisController {
 
 
     /**
-     * 第一种方法
+     * 第一种方法(初次耗时18S)
      * 获取IP并存入redis
      */
     @GetMapping("ip2")
@@ -72,8 +73,9 @@ public class RedisController {
         // 判断IP是否在缓存数据中
         Object exist = redisUtils.get(ip);
         if (exist == null) {
-            boolean isChinaIp = IpUtils.isChinaIp(ip);
-            redisUtils.set(ip, isChinaIp);
+            // 判断IP库是否存在
+            Map<Integer, List<int[]>> ipData= IpUtils.initData();
+            boolean isChinaIp = IpUtils.isChinaIp(ipData, ip);
             return isChinaIp;
         } else {
             return exist.equals(true);
@@ -86,17 +88,15 @@ public class RedisController {
      */
     @GetMapping("ip")
     public Result setIp(@RequestParam String ip) {
-//        ip = IpUtils.getInternetIp();
-        Map<String, String> ipData;
+        Map<String, Object> ipData;
         // 从缓存中获取数据
         Object ip_map = redisUtils.get("ip_map");
-//        if (ip_map != null) {
-//            ipData = (Map<String, String>) ip_map;
-//        } else {
-//            ipData = IpUtils.getIpList();
-//            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
-//        }
-        ipData = IpUtils.getIpList();
+        if (ip_map == null) {
+            ipData = (Map<String, Object>) ip_map;
+        } else {
+            ipData = IpUtils.getIpList();
+            redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
+        }
         Boolean inChina = IpUtils.ipInChina(ipData, ip);
         JSONObject object = new JSONObject();
         object.put("ip", ip);

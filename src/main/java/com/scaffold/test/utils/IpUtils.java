@@ -1,5 +1,7 @@
 package com.scaffold.test.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,17 +20,17 @@ public class IpUtils {
      */
 
     public static final String IPURL = "http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest";
-    private static Map<Integer, List<int[]>> chinaIps = new HashMap<>();
 
     /**
      * 获取IP
      */
     public static Map<Integer, List<int[]>> initData() {
+        Map<Integer, List<int[]>> chinaIps = new HashMap<>();
         System.out.println("start ip fetch");
         // 只存放属于中国的ip段
         Map<Integer, List<int[]>> map = new HashMap<>();
         try {
-            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/delegated-apnic-latest");
+            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/delegated-apnic-latest-cn.txt");
             List<String> lines = IOUtils.readLines(input, StandardCharsets.UTF_8);
             for (String line : lines) {
                 // 只获取中国的IP
@@ -81,16 +83,16 @@ public class IpUtils {
      * @param ip
      * @return
      */
-    public static boolean isChinaIp(String ip) {
-        if (chinaIps.size() == 0) {
-            chinaIps = initData();
+    public static boolean isChinaIp(Map<Integer, List<int[]>> ipData, String ip) {
+        if (ipData.size() == 0) {
+            ipData = initData();
         }
         if (StringUtils.isEmpty(ip)) {
             return false;
         }
         String[] strs = ip.split("\\.");
         int key = Integer.parseInt(strs[0]) * 256 + Integer.parseInt(strs[1]);
-        List<int[]> list = chinaIps.get(key);
+        List<int[]> list = ipData.get(key);
         if (list == null) {
             return false;
         }
@@ -150,27 +152,91 @@ public class IpUtils {
     /*
      * 第二种方法
      */
-    public static Map<String, String> getIpList() {
+    public static Map<String, Object> getIpList() {
         // 集合存放Ip第一段
-        Map<String, String> ipMap = new HashMap<>();
+        Map<String, Object> ipMap = new HashMap<>();
         try {
             InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/china_ip.txt");
             List<String> lines = IOUtils.readLines(input, StandardCharsets.UTF_8);
             // 读取文件内所有的中国IP
             for (String line : lines) {
                 if (!StringUtils.isEmpty(line)) {
+                    JSONObject parentObj = new JSONObject();
                     String[] ips = line.split("\\.");
-                    String ipFirst = ips[0];
-                    // 得到一个ip地址段的起始范围
+                    // 得到一个ip地址段的起始范围 101
+                    int ip1 = Integer.parseInt(ips[0]);
+                    int ip2 = Integer.parseInt(ips[1]);
+                    /*
+                     * 101.80.0.0/20 等于  apnic|CN|ipv4|101.80.0.0|1048576(2的20次方)
+                     * 101.96.0.0/11 等于  apnic|CN|ipv4|101.96.0.0|2048(2的11次方)
+                     * 类似如此数据，IP网端每个地址数256也就是2的8次方，总共是2的32次方
+                     * 所以如果最后一个数值超过 16，意味着后两个网络被占满，前面的网段需要递增
+                     * 101.80.0.0/20 中 20 意味着后两个网段已满, 第二个网络端递增 2的(20-16)次方等于16
+                     * 101.80.0.0/20 = 以下IP从 80 ~ 95 全网端都是中国IP
+                     * 101.80.0.0
+                     * 101.81.0.0
+                     * 101.82.0.0
+                     * ...
+                     * 101.95.0.0
+                     */
+                    // 获取从当前IP段开始的总地址数
                     String[] strs = line.split("\\/");
-                    long ip_len = Long.parseLong(strs[1]);
-                    long start_ip = ipv4ToLong(strs[0]);
-                    if(ipFirst.equals("101")){
-                        System.out.println(line);
+                    long addressCount = Long.parseLong(strs[1]);
+                    // 存储各个网络段
+                    JSONObject object = new JSONObject();
+                    if (ipMap.get(String.valueOf(ip1)) != null) {
+                        object = (JSONObject) ipMap.get(String.valueOf(ip1));
                     }
-                    long end_ip = start_ip + (long) Math.pow(2, 32 - ip_len);
-                    String ipRange = start_ip + "-" + end_ip;
-                    ipMap.put(ipFirst, ipRange);
+                    // 判断是否后两个字段被占满
+                    if (addressCount > 16) {
+                        // 后两个字段被占满时，也就是地址数大于 256*256=65536=2的16次方
+                        double pow = Math.pow(2, addressCount - 16);
+                        for (int i = 0; i < pow; i++) {
+                            object.put(String.valueOf(ip2 + i), "all");
+                        }
+                    } else {
+                        /**
+                         * apnic CN三个连续数据如下
+                         * 101.96.0.0/11
+                         * 101.96.8.0/10
+                         * 101.96.16.0/12
+                         * ---------------------
+                         * 如上在第二网段相同的情况
+                         * 101.96.0.0/11 等于
+                         * 101.96.0.0
+                         * ...
+                         * 101.96.7.0
+                         * 共8个
+                         *----------------------
+                         * 101.96.8.0/10 等于
+                         * 101.96.8.0
+                         * ...
+                         * 101.96.11.0
+                         * 共4个
+                         *----------------------
+                         * 101.96.16.0/12 等于
+                         * 101.96.16.0
+                         * ...
+                         * 101.96.31.0
+                         * 共16个
+                         * ---------------------
+                         * 从上述数据中看到 101.96.11.0 到 101.96.16.0 出现了断层，中间内容不属于中国的IP
+                         * 所以都需要被记录下来，多个IPRange 我们使用数组存储
+                         */
+                        // 转换IP为long
+                        long start_ip = ipv4ToLong(strs[0]);
+                        long ip_range = (long) Math.pow(2, addressCount);
+                        long end_ip = start_ip + ip_range;
+                        String ipRange = start_ip + "-" + end_ip;
+                        // 判断是否已存在已有数据
+                        JSONArray ipRangeExist = (JSONArray) object.get(String.valueOf(ip2));
+                        if (ipRangeExist == null) {
+                            ipRangeExist = new JSONArray();
+                        }
+                        ipRangeExist.add(ipRange);
+                        object.put(String.valueOf(ip2), ipRangeExist);
+                    }
+                    ipMap.put(String.valueOf(ip1), object);
                 }
             }
             System.out.println(ipMap);
@@ -199,7 +265,7 @@ public class IpUtils {
      * @param ip    传入的ip
      * @return true
      */
-    public static boolean ipInChina(Map<String, String> ipMap, String ip) {
+    public static boolean ipInChina(Map<String, Object> ipMap, String ip) {
         if (ipMap == null) {
             ipMap = getIpList();
         }
@@ -208,20 +274,32 @@ public class IpUtils {
             return false;
         }
         // 第一个IP端作为key
-        String key = ip.split("\\.")[0];
+        String[] ipArr = ip.split("\\.");
+        String key = ipArr[0];
+        String childKey = ipArr[1];
         // 当前IP转换为整数
         long ip_long = ipv4ToLong(ip);
 
         // 判断第一个IP端存在
         if (ipMap.containsKey(key)) {
-            String ipRange = ipMap.get(key);
-            String[] ipRanges = ipRange.split("\\-");
-            if (ipRanges.length == 2) {
-                long ipRange_start = Long.parseLong(ipRanges[0]);
-                long ipRange_end = Long.parseLong(ipRanges[1]);
-                // 判断是否在范围内
-                if (ip_long >= ipRange_start && ip_long <= ipRange_end) {
+            JSONObject parentObj = (JSONObject) ipMap.get(key);
+            // 判断第二个IP段是否存在
+            if (parentObj.getString(childKey) != null) {
+                String ipRange = parentObj.getString(childKey);
+                if (ipRange.equals("all")) {
+                    // 整个其余网段都是中国IP
                     return true;
+                } else {
+                    JSONArray ipRangeArray = JSONArray.parseArray(ipRange);
+                    for (Object range : ipRangeArray) {
+                        String[] ipRanges = String.valueOf(range).split("\\-");
+                        if (ipRanges.length == 2) {
+                            long ipRange_start = Long.parseLong(ipRanges[0]);
+                            long ipRange_end = Long.parseLong(ipRanges[1]);
+                            // 判断是否在范围内
+                            return ip_long >= ipRange_start && ip_long <= ipRange_end;
+                        }
+                    }
                 }
             }
         }
@@ -259,8 +337,12 @@ public class IpUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(ipv4ToLong("192.168.66.6"));
-        getIpList();
+        System.out.println(ipv4ToLong("101.96.0.0"));
+        System.out.println(ipv4ToLong("101.96.0.0") + (long) Math.pow(2, 11));
+        System.out.println(ipv4ToLong("101.96.8.0"));
+        System.out.println(ipv4ToLong("101.96.8.0") + (long) Math.pow(2, 10));
+        System.out.println(ipv4ToLong("101.96.16.0"));
+        System.out.println(ipv4ToLong("101.96.16.0") + (long) Math.pow(2, 12));
     }
 
 }

@@ -25,7 +25,7 @@ public class FixMock {
         if (Objects.isNull(socketAcceptor)) {
             return;
         }
-        log.error("mock推送......");
+//        log.error("mock推送......");
         ExecutionReport report = new ExecutionReport();
         report.set(new OrderID("22554912"));
         report.set(new ExecID("22554912"));
