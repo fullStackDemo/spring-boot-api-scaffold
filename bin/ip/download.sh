@@ -3,6 +3,7 @@ ip_txt=china_ip.txt
 ip_txt_new=china_ip_new.txt
 ip_backup_folder=backup
 cur_date=$(date +'%Y%m%d%H%M%S')
+cur_path=/home/ip-test
 
 # 删除上一个ip_txt_new文本
 if [ -f ${ip_txt_new} ]; then
@@ -10,7 +11,7 @@ if [ -f ${ip_txt_new} ]; then
 fi
 
 # 除第一个生成ip.txt 文本外，第二次更新，要先生成新的ip_new.txt，不能直接删除ip.text, 文本下载需要12min，以免此期间影响业务代码访问该文本
-curl ${ip_url} | grep ipv4 | grep CN | awk -F\| '{ printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > ${ip_txt_new}
+curl ${ip_url} | grep ipv4 | grep CN | awk -F\| '{ printf("%s/%d\n", $4, log($5)/log(2)) }' > ${ip_txt_new}
 
 echo 'download ip text complete'
 
@@ -22,7 +23,7 @@ if [ ! -d ${ip_backup_folder} ]; then
 fi
 
 if [ -f ${ip_txt} ]; then
-	mv ${ip_txt} ./${ip_backup_folder}/${ip_txt}_${cur_date}
+	mv ${ip_txt} ${cur_path}/${ip_backup_folder}/${ip_txt}_${cur_date}
 fi
 
 if [ -f ${ip_txt_new} ]; then
