@@ -1,6 +1,7 @@
 package com.scaffold.test.fix;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import quickfix.Session;
 import quickfix.SessionID;
@@ -19,7 +20,7 @@ public class FixMock {
     @Resource
     private SocketAcceptor socketAcceptor;
 
-//    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void executeReport() throws Exception {
         if (Objects.isNull(socketAcceptor)) {
             return;

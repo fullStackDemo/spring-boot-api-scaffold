@@ -38,8 +38,7 @@ public class FixServer extends MessageCracker implements Application {
     }
 
     @Override
-    public void fromAdmin(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {
-        System.out.println("接收会话类型消息时调用此方法");
+    public void fromAdmin(Message message, SessionID sessionID) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, RejectLogon {System.out.println("接收会话类型消息时调用此方法");
         try {
             messageCracker.crack(message, sessionID);
         } catch (UnsupportedMessageType unsupportedMessageType) {

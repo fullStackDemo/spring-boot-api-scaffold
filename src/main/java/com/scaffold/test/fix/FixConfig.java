@@ -19,6 +19,11 @@ public class FixConfig {
     @Resource
     private FixServer fixServer;
 
+    /**
+     * 开启 Fix server
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SocketAcceptor socketAcceptor() throws Exception {
         CharsetSupport.setCharset("utf-8");
@@ -34,6 +39,5 @@ public class FixConfig {
         acceptor.start();
         return acceptor;
     }
-
 
 }

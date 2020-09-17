@@ -1,6 +1,7 @@
 package com.scaffold.test;
 
 import com.scaffold.test.fix.FixClient;
+import org.quickfixj.CharsetSupport;
 import quickfix.*;
 
 import java.util.Scanner;
@@ -9,7 +10,7 @@ public class SenderAppTest {
 
     static {
         try {
-            start("fix/sender-test.cfg");
+            start("fix/initiator.cfg");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -18,6 +19,7 @@ public class SenderAppTest {
     public static void start(String config) {
         try {
             // 测试
+            CharsetSupport.setCharset("utf-8");
             SessionSettings settings = new SessionSettings(config);
             FixClient application = new FixClient();
             // 消息存储
