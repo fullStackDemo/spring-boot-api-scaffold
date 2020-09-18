@@ -340,8 +340,7 @@ public class IpUtils {
 
 
     /**
-     * 获取当前web的IP
-     * 可以跟随VPN的切换，IP变换
+     * 获取当前出口的IP
      *
      * @return
      */
@@ -357,6 +356,8 @@ public class IpUtils {
         return ip;
     }
 
+
+
     public static void main(String[] args) {
 //        System.out.println(ipv4ToLong("101.96.0.0"));
 //        System.out.println(ipv4ToLong("101.96.0.0") + (long) Math.pow(2, 11));
@@ -364,7 +365,6 @@ public class IpUtils {
 //        System.out.println(ipv4ToLong("101.96.8.0") + (long) Math.pow(2, 10));
 //        System.out.println(ipv4ToLong("101.96.16.0"));
 //        System.out.println(ipv4ToLong("101.96.16.0") + (long) Math.pow(2, 12));
-        System.out.println(getWebIp());
     }
 
 }

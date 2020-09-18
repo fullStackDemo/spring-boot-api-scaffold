@@ -91,7 +91,7 @@ public class RedisController {
     @GetMapping("ip")
     public Result setIp(String ip) {
         if (ip == null) {
-            ip = IpUtils.getWebIp();
+            ip = IpUtils.getIpAddress();
         }
         // 判断IP判断结果是否在缓存数据中
         Object exist = redisUtils.get(ip);
