@@ -240,11 +240,11 @@
         </dependency>
 
         <!-- IP定位 -->
-        <dependency>
-            <groupId>com.maxmind.geoip2</groupId>
-            <artifactId>geoip2</artifactId>
-            <version>2.14.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.maxmind.geoip2</groupId>-->
+<!--            <artifactId>geoip2</artifactId>-->
+<!--            <version>2.14.0</version>-->
+<!--        </dependency>-->
 
         <!-- quickfix -->
         <dependency>
