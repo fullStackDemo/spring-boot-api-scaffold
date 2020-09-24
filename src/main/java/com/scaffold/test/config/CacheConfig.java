@@ -14,6 +14,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
+import java.time.Duration;
+
 @Configuration
 @EnableCaching
 //配置文件读取是否启用此配置
@@ -26,6 +28,7 @@ public class CacheConfig {
 //        return new ConcurrentMapCacheManager();
 //    }
 
+    private Duration timeToLive = Duration.ofSeconds(600);
     // 解决从redis数据缓存value使用Jackson2JsonRedisSerialize序列化
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
@@ -40,6 +43,7 @@ public class CacheConfig {
 
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+//                .entryTtl(timeToLive)
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
                 .disableCachingNullValues();
 
