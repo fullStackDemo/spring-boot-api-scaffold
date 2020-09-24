@@ -13,9 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "caching", name = "enabled", havingValue = "true")
 public class CacheConfig {
 
+    // ConcurrentMapCacheManager 最简单的缓存
     @Bean
-    public CacheManager cacheManager(){
-        return new ConcurrentMapCacheManager("cacheData");
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("cacheData", "otherCache");
     }
 
 }

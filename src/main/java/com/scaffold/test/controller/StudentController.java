@@ -6,6 +6,7 @@ import com.scaffold.test.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,14 +26,19 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/list")
+    @GetMapping("list")
     public List<Student> getAll(){
         return studentService.findAll();
     }
 
-    @GetMapping("/find")
+    @GetMapping("find")
     public Student findStudent(Student student){
         return studentService.findStudent(student);
+    }
+
+    @GetMapping("test")
+    public Student test(@RequestParam String text){
+        return studentService.testStudent(text);
     }
 
 }

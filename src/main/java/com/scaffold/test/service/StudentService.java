@@ -19,4 +19,6 @@ public interface StudentService extends IService<Student> {
 
     Student findStudent(Student student);
 
+    Student testStudent(String text);
+
 }
