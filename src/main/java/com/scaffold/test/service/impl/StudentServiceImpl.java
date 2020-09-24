@@ -43,7 +43,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     @Cacheable(value = "cacheData", key = "#text")
     public Student testStudent(String text) {
-        System.out.println("test");
+        System.out.println("test" + text);
         Student student = new Student();
         student.setName(text);
         return student;
