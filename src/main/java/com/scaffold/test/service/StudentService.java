@@ -17,4 +17,6 @@ public interface StudentService extends IService<Student> {
 
     List<Student> findAll();
 
+    Student findStudent(Student student);
+
 }

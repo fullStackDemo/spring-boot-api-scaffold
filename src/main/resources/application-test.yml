@@ -34,6 +34,10 @@ jasypt:
 scheduling:
   enabled: true
 
+## 开启数据缓存
+caching:
+  enabled: true
+
 mail:
   recipient: "1498097245@qq.com,749856591@qq.com"
   fromMail:

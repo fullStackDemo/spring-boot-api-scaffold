@@ -30,5 +30,10 @@ public class StudentController {
         return studentService.findAll();
     }
 
+    @GetMapping("/find")
+    public Student findStudent(Student student){
+        return studentService.findStudent(student);
+    }
+
 }
 

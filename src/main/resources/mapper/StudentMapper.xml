@@ -15,8 +15,27 @@
         name, age
     </sql>
 
+    <sql id="Where_Condition">
+        <where>
+            <if test="id != null and id != ''">
+                id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name=#{name}
+            </if>
+            <if test="age != null and age != ''">
+                and age=#{age}
+            </if>
+        </where>
+    </sql>
+
     <select id="selectAll" resultMap="BaseResultMap">
         select * from student
     </select>
+    <select id="findStudent" resultType="com.scaffold.test.entity.Student">
+        select * from student
+        <include refid="Where_Condition"></include>
+    </select>
+
 
 </mapper>
