@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @MapperScan("com.scaffold.test.mapper")
 @RestController
-//@EnableScheduling
 @EnableAsync
 public class ScaffoldApplication {
 

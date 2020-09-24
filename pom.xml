@@ -239,12 +239,11 @@
             <version>3.13.3</version>
         </dependency>
 
-        <!-- IP定位 -->
-<!--        <dependency>-->
-<!--            <groupId>com.maxmind.geoip2</groupId>-->
-<!--            <artifactId>geoip2</artifactId>-->
-<!--            <version>2.14.0</version>-->
-<!--        </dependency>-->
+        <!-- cache 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
 
         <!-- quickfix -->
         <dependency>

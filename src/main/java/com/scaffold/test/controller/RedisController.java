@@ -100,9 +100,9 @@ public class RedisController {
         if (exist == null) {
             Map<String, Object> ipData;
             // 从缓存中获取数据
-            Object ip_map = redisUtils.get("ip_map");
+            JSONObject ip_map = (JSONObject) redisUtils.get("ip_map");
             if (ip_map != null) {
-                ipData = (Map<String, Object>) ip_map;
+                ipData = JSONObject.parseObject(ip_map.toJSONString());
             } else {
                 ipData = IpUtils.getIpList();
                 redisUtils.set("ip_map", ipData, 2, TimeUnit.HOURS);
