@@ -23,16 +23,17 @@ import java.time.Duration;
 public class CacheConfig {
 
     // ConcurrentMapCacheManager 最简单的缓存
-//    @Bean("simpleCacheManager")
+//    @Bean
 //    public CacheManager cacheManager() {
 //        return new ConcurrentMapCacheManager();
 //    }
 
     private Duration timeToLive = Duration.ofSeconds(600);
-    // 解决从redis数据缓存value使用Jackson2JsonRedisSerialize序列化
+
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         // RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        // 解决从redis数据缓存value使用Jackson2JsonRedisSerialize序列化
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
 
         //解决查询缓存转换异常的问题
@@ -44,6 +45,7 @@ public class CacheConfig {
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(timeToLive)
+                .disableKeyPrefix()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
                 .disableCachingNullValues();
 

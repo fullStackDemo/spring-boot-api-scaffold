@@ -51,7 +51,7 @@ spring:
     cache-names: cacheData
     redis:
       time-to-live: 600000
-      use-key-prefix: true
+      use-key-prefix: false
       cache-null-values: off
 
 
