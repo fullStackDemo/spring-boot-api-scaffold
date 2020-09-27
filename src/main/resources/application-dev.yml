@@ -45,14 +45,14 @@ spring:
     # Redis数据库索引（默认为0）
     database: 0
   # 缓存数据
-  cache:
-#    type: simple
-    type: redis
-    cache-names: cacheData
-    redis:
-      time-to-live: 600000
-      use-key-prefix: false
-      cache-null-values: off
+#  cache:
+##    type: simple
+#    type: redis
+#    cache-names: cacheData
+#    redis:
+#      time-to-live: 600000
+#      use-key-prefix: false
+#      cache-null-values: off
 
 
 
