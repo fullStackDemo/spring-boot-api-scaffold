@@ -22,6 +22,6 @@ public interface StudentService extends IService<Student> {
 
     void deleteStudent(Student student);
 
-    void saveStudent(Student student);
+    String saveStudent(Student student);
 
 }

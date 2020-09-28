@@ -71,9 +71,10 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      */
     @Override
     @CachePut(value = "cacheData", key = "#student.id")
-    public void saveStudent(Student student) {
+    public String saveStudent(Student student) {
         log.warn("保存了id、key 为{}的数据缓存", student);
         studentMapper.insertStudent(student);
+        return "add success";
     }
 
 
