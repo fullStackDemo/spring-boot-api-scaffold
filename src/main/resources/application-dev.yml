@@ -53,6 +53,7 @@ spring:
 #      time-to-live: 600000
 #      use-key-prefix: false
 #      cache-null-values: off
+#      key-prefix: test
 
 
 
