@@ -20,9 +20,10 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 
 @Configuration
-public class RedissonConfig {
+public class RedisConfig {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -57,6 +58,36 @@ public class RedissonConfig {
         return redisTemplate;
     }
 
+    private Duration timeToLive = Duration.ofSeconds(600);
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory factory) {
+        // RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        // 解决从redis数据缓存value使用Jackson2JsonRedisSerialize序列化
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+
+        //解决查询缓存转换异常的问题
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+
+        // 配置序列化（解决乱码的问题）
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+                // 设置缓存的存活时间
+                .entryTtl(timeToLive)
+                // 设置缓存名字的前缀
+                .prefixCacheNameWith("test")
+                // 禁止缓存名字的前缀
+                .disableKeyPrefix()
+                // 序列化value数据
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+                // 禁止缓存 Null 数据
+                .disableCachingNullValues();
+
+        RedisCacheManager cacheManager = RedisCacheManager.builder(factory).cacheDefaults(config).build();
+        return cacheManager;
+    }
 
 
 }
