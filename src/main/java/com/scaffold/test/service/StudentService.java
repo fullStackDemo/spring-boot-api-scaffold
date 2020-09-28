@@ -11,7 +11,6 @@ import java.util.List;
  * </p>
  *
  * @author alex wong
- * @since 2020-06-14
  */
 public interface StudentService extends IService<Student> {
 
@@ -20,5 +19,9 @@ public interface StudentService extends IService<Student> {
     Student findStudent(Student student);
 
     Student testStudent(String text);
+
+    void deleteStudent(Student student);
+
+    void saveStudent(Student student);
 
 }

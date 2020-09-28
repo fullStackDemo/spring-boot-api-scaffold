@@ -18,4 +18,6 @@ public interface StudentMapper extends BaseMapper<Student> {
     List<Student> selectAll();
 
     Student findStudent(Student student);
+
+    int insertStudent(Student student);
 }

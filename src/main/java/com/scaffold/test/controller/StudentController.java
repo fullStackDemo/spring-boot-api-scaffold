@@ -17,7 +17,6 @@ import java.util.List;
  * </p>
  *
  * @author alex wong
- * @since 2020-06-14
  */
 @RestController
 @RequestMapping("/student")
@@ -31,9 +30,19 @@ public class StudentController {
         return studentService.findAll();
     }
 
+    @GetMapping("add")
+    public void addStudent(Student student){
+        studentService.saveStudent(student);
+    }
+
     @GetMapping("find")
     public Student findStudent(Student student){
         return studentService.findStudent(student);
+    }
+
+    @GetMapping("delete")
+    public void deleteStudent(Student student){
+        studentService.deleteStudent(student);
     }
 
     @GetMapping("test")

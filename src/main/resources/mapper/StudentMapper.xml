@@ -29,9 +29,17 @@
         </where>
     </sql>
 
+    <insert id="insertStudent">
+        insert student
+        (id, name, age)
+        values
+        (#{id}, #{name}, #{age})
+    </insert>
+
     <select id="selectAll" resultMap="BaseResultMap">
         select * from student
     </select>
+
     <select id="findStudent" resultType="com.scaffold.test.entity.Student">
         select * from student
         <include refid="Where_Condition"></include>
