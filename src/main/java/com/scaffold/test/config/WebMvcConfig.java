@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,9 +43,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
             Result result = new Result();
             // 异常处理
             // 参数异常判断
-            if (e instanceof BindingResult) {
+            if (e instanceof BindingResult || e instanceof MethodArgumentNotValidException) {
                 StringBuilder errorMessage = new StringBuilder();
-                List<ObjectError> allErrors = ((BindingResult) e).getAllErrors();
+                List<ObjectError> allErrors;
+                if (e instanceof BindingResult) {
+                    allErrors = ((BindingResult) e).getAllErrors();
+                } else {
+                    BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
+                    allErrors = bindingResult.getAllErrors();
+                }
                 for (int i = 0; i < allErrors.size(); i++) {
                     errorMessage.append(allErrors.get(i).getDefaultMessage());
                     if (i != allErrors.size() - 1) {
