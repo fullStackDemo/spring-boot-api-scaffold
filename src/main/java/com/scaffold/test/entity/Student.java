@@ -23,7 +23,7 @@ public class Student implements Serializable {
     private static final long serialVersionUID=1L;
 
     @Id
-    @Range(min = 1, message = "id不能为空")
+    @Range(min = 1, message = "id不能为空", groups = Update.class)
     private int id;
 
     @NotBlank(message = "name不能为空")

@@ -3,7 +3,9 @@ package com.scaffold.test.controller;
 
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
+import com.scaffold.test.entity.Insert;
 import com.scaffold.test.entity.Student;
+import com.scaffold.test.entity.Update;
 import com.scaffold.test.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,18 @@ public class StudentController {
      * @return
      */
     @PostMapping("post")
-    public Result postStudent(@Validated @RequestBody Student student) {
+    public Result postStudent(@Validated(Insert.class) @RequestBody Student student) {
+        return ResultGenerator.setSuccessResult(student);
+    }
+
+    /**
+     * 更新学生
+     * @param student
+     * @return
+     */
+    @PostMapping("update")
+//    @JsonIgnoreProperties(value={"id"}) // 忽略ID返回
+    public Result updateStudent(@Validated(Update.class) @RequestBody Student student) {
         return ResultGenerator.setSuccessResult(student);
     }
 
