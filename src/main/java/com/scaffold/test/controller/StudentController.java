@@ -5,7 +5,6 @@ import com.scaffold.test.entity.Student;
 import com.scaffold.test.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +35,9 @@ public class StudentController {
     }
 
     @GetMapping("add")
+//    @ExceptionHandler(BindingException.class)
 //    public void addStudent(Student student){
-    public String addStudent(@Validated Student student, BindingResult bindingResult){
+    public String addStudent(@Validated Student student){
 //        if(bindingResult.hasErrors()){
 //            if(bindingResult.hasErrors()){
 //                for (ObjectError error: bindingResult.getAllErrors()) {
