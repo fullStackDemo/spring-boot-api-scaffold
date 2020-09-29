@@ -1,8 +1,10 @@
 package com.scaffold.test.base;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.binding.BindingException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.BindException;
 
@@ -11,16 +13,17 @@ import java.net.BindException;
  */
 
 @Slf4j
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
      * 参数异常
      */
-    @ExceptionHandler(value = BindException.class)
-    public Result validationExceptionHandler(BindException exception){
-        System.out.println(exception);
-        return ResultGenerator.setFailResult("");
+    @ResponseBody
+    @ExceptionHandler(BindingException.class)
+    public Result handleBindException(BindingException e) throws BindException {
+        System.out.println(e);
+        return null;
     }
 
 

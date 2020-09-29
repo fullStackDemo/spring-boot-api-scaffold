@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author alex wong
@@ -30,14 +30,12 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("list")
-    public List<Student> getAll(){
+    public List<Student> getAll() {
         return studentService.findAll();
     }
 
     @GetMapping("add")
-//    @ExceptionHandler(BindingException.class)
-//    public void addStudent(Student student){
-    public String addStudent(@Validated Student student){
+    public String addStudent(@Validated Student student) {
 //        if(bindingResult.hasErrors()){
 //            if(bindingResult.hasErrors()){
 //                for (ObjectError error: bindingResult.getAllErrors()) {
@@ -50,17 +48,17 @@ public class StudentController {
     }
 
     @GetMapping("find")
-    public Student findStudent(Student student){
+    public Student findStudent(Student student) {
         return studentService.findStudent(student);
     }
 
     @GetMapping("delete")
-    public void deleteStudent(Student student){
+    public void deleteStudent(Student student) {
         studentService.deleteStudent(student);
     }
 
     @GetMapping("test")
-    public Student test(@RequestParam String text){
+    public Student test(@RequestParam String text) {
         return studentService.testStudent(text);
     }
 

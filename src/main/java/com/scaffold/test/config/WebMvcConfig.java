@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 统一异常处理
+     *
      * @param exceptionResolvers
      */
     @Override
@@ -38,11 +41,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
         exceptionResolvers.add((request, response, handler, e) -> {
             Result result = new Result();
             // 异常处理
-            if (e instanceof ServiceException) {
+            if (e instanceof BindingResult) {
+                StringBuilder errorMessage = new StringBuilder();
+                List<ObjectError> allErrors = ((BindingResult) e).getAllErrors();
+                for (int i = 0; i < allErrors.size(); i++) {
+                    errorMessage.append(allErrors.get(i).getDefaultMessage());
+                    if (i != allErrors.size() - 1) {
+                        errorMessage.append(",");
+                    }
+                }
+                result.setCode(ResultCode.FAIL).setMessage(errorMessage.toString());
+                logger.error(errorMessage.toString());
+            } else if (e instanceof ServiceException) {
                 // 1、业务失败的异常，如“账号或密码错误”
                 result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                 logger.info(e.getMessage());
-            }else if (e instanceof ServletException) {
+            } else if (e instanceof ServletException) {
                 // 2、调用失败
                 result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
             } else {
@@ -91,7 +105,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public AuthenticationInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();
     }
-
 
 
 }

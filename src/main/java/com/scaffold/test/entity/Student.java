@@ -3,6 +3,7 @@ package com.scaffold.test.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ public class Student implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @Id
     @Range(min = 1, message = "id不能为空")
     private int id;
 
