@@ -1,15 +1,14 @@
 package com.scaffold.test.controller;
 
 
+import com.scaffold.test.base.Result;
+import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.Student;
 import com.scaffold.test.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,6 +44,16 @@ public class StudentController {
 //            }
 //        }
         return studentService.saveStudent(student);
+    }
+
+    /**
+     * 添加学生
+     * @param student
+     * @return
+     */
+    @PostMapping("post")
+    public Result postStudent(@Validated @RequestBody Student student) {
+        return ResultGenerator.setSuccessResult(student);
     }
 
     @GetMapping("find")

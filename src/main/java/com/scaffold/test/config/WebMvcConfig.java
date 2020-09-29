@@ -41,6 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         exceptionResolvers.add((request, response, handler, e) -> {
             Result result = new Result();
             // 异常处理
+            // 参数异常判断
             if (e instanceof BindingResult) {
                 StringBuilder errorMessage = new StringBuilder();
                 List<ObjectError> allErrors = ((BindingResult) e).getAllErrors();
