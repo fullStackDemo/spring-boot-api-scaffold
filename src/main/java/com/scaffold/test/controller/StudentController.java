@@ -5,6 +5,7 @@ import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.Insert;
 import com.scaffold.test.entity.Student;
+import com.scaffold.test.entity.Test;
 import com.scaffold.test.entity.Update;
 import com.scaffold.test.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -79,8 +80,8 @@ public class StudentController {
     }
 
     @GetMapping("test")
-    public Student test(@RequestParam String text) {
-        return studentService.testStudent(text);
+    public Test test(Test test) {
+        return test;
     }
 
 }

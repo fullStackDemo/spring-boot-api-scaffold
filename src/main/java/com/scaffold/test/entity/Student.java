@@ -1,5 +1,6 @@
 package com.scaffold.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
@@ -37,5 +38,8 @@ public class Student implements Serializable {
     @NotNull(message = "mateList不能为空")
     @Size(min = 1, message = "至少需要一个小伙伴")
     private List<Mate> mateList;
+
+    @JsonIgnore
+    private String subName;
 
 }
