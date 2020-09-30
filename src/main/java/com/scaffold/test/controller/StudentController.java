@@ -64,7 +64,6 @@ public class StudentController {
      * @return
      */
     @PostMapping("update")
-//    @JsonIgnoreProperties(value={"id"}) // 忽略ID返回
     public Result updateStudent(@Validated(Update.class) @RequestBody Student student) {
         return ResultGenerator.setSuccessResult(student);
     }
