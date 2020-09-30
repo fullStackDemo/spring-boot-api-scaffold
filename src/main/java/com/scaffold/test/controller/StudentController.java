@@ -1,7 +1,6 @@
 package com.scaffold.test.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
 import com.scaffold.test.entity.Insert;
@@ -81,7 +80,7 @@ public class StudentController {
     }
 
     @GetMapping("test")
-    @JsonView(Test.TestDetail.class)
+//    @JsonView(Test.TestDetail.class)
     public Test test(Test test) {
         return test;
     }
