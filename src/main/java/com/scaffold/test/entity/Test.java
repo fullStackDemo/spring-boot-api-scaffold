@@ -2,30 +2,36 @@ package com.scaffold.test.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 /**
- *
  * @author alex wong
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@JsonIgnoreProperties(value = {"subName", "age"})
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonIgnoreProperties(value = {"subName", "age"})
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Test implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
+    public interface TestInfo {
+    }
+
+    public interface TestDetail {
+    }
+
+    // 在 TestInfo 中显示 Id
+    @JsonView(TestInfo.class)
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @JsonProperty("customer")
+    // 在 TestDetail 中显示名字
+    @JsonView(TestDetail.class)
     private String name;
 
     private String age;
