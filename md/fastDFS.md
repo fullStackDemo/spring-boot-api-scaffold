@@ -164,7 +164,7 @@ store_path0 = /home/fastdfs/storage/store
 http.server_port = 8888
 
 # tracker 服务器的 IP 和端口
-tracker_server = 127.0.0.1:22122
+tracker_server = 192.168.6.96:22122
 ~~~~
 
 > 启动 `storage` 服务
@@ -186,3 +186,38 @@ service fdfs_storaged stop
 
 ![1602237047602](fastDFS.assets/1602237047602.png)
 
+2.5、创建`Client`
+
+~~~shell
+[root@test /]# cd /etc/fdfs/
+[root@test fdfs]# cp client.conf.sample client.conf
+[root@test fdfs]# ll
+总用量 60
+-rw-r--r-- 1 root root  1909 10月  9 17:55 client.conf
+-rw-r--r-- 1 root root  1909 10月  9 17:20 client.conf.sample
+-rw-r--r-- 1 root root 10259 10月  9 17:47 storage.conf
+-rw-r--r-- 1 root root 10246 10月  9 17:20 storage.conf.sample
+-rw-r--r-- 1 root root   620 10月  9 17:20 storage_ids.conf.sample
+-rw-r--r-- 1 root root  9139 10月  9 17:37 tracker.conf
+-rw-r--r-- 1 root root  9138 10月  9 17:20 tracker.conf.sample
+[root@test fdfs]# vim client.conf
+~~~
+
+> 修改`Client.conf`
+
+~~~shell
+# client 客户端的运行数据和日志的存储父路径（需要提前创建好）
+base_path = /home/fastdfs/client
+
+# tracker 服务器的 IP 和端口
+tracker_server = 192.168.6.96:22122
+~~~
+
+~~~shell
+[root@test fdfs]# mkdir -p /home/fastdfs/client
+[root@test fdfs]# ll /home/fastdfs/
+总用量 0
+drwxr-xr-x 2 root root  6 10月  9 17:58 client
+drwxr-xr-x 4 root root 31 10月  9 17:48 storage
+drwxr-xr-x 4 root root 30 10月  9 17:39 tracker
+~~~
