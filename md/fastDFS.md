@@ -464,7 +464,7 @@ delete file success
 -rw-r--r-- 1 root root      49 10月 10 10:56 wKgGxF-BItiAIGBqABBaV0WhZ9w144_big.png-m
 ~~~
 
-### 4、nginx
+### 4、nginx相关配置
 
 截止目前，单机版的`FastDFS`，搭建成功。但是还是不能通过`Http`访问，接下来需要结合`Nginx`进行配置，才可以直接通过`Http`访问生成后的文件地址。
 
@@ -530,9 +530,47 @@ store_path0 = /home/fastdfs/storage/store
 -rw-r--r-- 1 root root  9138 10月  9 17:20 tracker.conf.sample
 ~~~
 
+默认本机已经安装了`Nginx`。
 
+接下来配置`nginx`添加 `fastdfs-nginx-module` 模块
 
+~~~shell
+# 添加 fastdfs-nginx-module 模块，指定 nginx 的安装路径
+[root@test nginx]# ./configure --add-module=/usr/local/lib/fastDFS/fastdfs-nginx-module-master/src
+ --prefix=/usr/local/nginx
+ # 编译并安装, 如果已经安装过不要用make && make intall，否则之前的安装模块会被覆盖
+ [root@test nginx]# make
+~~~
 
+> 配置nginx Server
+
+~~~nginx
+server { 
+  listen 8888;
+  server_name localhost;
+
+  location / {
+    index index.html;
+  }
+
+  location ~/group[0-9]/ {
+    ngx_fastdfs_module;
+  }
+}
+~~~
+
+> 上传一个图片
+
+~~~shell
+[root@test /]# fdfs_upload_file /etc/fdfs/client.conf /home/file/test.png
+group1/M00/00/00/wKgGxF-BVFiADTVtAAARgn1D8Qw913.png
+~~~
+
+浏览器访问`http://192.168.66.96:8888/group1/M00/00/00/wKgGxF-BVFiADTVtAAARgn1D8Qw913.png`
+
+![1602311458748](fastDFS.assets/1602311458748.png)
+
+目前为止，一个单机的`FastDFS`搭建成功。如果想实现`高可用`，需要`增加多台机器，增加Tracker和Storage集群`。
 
 
 
