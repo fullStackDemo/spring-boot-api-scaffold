@@ -578,5 +578,13 @@ group1/M00/00/00/wKgGxF-BVFiADTVtAAARgn1D8Qw913.png
 
 目前为止，一个单机的`FastDFS`搭建成功。如果想实现`高可用`，需要`增加多台机器，增加Tracker和Storage集群`。
 
+### 5、`FastDFS` 集群
+
+之前的内容都在单节点的，我们这次多增加一台机器`192.168.66.81`，进行测试下`FastDFS` 的集群环境，多 Tracker 多 `Storage`；
+
+![1602314680494](fastDFS.assets/1602314680494.png)
+
+首先重复之前的操作在`192.168.66.81`上安装`FastDFS`;
+
 
 
