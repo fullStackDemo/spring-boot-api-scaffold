@@ -466,5 +466,73 @@ delete file success
 
 ### 4、nginx
 
-截止目前，单机版的FastDFS，搭建成功。但是还是不能通过Http访问，接下来需要结合Nginx进行配置，才可以直接通过Http访问生成后的文件地址。
+截止目前，单机版的`FastDFS`，搭建成功。但是还是不能通过`Http`访问，接下来需要结合`Nginx`进行配置，才可以直接通过`Http`访问生成后的文件地址。
+
+说到`nginx`也许很多人并不默认，假设你的机器上已经有Nginx，安装过程不再赘述。
+
+我们这里使用的模块是`fastdfs-nginx-module`，为什么要使用这个呢？
+
+因为 `FastDFS` 是通过 **Tracker** 服务器将文件存储在 `Storage` 服务器中，而且`同组存储服务器之间还需要进行文件复制`，会有同步时间延迟的问题。
+
+　　假设 `Tracker` 服务器将文件上传到了 `192.168.66.96`，上传成功以后文件相关信息已经返回给客户端了。此时 `FastDFS` 的集群存储机制会将这个文件同步到同组中的其他机器上进行存储 `192.168.66.97`，在文件还没有复制完成的情况下，客户端如果用这个文件的相关信息在 `192.168.66.97` 上进行获取，就会出现文件无法访问的错误。
+
+　　解决办法就是使用 `fastdfs-nginx-module`，它可以重定向文件链接到源服务器进行获取，避免客户端由于复制延迟导致的文件无法访问的错误。
+
+> 配置 `fastdfs-nginx-module`
+>
+> zip包我们之前已经下载了
+
+~~~shell
+[root@test fastDFS]# unzip fastdfs-nginx-module.zip
+[root@test fastDFS]# cd fastdfs-nginx-module-master
+# 复制配置文件 mod_fastdfs.conf 到 /etc/fdfs 目录中
+[root@test fastdfs-nginx-module-master]# cp src/mod_fastdfs.conf /etc/fdfs
+[root@test fastdfs-nginx-module-master]# ll /etc/fdfs
+总用量 64
+-rw-r--r-- 1 root root  1872 10月  9 18:02 client.conf
+-rw-r--r-- 1 root root  1909 10月  9 17:20 client.conf.sample
+-rw-r--r-- 1 root root  3725 10月 10 13:14 mod_fastdfs.conf
+-rw-r--r-- 1 root root 10218 10月  9 18:02 storage.conf
+-rw-r--r-- 1 root root 10246 10月  9 17:20 storage.conf.sample
+-rw-r--r-- 1 root root   620 10月  9 17:20 storage_ids.conf.sample
+-rw-r--r-- 1 root root  9139 10月  9 17:37 tracker.conf
+-rw-r--r-- 1 root root  9138 10月  9 17:20 tracker.conf.sample
+# 修改配置文件
+[root@test fastdfs-nginx-module-master]# vim /etc/fdfs/mod_fastdfs.conf
+~~~
+
+~~~shell
+# tracker 服务器的 IP 和端口
+tracker_server = 192.168.66.99:22122
+# url 地址是否包含组名/卷名
+url_have_group_name = true
+# 数据组/卷对应的路径地址
+store_path0 = /home/fastdfs/storage/store
+~~~
+
+> 复制 `fastdfs` 安装包中的两个配置文件 `http.conf` 和 `mime.types` 到 `/etc/fdfs` 目录中
+
+~~~shell
+[root@test fastDFS]# cp /usr/local/lib/fastDFS/fastdfs-master/conf/http.conf /etc/fdfs
+[root@test fastDFS]# cp /usr/local/lib/fastDFS/fastdfs-master/conf/mime.types /etc/fdfs
+[root@test fastDFS]# cd /etc/fdfs/
+[root@test fdfs]# ll /etc/fdfs
+总用量 100
+-rw-r--r-- 1 root root  1872 10月  9 18:02 client.conf
+-rw-r--r-- 1 root root  1909 10月  9 17:20 client.conf.sample
+-rw-r--r-- 1 root root   965 10月 10 13:25 http.conf
+-rw-r--r-- 1 root root 31172 10月 10 13:25 mime.types
+-rw-r--r-- 1 root root  3762 10月 10 13:22 mod_fastdfs.conf
+-rw-r--r-- 1 root root 10218 10月  9 18:02 storage.conf
+-rw-r--r-- 1 root root 10246 10月  9 17:20 storage.conf.sample
+-rw-r--r-- 1 root root   620 10月  9 17:20 storage_ids.conf.sample
+-rw-r--r-- 1 root root  9139 10月  9 17:37 tracker.conf
+-rw-r--r-- 1 root root  9138 10月  9 17:20 tracker.conf.sample
+~~~
+
+
+
+
+
+
 
