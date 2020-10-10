@@ -174,7 +174,7 @@ store_path0 = /home/fastdfs/storage/store
 http.server_port = 8888
 
 # tracker 服务器的 IP 和端口
-tracker_server = 192.168.6.96:22122
+tracker_server = 192.168.66.96:22122
 ~~~~
 
 > 启动 `storage` 服务
@@ -220,7 +220,7 @@ service fdfs_storaged stop
 base_path = /home/fastdfs/client
 
 # tracker 服务器的 IP 和端口
-tracker_server = 192.168.6.96:22122
+tracker_server = 192.168.66.96:22122
 ~~~
 
 ~~~shell
