@@ -4,9 +4,19 @@
 
 ### 1、前言
 
+`FastDFS` 是一个开源的高性能分布式文件系统（`DFS`）。 它的主要功能包括：文件存储，文件同步和文件访问，以及高容量和负载平衡。主要解决了海量数据存储问题，特别适合以中小文件（建议范围：4KB < file_size <500MB）为载体的在线服务。
 
+`FastDFS` 系统有三个角色：跟踪服务器(`Tracker Server`)、存储服务器(`Storage Server`)和客户端(`Client`)。
 
-### 2、安装
+　　**Tracker Server**：跟踪服务器，主要做调度工作，起到均衡的作用；负责管理所有的 storage server和 group，每个 storage 在启动后会连接 Tracker，告知自己所属 group 等信息，并保持周期性心跳。
+
+　　**Storage Server**：存储服务器，主要提供容量和备份服务；以 group 为单位，每个 group 内可以有多台 storage server，数据互为备份。
+
+　　**Client**：客户端，上传下载数据的服务器，也就是我们自己的项目所部署在的服务器。
+
+![img](fastDFS.assets/856154-20171011144153840-1185141903.png)
+
+### 2、安装 `fastDFS`
 
 #### 2.1、下载资源
 
@@ -221,3 +231,42 @@ drwxr-xr-x 2 root root  6 10月  9 17:58 client
 drwxr-xr-x 4 root root 31 10月  9 17:48 storage
 drwxr-xr-x 4 root root 30 10月  9 17:39 tracker
 ~~~
+
+### 3、`Client`实际操作
+
+#### 3.1、上传
+
+![1602293031181](fastDFS.assets/1602293031181.png)
+
+> 1:、同步状态信息
+>
+> `Storage Server` 会定期向 `Tracker Server` 上传自己的状态信息。如果 `Tracker Server` 是集群环境，因为各个 `Tracker` 之间的关系是对等的，所以客户端上传时可以选择任意一个 `Tracker`
+>
+> 2、客户端发起上传请求
+>
+> `Tracker Server`收到请求后，查询可用的`Storage`, 为当前文件分配一个可用的`group`；
+>
+> ![1602296400419](fastDFS.assets/1602296400419.png)
+>
+> 如上图的`tracker.conf`的`group`分配原则：`0：轮询group, 1: 指定group, 2: 负载均衡，自动比较选择空间剩余比较大的group`。
+>
+> 当选好了 `group` 就可以决定给客户端分配 `group` 中的哪个 `Storage Server`。
+>
+> 3、选择storage Server
+>
+> 分配好 `Storage Server` 以后，客户端向 Storage Server 发送上传文件请求，`Storage Server` 会为文件分配一个具体的数据存储目录
+>
+> ![1602297797555](fastDFS.assets/1602297797555.png)
+>
+> 如上图`storage.conf`中，文件目录分配原则：`0：轮询，1：根据haseCode随机`
+>
+> 4、生成`file_id`
+>
+> 选定存储目录以后，`Storage` 会为文件生一个 `file_id`，由 `Storage Server IP、文件创建时间、文件大小、文件 crc32 和一个随机数`组成，然后将这个二进制串进行 `base64` 编码，转换为字符串。
+>
+> 5、路径信息和文件名
+>
+> 文件名由 `group名称/存储目录/二级子目录/file_id.后缀名` 拼接而成
+>
+> 类似：group1/M00/00/00/wKgGxF-BB-yATpVhABBaV0WhZ9w109.png
+
