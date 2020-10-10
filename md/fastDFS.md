@@ -558,6 +558,12 @@ server {
   }
 }
 ~~~
+> 重启nginx
+
+~~~shell
+nginx -s reload
+~~~
+
 
 > 上传一个图片
 
