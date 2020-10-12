@@ -645,7 +645,217 @@ server {
 
 > 使用maven从源码安装
 
-~~~shell
+~~~java
 mvn clean install
 ~~~
+
+
+![1602494691601](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602494691601.png)
+
+![1602494750216](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602494750216.png)
+
+> maven项目pom.xml中添加依赖
+
+```xml
+<dependency>
+    <groupId>org.csource</groupId>
+    <artifactId>fastdfs-client-java</artifactId>
+    <version>1.29-SNAPSHOT</version>
+</dependency>
+```
+
+> 配置信息
+>
+> src/main/resources/fastDFS/fastClient.conf
+
+```xml
+# 超时时间
+connect_timeout = 10
+network_timeout = 30
+
+# 编码字符集
+charset = UTF-8
+
+# tracker 服务器 HTTP 协议下暴露的端口
+http.tracker_http_port = 9080
+
+# tracker 服务器的 IP 和端口
+tracker_server = 192.168.66.91:22122
+tracker_server = 192.168.66.96:22122
+```
+
+> FastDFSClient工具类
+
+```java
+package fastDFS;
+
+import jodd.util.StringUtil;
+import org.csource.common.NameValuePair;
+import org.csource.fastdfs.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+/**
+ * FastDFS分布式文件系统
+ */
+public class FastDFSClient {
+
+    // 配置信息
+    private static final String client_conf = Thread.currentThread().getContextClassLoader().getResource("fastDFS/fastClient.conf").getPath();
+
+    // 客户端
+    private static StorageClient storageClient = null;
+
+    static {
+        try {
+            // 加载配置文件
+            ClientGlobal.init(client_conf);
+            // 初始化Tracker客户端
+            TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
+            // 初始化Tracker服务端
+            TrackerServer trackerServer = trackerClient.getTrackerServer();
+            // 初始化Storage客户端
+            StorageServer storageServer = trackerClient.getStoreStorage(trackerServer);
+            // 初始化Storage客户端
+            storageClient = new StorageClient(trackerServer, storageServer);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 文件上传
+     *
+     * @param file
+     * @return
+     */
+    public static String uploadFile(MultipartFile file) {
+        try {
+            InputStream inputStream = file.getInputStream();
+            FileInputStream fileInputStream = (FileInputStream) inputStream;
+            String fileName = file.getOriginalFilename();
+            String fileExtName = fileName.split("\\.")[1];
+            // 准备字节数组
+            byte[] fileBuff = null;
+            // 文件元数据
+            NameValuePair[] metaList = null;
+            // 查看文件的长度
+            int len = fileInputStream.available();
+            // 初始化元数据数组
+            metaList = new NameValuePair[2];
+            // 第一组元数据，文件的原始名称
+            metaList[0] = new NameValuePair("file_name", fileName);
+            // 第二组元数据，文件的长度
+            metaList[1] = new NameValuePair("file_length", String.valueOf(len));
+            // 创建对应长度的字节数组
+            fileBuff = new byte[len];
+            // 将输入流中的字节内容，读到字节数组中
+            fileInputStream.read(fileBuff);
+            String[] fileids = storageClient.upload_file(fileBuff, fileExtName, metaList);
+            return StringUtil.join(fileids, "/");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+}
+```
+
+> com.scaffold.test.controller.FastController
+
+```java
+package com.scaffold.test.controller;
+
+import fastDFS.FastDFSClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("fastdfs")
+public class FastController {
+
+    @PostMapping("upload")
+    public String uploadFIle(@RequestParam MultipartFile file) {
+        return FastDFSClient.uploadFile(file);
+    }
+}
+
+```
+
+> Postman 访问 http://192.168.66.65:9002/fastdfs/upload?file
+
+![1602512077596](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602512077596.png)
+
+![1602512202235](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602512202235.png)
+
+如图，已经上传成功；
+
+【负载均衡】http://192.168.66.96:8899/group1/M00/00/00/wKgGxF-EYYCAdhzPAAAKWmGmuNQ605.png
+
+【机器1】http://192.168.66.96:8888/group1/M00/00/00/wKgGxF-EYYCAdhzPAAAKWmGmuNQ605.png
+
+【机器2】http://192.168.66.91:8888/group1/M00/00/00/wKgGxF-EYYCAdhzPAAAKWmGmuNQ605.png
+
+上传成功后，三个地址均可以通过HTTP访问；
+
+以上就是一个简单的例子；
+
+在上述的例子中，如果单独把这个项目打包，然后独立部署在需要的机器上，当作一个独立的服务，当某一个系统需要的时候，就可以在当前的机器上部署一个单独的fastDFS服务，不必再上传文件到项目本地；
+
+同时文件服务的IP无需对外暴露，只需要在设置一下代理地址即可，暴露当前服务的ip和端口，隐藏真正的192.168.66.96:8899
+
+```java
+package com.scaffold.test.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+@Configuration
+public class FastDFSConfig extends WebMvcConfigurerAdapter {
+
+    // 代理文件资源到文件服务器
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/group*/**").addResourceLocations("http://192.168.6.196:8899/");
+        super.addResourceHandlers(registry);
+    }
+}
+```
+
+```java
+package com.scaffold.test.controller;
+
+import com.scaffold.test.utils.IpUtils;
+import fastDFS.FastDFSClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("fastdfs")
+public class FastController {
+
+    @PostMapping("upload")
+    public String uploadFIle(@RequestParam MultipartFile file) {
+        String ipAddress = IpUtils.getIpAddress();
+        String port = "9002";
+        String path = FastDFSClient.uploadFile(file);
+        return "http://"+ipAddress+":"+port + "/"+path;
+    }
+}
+```
+
+![1602514493635](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602514493635.png)
+
+![1602514517567](F:/project/spring-boot-api-scaffold/md/fastDFS.assets/1602514517567.png)
 
