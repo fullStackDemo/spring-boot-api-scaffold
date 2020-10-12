@@ -583,15 +583,22 @@ group1/M00/00/00/wKgGxF-BVFiADTVtAAARgn1D8Qw913.png
 
 ![1602486984055](fastDFS.assets/1602486984055.png)
 
-首先重复之前的操作在`192.168.66.81`上安装`FastDFS`;
+首先重复之前的操作在`192.168.66.91`上安装`FastDFS`;
 
 `安装过程不再赘述;`
 
-安装完成后修改两台机器的 `storage.conf`和`Client.conf(测试用)`
+安装完成后修改两台机器的 `storage.conf`和`Client.conf(测试用)`，
 
 ~~~
 tracker_server = 192.168.66.91:22122
 tracker_server = 192.168.66.96:22122
+~~~
+
+然后重启
+
+~~~shell
+service fdfs_trackerd restart
+service fdfs_storaged restart
 ~~~
 
 增加多个TrackerServer，在一台机器上上传完成后，会自动同步到另外一个机器；
@@ -600,7 +607,7 @@ tracker_server = 192.168.66.96:22122
 
 ![1602485441295](fastDFS.assets/1602485441295.png)
 
-在96机器上新增一个nginx Server
+在`96`机器上新增一个`nginx Server`，然后重启`nginx`
 
 ~~~nginx
 # 负载均衡
@@ -625,4 +632,20 @@ server {
 ~~~
 
 ![1602487157498](fastDFS.assets/1602487157498.png)
+
+如上我们上传文件到任何一个服务器后，都可以通过`8899`这个server访问到文件。
+
+目前为止一个简单的集群环境部署完毕；
+
+### 6、Java 客户端
+
+集群部署完毕后，我们怎么创建一个java版本的客户端，来实现上传文件呢？实现完成以后就可以当做一个独立的文件上传服务了。
+
+`FastDFS` 的`java SDK`不在中央仓库里面，需要下载[源码(https://github.com/happyfish100/fastdfs-client-java](https://github.com/happyfish100/fastdfs-client-java)后，通过命令 mvn clean package打包，然后导入到本地仓库里面；
+
+> 使用maven从源码安装
+
+~~~shell
+mvn clean install
+~~~
 
