@@ -484,10 +484,9 @@ delete file success
 
 ~~~shell
 [root@test fastDFS]# unzip fastdfs-nginx-module.zip
-[root@test fastDFS]# cd fastdfs-nginx-module-master
 # 复制配置文件 mod_fastdfs.conf 到 /etc/fdfs 目录中
-[root@test fastdfs-nginx-module-master]# cp src/mod_fastdfs.conf /etc/fdfs
-[root@test fastdfs-nginx-module-master]# ll /etc/fdfs
+[root@test /]# cp /usr/local/lib/fastDFS/fastdfs-nginx-module-master/src/mod_fastdfs.conf /etc/fdfs/
+[root@test /]# ll /etc/fdfs
 总用量 64
 -rw-r--r-- 1 root root  1872 10月  9 18:02 client.conf
 -rw-r--r-- 1 root root  1909 10月  9 17:20 client.conf.sample
@@ -582,9 +581,48 @@ group1/M00/00/00/wKgGxF-BVFiADTVtAAARgn1D8Qw913.png
 
 之前的内容都在单节点的，我们这次多增加一台机器`192.168.66.81`，进行测试下`FastDFS` 的集群环境，多 Tracker 多 `Storage`；
 
-![1602314680494](fastDFS.assets/1602314680494.png)
+![1602486984055](fastDFS.assets/1602486984055.png)
 
 首先重复之前的操作在`192.168.66.81`上安装`FastDFS`;
 
+`安装过程不再赘述;`
 
+安装完成后修改两台机器的 `storage.conf`和`Client.conf(测试用)`
+
+~~~
+tracker_server = 192.168.66.91:22122
+tracker_server = 192.168.66.96:22122
+~~~
+
+增加多个TrackerServer，在一台机器上上传完成后，会自动同步到另外一个机器；
+
+![1602485513775](fastDFS.assets/1602485513775.png)
+
+![1602485441295](fastDFS.assets/1602485441295.png)
+
+在96机器上新增一个nginx Server
+
+~~~nginx
+# 负载均衡
+upstream fastdfs_storage_server {  
+    server 192.168.66.91:8888;  
+    server 192.168.66.96:8888;  
+}
+
+server {
+  listen 8899;
+  server_name localhost;
+
+  location / {
+    index index.html;
+  }
+
+  location ~/group[0-9]/ {
+    proxy_pass http://fastdfs_storage_server; 
+  }
+}
+
+~~~
+
+![1602487157498](fastDFS.assets/1602487157498.png)
 
