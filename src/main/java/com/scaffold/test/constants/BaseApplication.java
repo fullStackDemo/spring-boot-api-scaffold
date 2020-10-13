@@ -70,5 +70,11 @@ public class BaseApplication {
     @Value("${mail.recipient}")
     String mailRecipient;
 
+    /**
+     * 当前端口
+     */
+    @Value("${server.port}")
+    String serverPort;
+
 
 }

@@ -1,5 +1,8 @@
 package com.scaffold.test.controller;
 
+import com.scaffold.test.base.Result;
+import com.scaffold.test.base.ResultGenerator;
+import com.scaffold.test.constants.BaseApplication;
 import com.scaffold.test.utils.IpUtils;
 import fastDFS.FastDFSClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,15 +11,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+
 @RestController
 @RequestMapping("fastdfs")
 public class FastController {
 
+    @Resource
+    BaseApplication baseApplication;
+
+    /**
+     * 上传
+     * @param file
+     * @return
+     */
     @PostMapping("upload")
-    public String uploadFIle(@RequestParam MultipartFile file) {
+    public Result uploadFIle(@RequestParam MultipartFile file) {
         String ipAddress = IpUtils.getIpAddress();
-        String port = "9002";
+        String port = baseApplication.getServerPort();
         String path = FastDFSClient.uploadFile(file);
-        return "http://"+ipAddress+":"+port + "/"+path;
+        String filePath = "http://" + ipAddress + ":" + port + "/" + path;
+        return ResultGenerator.setSuccessResult(filePath);
     }
 }
