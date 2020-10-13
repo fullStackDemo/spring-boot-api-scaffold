@@ -270,6 +270,7 @@
             <version>2.26</version>
         </dependency>
 
+        <!-- fastdfs -->
         <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>

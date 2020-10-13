@@ -1,4 +1,4 @@
-package fastDFS;
+package com.scaffold.test.fastDFS;
 
 import jodd.util.StringUtil;
 import org.csource.common.NameValuePair;
