@@ -277,6 +277,13 @@
             <version>1.29-SNAPSHOT</version>
         </dependency>
 
+        <!--ip2region-->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
     </dependencies>
 
 
