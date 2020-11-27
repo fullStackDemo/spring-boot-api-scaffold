@@ -21,6 +21,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class IpUtils {
@@ -353,15 +355,35 @@ public class IpUtils {
      * @return
      */
     public static String getWebIp() {
-        String ipHtml = "https://whatismyipaddress.com";
+//        String ipHtml = "https://whatismyipaddress.com";
+        String ipHtml = "http://myip.ipip.net";
         String ip = "";
         try {
             Document document = Jsoup.connect(ipHtml).get();
-            ip = document.getElementById("ipv4").text();
+            String text = document.text();
+            ip = StringUtils.join(getIps(text), ",");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ip;
+    }
+
+    /**
+     * 正则提前字符串中的IP地址
+     *
+     * @param ipString
+     * @return
+     */
+    public static List<String> getIps(String ipString) {
+        String regEx = "((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
+        List<String> ips = new ArrayList<String>();
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(ipString);
+        while (m.find()) {
+            String result = m.group();
+            ips.add(result);
+        }
+        return ips;
     }
 
 

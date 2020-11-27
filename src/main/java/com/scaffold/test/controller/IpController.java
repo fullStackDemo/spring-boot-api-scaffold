@@ -36,7 +36,7 @@ public class IpController {
         String ip = IpUtils.getIpAddress();
         JSONObject object = new JSONObject();
         if (!Util.isIpAddress(ip)) {
-            object.put("ip", null);
+            object.put("ip", ip);
             log.error("Error: Invalid ip address");
             object.put("error", "Error: Invalid ip address");
             object.put("country", null);
