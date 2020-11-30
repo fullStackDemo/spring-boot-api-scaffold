@@ -32,8 +32,11 @@ public class IpController {
      * @return
      */
     @GetMapping("me")
-    public Result setIp() {
-        String ip = IpUtils.getIpAddress();
+    public Result setIp(String ip) {
+        if (ip == null) {
+            ip = IpUtils.getIpAddress();
+        }
+        log.info("The current ip is " + ip);
         JSONObject object = new JSONObject();
         if (!Util.isIpAddress(ip)) {
             object.put("ip", ip);
@@ -45,6 +48,7 @@ public class IpController {
             String cityInfo = IpUtils.getCityInfo(ip);
             if (cityInfo.length() > 0) {
                 String[] strings = cityInfo.split("\\|");
+                object.put("origin", cityInfo);
                 object.put("country", strings[0]);
             }
         }

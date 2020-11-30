@@ -3,6 +3,7 @@ package com.scaffold.test.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -11,9 +12,11 @@ import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
@@ -396,8 +399,22 @@ public class IpUtils {
     public static String getCityInfo(String ip) {
 
         //db
-        String path = IpUtils.class.getResource("/data/ip2region.db").getPath();
-        File file = new File(path);
+//        String path = IpUtils.class.getResource("/data/ip2region.db").getPath();
+//        File file = new File(path);
+
+        ClassPathResource classPathResource = new ClassPathResource("/data/ip2region.db");
+        InputStream inputStream = null;
+        File file = null;
+
+        try {
+            inputStream = classPathResource.getInputStream();
+            file = File.createTempFile("ip2region_tmp", ".db");
+            FileUtils.copyInputStreamToFile(inputStream, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
 
         if (!file.exists()) {
             log.error("Error: Invalid ip2region.db file");
@@ -407,7 +424,7 @@ public class IpUtils {
         int algorithm = DbSearcher.BTREE_ALGORITHM;
         try {
             DbConfig config = new DbConfig();
-            DbSearcher searcher = new DbSearcher(config, path);
+            DbSearcher searcher = new DbSearcher(config, file.getPath());
 
             // 方法
             Method method = null;
