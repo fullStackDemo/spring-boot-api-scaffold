@@ -3,11 +3,9 @@ package com.scaffold.test.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.scaffold.test.base.Result;
 import com.scaffold.test.base.ResultGenerator;
-import com.scaffold.test.redis.RedisUtils;
 import com.scaffold.test.utils.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.Util;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,15 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class IpController {
 
-    @Autowired
-    private RedisUtils redisUtils;
-
-
     /**
-     * 第二种方法（耗时1~2S）
-     * 获取IP并存入redis, 判断是国内外IP
+     * 获取IP归属地
      *
-     * @return
+     * @return Object
      */
     @GetMapping("me")
     public Result setIp(String ip) {

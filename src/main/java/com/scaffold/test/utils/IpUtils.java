@@ -133,7 +133,6 @@ public class IpUtils {
         String UNKNOWN = "unknown";
         String LOCALHOST = "127.0.0.1";
         String LOCALHOST2 = "0:0:0:0:0:0:0:1";
-        String SEPARATOR = ",";
         String ipAddress = "";
         try {
             HttpServletRequest request = HttpUtils.getRequest();
