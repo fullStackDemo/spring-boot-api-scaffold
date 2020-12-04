@@ -13,7 +13,7 @@
 ~~~shell
 [root /]# docker images
 REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
-nginx    latest              63921077800c        29 hours ago        674MB
+nginx                 latest              63921077800c        29 hours ago        674MB
 ~~~
 
 
