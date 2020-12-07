@@ -134,6 +134,7 @@ public class IpUtils {
         String LOCALHOST = "127.0.0.1";
         String LOCALHOST2 = "0:0:0:0:0:0:0:1";
         String ipAddress = "";
+        String SEPARATOR = ",";
         try {
             HttpServletRequest request = HttpUtils.getRequest();
             ipAddress = request.getHeader("x-forwarded-for");
@@ -155,6 +156,12 @@ public class IpUtils {
                     ipAddress = inetAddress.getHostAddress();
                 }
             }
+
+            // 多层转发时，获取到的是多个IP，第一个是真实IP
+            if(ipAddress.contains(SEPARATOR)){
+                ipAddress = ipAddress.split(SEPARATOR)[0];
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
