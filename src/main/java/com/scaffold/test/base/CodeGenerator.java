@@ -43,7 +43,7 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("alex wong");
+        gc.setAuthor("Alex Wong");
         gc.setOpen(false);
         // 设置名字
         gc.setControllerName("%sController");
