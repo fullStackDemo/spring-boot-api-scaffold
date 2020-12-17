@@ -535,6 +535,20 @@ RUN mkdir /share \
 
 ~~~~shell
 [root@A samba]# docker run -itd --name samba-test -p 139:139 -p 445:445 -v /share:/share -v /etc/localtime:/etc/localtime mysamba -u "test;test@2." -s "test;/share;yes;no;no;test;test;"
+
+# 解释: 其中 -u "test;test@2." 是创建的用户密码
+# -s "test;/share;yes;no;no;test;test;" 是编辑 sm.conf
+# 等同于：
+在sm.conf直接添加
+[test]
+   path = /share
+   browsable = yes
+   read only = no
+   guest ok = no
+   veto files = /.apdisk/.DS_Store/.TemporaryItems/.Trashes/desktop.ini/ehthumbs.db/Network Trash Folder/Temporary Items/Thumbs.db/
+   delete veto files = yes
+   valid users = test
+   admin users = test
 ~~~~
 
 > 测试
@@ -546,3 +560,7 @@ RUN mkdir /share \
 测试通过
 
 ![1608181813963](centos%E4%B8%A4%E5%8F%B0%E6%9C%BA%E5%99%A8%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%85%B1%E4%BA%AB.assets/1608181813963.png)
+
+### 5、总结
+
+上述有很多方式，去大家samba共享文件，docker方式是最方便迁移部署的方式。
