@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.scaffold</groupId>
-    <artifactId>test</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>test</name>
+    <artifactId>scaffold-test</artifactId>
+    <version>1.0.1</version>
+    <name>scaffold</name>
     <description>Scaffold project for Spring Boot API</description>
 
     <properties>

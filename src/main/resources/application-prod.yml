@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(zL+TaxRb6Vza8qcPxcu5Lw==)
-    password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
+    username: ENC(i7AtoKJ8V/VyCyrZbg84bw==)
+    password: ENC(WN9/Ozpiwaob+rHkFyqAoygL0fBjMyv2)
   mail:
     host: smtp.qq.com
     username: ENC(RhySMmqywvJZKxWqEEVe9mXsWes2w6Obf+93dCD1zvk=)
@@ -22,7 +22,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: master2011
+    password: ENC(RUXBm478/oqEFkvY4cY01PycJtJrZ3Ls)
     timeout: 10000
 
 #jasypt加密的密匙
