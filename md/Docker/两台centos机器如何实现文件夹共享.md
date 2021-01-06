@@ -346,7 +346,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/nmb.service to 
 [root@B /]# mkdir share
 [root@B /]# yum install cifs-utils
 # 挂载A服务器的共享文件到B服务器
-[root@B /]# mount -t cifs //192.168.6.101/share /share -o username=test,password='test@2.',domain=DOMAIN,vers=2.0 
+[root@B /]# mount -t cifs //192.168.6.101/share /share -o username=test,password='test@2.',domain=DOMAIN,vers=2.0,dir_mode=0777,file_mode=0777
 
 # 查看挂载情况
 [root@B /]# df -h
@@ -356,7 +356,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/nmb.service to 
 # 开机自动挂载
 [root@B /]# chmod +X /etc/rc.local
 [root@B /]# vi /etc/rc.local
-[root@B /]# mount -t cifs //192.168.6.101/share /share -o username=test,password='test@2.',domain=DOMAIN,vers=2.0 
+[root@B /]# mount -t cifs //192.168.6.101/share /share -o username=test,password='test@2.',domain=DOMAIN,vers=2.0,dir_mode=0777,file_mode=0777
 ~~~
 
 #### 2.3、测试
