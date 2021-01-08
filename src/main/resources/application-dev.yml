@@ -119,3 +119,7 @@ drageasy:
   token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kcmFnZWFzeS5jb20iLCJhdWQiOiJ2c29udGVyIiwiaWF0IjoxNTk2MTg5MjU3LCJleHAiOjE1OTYxOTI4NTcsInVpZCI6Im9qUG41d0xYNy0zRzB2aFJEdFAtVDdHRWd5S1UifQ.I2vjDyo8bVm8OtmkaTZAqAne9SJn9yRIP0sVP2bPXCo"
   uploadToken: "https://www.drageasy.com/util/getUploadToken"
   uploadPath: "https://www.drageasy.com/util/qiniu_upp"
+
+# 华为云
+HuaWeiCloud:
+  credentials: /HuaWeiCloud/credentials.txt

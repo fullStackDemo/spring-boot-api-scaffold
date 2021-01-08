@@ -76,5 +76,11 @@ public class BaseApplication {
     @Value("${server.port}")
     String serverPort;
 
+    /**
+     * 证书
+     */
+    @Value("${HuaWeiCloud.credentials}")
+    String credentialsFile;
+
 
 }

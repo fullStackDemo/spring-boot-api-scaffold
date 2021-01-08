@@ -284,6 +284,13 @@
             <version>1.7.2</version>
         </dependency>
 
+        <!--HuiWeiCloud OBS SDK -->
+        <dependency>
+            <groupId>com.huaweicloud</groupId>
+            <artifactId>esdk-obs-java</artifactId>
+            <version>[3.20.6.1,)</version>
+        </dependency>
+
     </dependencies>
 
 
