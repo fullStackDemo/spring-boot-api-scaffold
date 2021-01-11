@@ -60,3 +60,7 @@ user:
 project:
   #  basedir: "F:/project/spring-boot-api-scaffold"
   basedir: "/Users/wangzhao/work/projects/spring-boot-api-scaffold"
+
+# 华为云
+HuaWeiCloud:
+  credentials: /HuaWeiCloud/credentials.txt
