@@ -4,11 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ENC(n6gjOn8ThLy1v+oZQVTDjQ==)
-#    url: ENC(RXHAnaVutkRJnU0erxXMvul98JB6deNac0l/GOA/IHK5fw+M9OIMdenfpLaIrPMvPgOmvm3wzEfV0/4QgZYqYLhHvb4xRzvNFkFT+l00qNWyS9KwYBIt+ERAH/tHi3mgBZ8R+diulX8=)
-#    username: ENC(LYAtPaB+Ylt2yjWP8dtAEw==)
-    password: ENC(2BhEw5prdiskamEYXfJ8hv3i0EjfI6g5)
+    url: jdbc:mysql://124.71.181.253:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ENC(i7AtoKJ8V/VyCyrZbg84bw==)
+    password: ENC(WN9/Ozpiwaob+rHkFyqAoygL0fBjMyv2)
   mail:
     host: smtp.qq.com
     username: ENC(RhySMmqywvJZKxWqEEVe9mXsWes2w6Obf+93dCD1zvk=)
@@ -25,11 +23,11 @@ spring:
   #default-property-inclusion: non_null #如果某一个字段为null，就不再返回这个字段
   redis:
     # Redis服务器地址
-    host: 127.0.0.1
+    host: 124.71.181.253
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
-    password:
+    password: ENC(RUXBm478/oqEFkvY4cY01PycJtJrZ3Ls)
     # 连接超时时间（毫秒）
     timeout: 0
     jedis:

@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +30,7 @@ import java.util.List;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
-    @Autowired
+    @Resource
     private WeatherMapper weatherMapper;
 
     @Override
@@ -47,8 +47,16 @@ public class WeatherServiceImpl implements WeatherService {
         Elements blueLists = document.getElementsByClass("blue-container").get(0).getElementsByTag("li");
         // 获取温度
         Elements scriptList = document.getElementsByTag("script");
+        // 遍历查找含有eventNight的文件
         // 温度数据
-        String tempData = scriptList.get(6).toString();
+        String tempData = "";
+        for (Element el: scriptList) {
+            if(el.toString().contains("eventNight")){
+                tempData = el.toString();
+                break;
+            }
+        }
+
         // 最高气温数据字符串
         String tempDataHigh = tempData.replace(" ", "").split("eventDay=")[1].split(";\n" + "vareventNight")[0];
         // 最低气温数据字符串

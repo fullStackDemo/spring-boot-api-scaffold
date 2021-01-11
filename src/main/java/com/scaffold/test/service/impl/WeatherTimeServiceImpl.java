@@ -8,6 +8,8 @@ import com.scaffold.test.service.WeatherTimeService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -111,9 +113,18 @@ public class WeatherTimeServiceImpl implements WeatherTimeService {
             Document document = Jsoup.connect(url_time).get();
 
             // 分时数据Script
-            String hourDataScript = document.getElementsByTag("script").get(6).toString();
+            Elements hourDataScripts = document.getElementsByTag("script");
+            // 遍历查找含有eventNight的文件
+            // 温度数据
+            String hourData = "";
+            for (Element el: hourDataScripts) {
+                if(el.toString().contains("hour3data")){
+                    hourData = el.toString();
+                    break;
+                }
+            }
             // hourData字符串
-            String hourDataStr = hourDataScript.replace(" ", "").split("varhour3data=")[1].split(";varhour3week")[0];
+            String hourDataStr = hourData.replace(" ", "").split("varhour3data=")[1].split(";varhour3week")[0];
             JSONArray hourDataArr = JSONObject.parseArray(hourDataStr);
 
             // 七日全部分时数据：二维数组转一维数组
