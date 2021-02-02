@@ -175,6 +175,113 @@ testTESTTEST
 testtestTEST
 ~~~
 
+> 定界符
+>
+> 一般定界符为`|`，其实定界符可以是任何字符，只不过匹配项中如果有当前定界符，需要转义
+
+~~~shell
+# 定界符 |
+[root@AlexWong script]# echo "testtesttest" | sed 's/test/TEST/3g'
+testtestTEST
+# 定界符 :
+[root@AlexWong script]# echo "testtesttest" | sed 's:test:TEST:3g'
+testtestTEST
+# 定界符 0
+[root@AlexWong script]# echo "testtesttest" | sed 's0test0TEST03g'
+testtestTEST
+# 定界符 0 出现在内部，需要转义
+[root@AlexWong script]# echo "testtesttest" | sed 's0test0TEST\003g'
+testtestTEST0
+~~~
+
+
+
+#### 2.2、删除
+
+> d命令
+
+~~~shell
+# 源文件
+[root@AlexWong script]# cat test.txt
+daemonize no
+logfile ./logs/mysql.log
+
+daemonize no
+logfile ./logs/mysql.log
+# 删除空行
+[root@AlexWong script]# sed -i '/^$/d' test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize no
+logfile ./logs/mysql.log
+# 删除文件的第2行
+[root@AlexWong script]# sed '2d' test.txt
+daemonize no
+daemonize no
+logfile ./logs/mysql.log
+# 删除文件的第2行到末尾所有行
+[root@AlexWong script]# sed '2,$d' test.txt
+daemonize no
+# 删除文件最后一行
+[root@AlexWong script]# sed '$d' test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize no
+# 删除文件中所有开头是logfile的行
+[root@AlexWong script]# sed '/^logfile/'d test.txt
+daemonize no
+daemonize no
+
+# 注意，以上案例除了删除空格其他均没有加 -i，所以原有文件并没有被修改，如有需要，请加 -i，这样会直接修改原文件
+~~~
+
+#### 2.3、匹配
+
+> **已匹配字符串标记&**
+
+~~~shell
+# 使用 [&] 替换它，& 对应于之前所匹配到的单词
+[root@AlexWong script]# echo test test | sed 's/\w\+/[&]/g'
+[test] [test]
+[root@AlexWong script]# cat test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize no
+logfile ./logs/mysql.log
+# 在匹配关键字后面加666
+[root@AlexWong script]# sed 's/^logfile/&666/g' test.txt
+daemonize no
+logfile666 ./logs/mysql.log
+daemonize no
+logfile666 ./logs/mysql.log
+# 在匹配行后面加666
+[root@AlexWong script]# sed 's/^logfile.*/&666/g' test.txt
+daemonize no
+logfile ./logs/mysql.log666
+daemonize no
+logfile ./logs/mysql.log666
+
+~~~
+
+> \1 子串匹配
+
+~~~shell
+# 匹配到的第一个子串就标记为 \1
+[root@AlexWong script]# sed 's/\(logfile\)/\1test/g' test.txt
+daemonize no
+logfiletest ./logs/mysql.log
+daemonize no
+logfiletest ./logs/mysql.log
+# 只打印相关
+[root@AlexWong script]# sed -n 's/\(logfile\)/\1test/pg' test.txt
+logfiletest ./logs/mysql.log
+logfiletest ./logs/mysql.log
+
+# 依此类推匹配到的第二个结果就是 \2
+
+
+~~~
+
 
 
 
