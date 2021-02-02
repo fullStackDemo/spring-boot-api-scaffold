@@ -67,6 +67,46 @@ sudo curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.1/doc
 
 ### 3、配置
 
+> 文件目录结构
+
+~~~shell
+[root@ test]# pwd
+/home/test
+[root@ test]# tree
+.
+├── docker-compose.yml
+├── mysql
+│   └── data
+│       ├── auto.cnf
+│       ├── ...
+│       ├── sys
+│       │   └── sys_config.ibd
+│       ├── test
+│       │   └── sys_user.ibd
+│       ├── undo_001
+│       ├── undo_002
+│       └── testdb
+│           ├── ...
+├── nginx
+│   ├── conf
+│   │   ├── conf.d
+│   │   │   ├── default.conf
+│   │   │   └── test.conf
+│   │   └── nginx.conf
+│   ├── html
+│   │   ├── dist.tar.gz
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── report.html
+│   └── logs
+│       ├── access.log
+│       └── error.log
+├── server
+│   ├── logs
+│   ├── service.sh
+│   └── test-01.jar
+~~~
+
 `Docker-Compose标准模板文件应该包含version、services、networks 三大部分，最关键的是services和networks两个部分`
 
 > 初次配置
@@ -83,10 +123,10 @@ services:
       - 8090:8090
     # 挂载目录, 宿主机：容器内
     volumes:
-      - /home/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - /home/nginx/conf/conf.d:/etc/nginx/conf.d
-      - /home/nginx/html:/home/web
-      - /home/nginx/logs:/var/log/nginx
+      - /home/test/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - /home/test/nginx/conf/conf.d:/etc/nginx/conf.d
+      - /home/test/nginx/html:/home/web
+      - /home/test/nginx/logs:/var/log/nginx
     # 链接到其它服务中的容器，服务名称Container-name:服务别名Alias
     # 比如nginx proxy_pass需要转发到server的8080，则写 proxy_pass http://serverHost:8080;
     links:
@@ -108,7 +148,7 @@ services:
       - 3306:3306
     # 挂载目录, 宿主机：容器内
     volumes:
-      - /home/mysql/data:/var/lib/mysql
+      - /home/test/mysql/data:/var/lib/mysql
     # 设置网络模式, 引用同一个network
     networks:
       - backend
@@ -122,9 +162,9 @@ services:
       - 8080:8080
     # 挂载目录, 宿主机：容器内
     volumes:
-      - /home/server/service.sh:/home/service.sh
-      - /home/server/logs:/home/logs
-      - /home/server/test-01.jar:/home/test-01.jar
+      - /home/test/server/service.sh:/home/service.sh
+      - /home/test/server/logs:/home/logs
+      - /home/test/server/test-01.jar:/home/test-01.jar
     # 总是重启
     restart: "always"
     # 启动容器后执行的命令
@@ -234,9 +274,9 @@ spring.datasource.primarydatasource.url=jdbc:mysql://${spring.datasource.host}:3
       spring.datasource.host: mysql
     # 挂载目录, 宿主机：容器内
     volumes:
-      - /home/server/service.sh:/home/service.sh
-      - /home/server/logs:/home/logs
-      - /home/server/test-01.jar:/home/test-01.jar
+      - /home/test/server/service.sh:/home/service.sh
+      - /home/test/server/logs:/home/logs
+      - /home/test/server/test-01.jar:/home/test-01.jar
     # 总是重启
     restart: "always"
     # 启动容器后执行的命令
