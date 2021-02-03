@@ -332,3 +332,79 @@
 
 ![1612266145783](Spring%20Boot%20%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%85%8D%E7%BD%AE.assets/1612266145783.png)
 
+### 5、文件目录
+
+~~~markdown
+├─file-api
+│  ├─.mvn
+│  │  └─wrapper
+│  ├─src
+│  │  ├─main
+│  │  │  ├─java
+│  │  │  │  └─com
+│  │  │  │      └─alex
+│  │  │  │          └─web
+│  │  │  │              ├─base
+│  │  │  │              ├─common
+│  │  │  │              ├─config
+│  │  │  │              └─controller
+│  │  │  └─resources
+│  │  │      ├─static
+│  │  │      └─templates
+│  │  └─test
+│  │      └─java
+│  │          └─com
+│  │              └─alex
+│  │                  └─web
+|  └─target
+├─file-common
+│  ├─.mvn
+│  │  └─wrapper
+│  ├─src
+│  │  └─main
+│  │      ├─java
+│  │      │  └─com
+│  │      │      └─alex
+│  │      │          └─common
+│  │      │              └─utils
+│  │      └─resources
+|  └─target
+├─file-fastdfs-client
+│  ├─.mvn
+│  │  └─wrapper
+│  ├─src
+│  │  ├─main
+│  │  │  ├─java
+│  │  │  │  └─com
+│  │  │  │      └─alex
+│  │  │  │          └─fastdfs
+│  │  │  │              └─fastDFS
+│  │  │  └─resources
+│  │  │      ├─static
+│  │  │      └─templates
+│  │  └─test
+│  │      └─java
+│  │          └─com
+│  │              └─alex
+│  │                  └─fastdfs
+|  └─target
+└─file-obs-client
+    ├─.mvn
+    │  └─wrapper
+    ├─src
+    │  ├─main
+    │  │  ├─java
+    │  │  │  └─com
+    │  │  │      └─alex
+    │  │  │          └─obs
+    │  │  │              ├─client
+    │  │  │              └─utils
+    │  │  └─resources
+    │  └─test
+    │      └─java
+    │          └─com
+    │              └─alex
+    │                  └─obs
+    └─target
+~~~
+
