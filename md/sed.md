@@ -1,10 +1,10 @@
-## Linux Sed
+## Linux Sed命令
 
 [TOC]
 
 ### 1、前言
 
-*sed**是一种流编辑器，它是文本处理中非常好的工具，能够完美的配合正则表达式使用；
+*sed*是一种流编辑器，它是文本处理中非常好的工具，能够完美的配合正则表达式使用；
 
 Sed主要用来自动编辑一个或多个文件，可以将数据行进行替换、删除、新增、选取等特定工作，简化对文件的反复操作，编写转换程序等；
 
@@ -198,7 +198,7 @@ testtestTEST0
 
 #### 2.2、删除
 
-> d命令
+> `d命令`
 
 ~~~shell
 # 源文件
@@ -237,7 +237,7 @@ daemonize no
 
 #### 2.3、匹配
 
-> **已匹配字符串标记&**
+> `已匹配字符串标记&`
 
 ~~~shell
 # 使用 [&] 替换它，& 对应于之前所匹配到的单词
@@ -263,7 +263,7 @@ logfile ./logs/mysql.log666
 
 ~~~
 
-> \1 子串匹配
+> `\1 子串匹配`
 
 ~~~shell
 # 匹配到的第一个子串就标记为 \1
@@ -278,11 +278,189 @@ logfiletest ./logs/mysql.log
 logfiletest ./logs/mysql.log
 
 # 依此类推匹配到的第二个结果就是 \2
-
-
+[root@AlexWong script]# sed 's/\(logfile\) \(\.\/logs\)/\2 \1/g' test.txt
+daemonize no
+./logs logfile/mysql.log
+daemonize no
+./logs logfile/mysql.log
 ~~~
 
+> `多表达式`
 
+~~~shell
+[root@AlexWong script]# sed 's/\(logfile\) \(\.\/logs\)/\2 \1/g;s/\(daemonize\)/\166666/g' test.txt
+daemonize66666 no
+./logs logfile/mysql.log
+daemonize66666 no
+./logs logfile/mysql.log
+
+# sed '表达式' | sed '表达式'  等价于：  
+# sed '表达式; 表达式'
+~~~
+
+> `逗号，选定行的范围`
+
+~~~shell
+# 打印匹配的多行
+[root@AlexWong script]# sed -n "/logfile/,/yes/p" test.txt
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/mysql.log
+#打印从第3行开始到第一个包含以log开始的行之间的所有行
+[root@AlexWong script]# cat test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/mysql.log
+[root@AlexWong script]# sed -n "3,/log/p" test.txt
+daemonize yes
+logfile ./logs/mysql.log
+# 追加文本
+[root@AlexWong script]# sed "3,/log/s/$/9999/" test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes9999
+logfile ./logs/mysql.log9999
+[root@AlexWong script]# sed "3,/log/s/$/9999,6666/" test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes9999,6666
+logfile ./logs/mysql.log9999,6666
+[root@AlexWong script]# sed "/no/,/log/s/$/9999,6666/" test.txt
+daemonize no9999,6666
+logfile ./logs/mysql.log9999,6666
+daemonize yes
+logfile ./logs/mysql.log
+~~~
+
+> `多点编辑：e命令`
+>
+> 同时执行多个表达式，上一个表达式的结果会对下一个表达式执行造成影响
+
+~~~shell
+[root@AlexWong script]# sed -e "s/yes/9999/" -e "s/log/6666/g" test.txt
+daemonize no
+6666file ./6666s/mysql.6666
+daemonize 9999
+6666file ./6666s/mysql.6666
+
+# 测试前面的表达式会对后面造成影响
+[root@AlexWong script]# sed -e "s/yes/9999/" -e "s/yes/6666/g" test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize 9999
+logfile ./logs/mysql.log
+
+# 多表达式1
+[root@AlexWong script]# sed 's/\(logfile\) \(\.\/logs\)/\2 \1/g' test.txt  | sed 's/\(daemonize\)/\166666/g' test.txt
+daemonize66666 no
+logfile ./logs/mysql.log
+daemonize66666 yes
+logfile ./logs/mysql.log
+
+# 多表达式2
+[root@AlexWong script]# sed 's/\(logfile\) \(\.\/logs\)/\2 \1/g;s/\(daemonize\)/\166666/g' test.txt
+daemonize66666 no
+./logs logfile/mysql.log
+daemonize66666 yes
+./logs logfile/mysql.log
+
+# 多表达式3
+[root@AlexWong script]# sed -e 's/\(logfile\) \(\.\/logs\)/\2 \1/g' -e 's/\(daemonize\)/\166666/g' test.txt
+daemonize66666 no
+./logs logfile/mysql.log
+daemonize66666 yes
+./logs logfile/mysql.log
+
+# 总结
+# 多表达式2 = 多表达式3。执行顺序和表达式的顺序有关
+# 多表达1属于组合多个表达式，上下表达式互不影响，执行以最后一个为准
+~~~
+
+#### 2.4、读写
+
+> `从文件写入：r命令`
+>
+> 读取文件作为追加文本
+
+~~~shell
+[root@AlexWong script]# cat 2.txt
+2222
+[root@AlexWong script]# cat test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/mysql.log
+# 匹配，然后追加文本
+[root@AlexWong script]# sed '/logfile/r 2.txt' test.txt
+daemonize no
+logfile ./logs/mysql.log
+2222
+daemonize yes
+logfile ./logs/mysql.log
+2222
+~~~
+
+> `追加（行下）：a\命令`
+
+~~~shell
+[root@AlexWong script]# sed '/logfile/a\6666' test.txt
+daemonize no
+logfile ./logs/mysql.log
+6666
+daemonize yes
+logfile ./logs/mysql.log
+6666
+~~~
+
+> `插入（行上）: i\命令`
+
+~~~shell
+[root@AlexWong script]# sed '/logfile/i\6666' test.txt
+daemonize no
+6666
+logfile ./logs/mysql.log
+daemonize yes
+6666
+logfile ./logs/mysql.log
+~~~
+
+> `下一行：n命令`
+>
+> 如果log被匹配，则移动到匹配行的下一行，替换这一行的mysql，变为8888，并打印该行
+
+~~~shell
+# 下一行没有匹配到内容
+[root@AlexWong script]# sed "/log/{n; s/mysql/8888/;}" test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/mysql.log
+
+# 下一行匹配到内容
+[root@AlexWong script]# sed "/yes/{n; s/mysql/8888/;}" test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/8888.log
+~~~
+
+> `变形：y命令`
+>
+> 分散匹配 logfile变成 LOGFILE
+
+~~~shell
+[root@AlexWong script]# cat test.txt
+daemonize no
+logfile ./logs/mysql.log
+daemonize yes
+logfile ./logs/mysql.log
+[root@AlexWong script]# sed "1,4y/logfile/LOGFILE/" test.txt
+daEmOnIzE nO
+LOGFILE ./LOGs/mysqL.LOG
+daEmOnIzE yEs
+LOGFILE ./LOGs/mysqL.LOG
+~~~
 
 
 
