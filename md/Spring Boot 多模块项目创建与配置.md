@@ -155,6 +155,12 @@
 
 子模块的parent要声明父模块；
 
+> file-fastdfs-client
+>
+> pom.xml
+>
+> 不需要打包
+
 ~~~xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -180,6 +186,7 @@
             <version>1.29-SNAPSHOT</version>
         </dependency>
 
+        <!-- 子模块间相互引用 -->
         <dependency>
             <groupId>com.alex</groupId>
             <artifactId>obs</artifactId>
@@ -216,7 +223,112 @@
 </project>
 ~~~
 
+`注意：子模块间相互引用方式`
 
+~~~xml
+<!-- 子模块间相互引用 -->
+<dependency>
+    <groupId>com.alex</groupId>
+    <artifactId>obs</artifactId>
+    <version>1.0.0</version>
+</dependency>
+~~~
 
+> file-api
+>
+> pom.xml
+>
+> 需要打包
 
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>file-web-api</artifactId>
+    <version>1.0.0</version>
+    <name>file-web-api</name>
+    <description>web restful api</description>
+    <packaging>jar</packaging>
+
+    <!--声明父模块-->
+    <parent>
+        <groupId>com.alex</groupId>
+        <artifactId>file</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <profiles>
+        <profile>
+            <!-- 开发环境 -->
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+            <!-- 默认激活的环境 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+         <!-- 子模块间相互引用 -->
+        <dependency>
+            <groupId>com.alex</groupId>
+            <artifactId>fastdfs</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alex</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alex</groupId>
+            <artifactId>obs</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+	<!-- 打包 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+~~~
+
+### 4、打包
+
+`打包一定是要在父pom下打包`
+
+![1612266145783](Spring%20Boot%20%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%85%8D%E7%BD%AE.assets/1612266145783.png)
 
