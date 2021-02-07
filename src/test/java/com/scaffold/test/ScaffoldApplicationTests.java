@@ -40,8 +40,9 @@ public class ScaffoldApplicationTests {
         // 加密数据库相关连接数据
         String name = strongTextEncryptor.encrypt(dataSourceUserName);
         String password = strongTextEncryptor.encrypt(dataSourcePassword);
-        log.info(name);
-        log.info(password);
+        System.out.println(password);
+//        log.info(name);
+//        log.info(password);
     }
 
 }
